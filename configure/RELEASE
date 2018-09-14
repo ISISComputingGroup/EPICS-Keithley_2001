@@ -1,4 +1,16 @@
 # optional extra local definitions here
+
+# START OF AUTO GENERATED DEPENDENCIES
+ASYN=$(SUPPORT)/asyn/master
+CALC=$(SUPPORT)/calc/master
+ONCRPC=$(SUPPORT)/oncrpc/master
+SNCSEQ=$(SUPPORT)/seq/master
+UTILITIES=$(SUPPORT)/utilities/master
+ASUBFUNCTIONS=$(SUPPORT)/asubFunctions/master
+STREAMDEVICE=$(SUPPORT)/StreamDevice/master
+AUTOSAVE = $(SUPPORT)/autosave/master
+# END OF AUTO GENERATED DEPENDENCIES
+
 -include $(TOP)/configure/RELEASE.private
 
 include $(TOP)/../../../ISIS_CONFIG
