@@ -1,0 +1,14 @@
+file keithley2700_channels.template {
+
+	pattern { P, PORT, RECSIM, DISABLE, CHANNEL }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:01" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:02" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:03" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:04" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:05" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:06" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:07" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:08" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:09" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:10" }
+}

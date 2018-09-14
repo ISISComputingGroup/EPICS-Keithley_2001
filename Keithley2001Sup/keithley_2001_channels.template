@@ -1,0 +1,69 @@
+record(bo, "$(P)$(CHANNEL):SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+}
+
+record(bo, "$(P)$(CHANNEL):DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+##################################################################
+#
+# Template for 10 Keithley 2001 Channels
+#
+# Values created by aSub record :TRAC:DATA? which populates channel 
+# values from the block of data returned in :TRAC:DATA?.
+#
+# Channel names range from 01-10 PV format CHNL:01
+#
+###################################################################
+
+record(ao, "$(P)$(CHANNEL):READ")
+{
+	field(DESC, "Latest channel reading value")
+	field(EGU, "")
+	field(PREC, "5")
+	info(alarm, "Keithley2700")
+	info(INTEREST, "HIGH")
+	info(ARCHIVE, "VAL")
+}
+
+record(ao, "$(P)$(CHANNEL):TIME")
+{
+	field(DESC, "Latest channel reading timestamp")
+	field(EGU, "")
+	field(PREC, "5")
+	info(INTEREST, "HIGH")
+	info(ARCHIVE, "VAL")
+}
+
+record(stringin, "$(P)$(CHANNEL):UNIT")
+{
+	field(DESC, "Latest channel unit")
+	info(INTEREST, "HIGH")
+	info(ARCHIVE, "VAL")
+}
+
+### SIMULATION RECORDS ###
+
+record(ao, "$(P)SIM:$(CHANNEL):READ")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:$(CHANNEL):TIME")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
