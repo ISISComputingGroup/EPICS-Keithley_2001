@@ -1,14 +1,12 @@
-file keithley2700_channels.template {
+file keithley_2001_channels.template {
 
-	pattern { P, PORT, RECSIM, DISABLE, CHANNEL }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:01" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:02" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:03" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:04" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:05" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:06" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:07" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:08" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:09" }
-	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHNL:10" }
+	pattern { P, PORT, RECSIM, DISABLE, CHANNEL, ACTIVATE_CHAN_MACRO }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:01", "(ACTIVATE_CHAN_01=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:02", "(ACTIVATE_CHAN_02=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:03", "(ACTIVATE_CHAN_03=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:04", "(ACTIVATE_CHAN_04=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:06", "(ACTIVATE_CHAN_06=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:07", "(ACTIVATE_CHAN_07=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:08", "(ACTIVATE_CHAN_08=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:09", "(ACTIVATE_CHAN_09=0)" }
 }

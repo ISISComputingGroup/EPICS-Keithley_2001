@@ -5,6 +5,7 @@ include $(TOP)/configure/CONFIG
 # Install .dbd and .db files
 DB += keithley_2001.db
 DB += keithley_2001_channels.db
+DB += keithley_2001_view.db
 
 DATA += Keithley_2001.proto
 
