@@ -8,6 +8,11 @@ getIDN {
     in "KEITHLEY %*{INSTRUMENTS INC.,}%/(.{0,39})/";
 }
 
+reset {
+    out "*RST";
+}
+
+
 setELEMS {
     out ":FORM:ELEM %s";
 }

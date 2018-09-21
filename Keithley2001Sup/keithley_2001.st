@@ -9,10 +9,12 @@ program keithley_2001 ("P, channels")
 %% #include "string.h"
 %% #include "dbDefs.h"
 %% #include "seqPVmacros.h"
-%% #include <windows.h>
 
-int read_elements_sp;
-assign read_elements_sp to "{P}ELEMENTS:SP.PROC";
+int set_read_elements;
+assign set_read_elements to "{P}ELEMENTS:SP.PROC";
+
+int reset_device;
+assign reset_device to "{P}RESET.PROC";
 
 char *P;
 foreign pvname;
@@ -21,11 +23,10 @@ foreign pvname;
 ss running {
     state init {
         when() {
-            /* Initialize the IOC for scanning correctly */
             P = macValueGet("P");
-            
-            /* Initialize elements of a reading */
-            pvPut(read_elements_sp);
+            pvPut(reset_device);
+            pvPut(set_read_elements);
+           
         } state reading
     } 
     state reading {
