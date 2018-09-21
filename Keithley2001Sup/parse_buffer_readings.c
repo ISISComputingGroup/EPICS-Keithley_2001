@@ -6,12 +6,12 @@
 #include <menuFtype.h>
 
 /*
-*	Keithley 2700 Resistance Buffer Readings Parser
+*	Keithley 2001 Resistance Buffer Readings Parser
 *
-* 	Takes data from aSub record BUFF:READ, finds the Reading and Timestamp value and 
+* 	Takes data from aSub record BUFF:READ, finds the Reading, Unit, and Channel value and 
 *	puts it into the correct Channel. 
 *
-*	VALA (value A) = channel 101 reading = CHNL:101:READ etc
+*	VALA (value A) = channel 01 reading = CHNL:01:READ etc
 *
 *
 */
@@ -27,18 +27,18 @@ static void assign_value_to_pv(double *val, epicsEnum16 ftv, double reading) {
 	
 static long parse_buffer_readings(aSubRecord *prec, long array_offset) {
 	
-	/* 	'array_offset' refers to the index of the buffer array. This value will be 0 or 1, allowing 
-	* 	this script to parse the timestamp and reading value depending on the value of array_offset.
+	/* 	'array_offset' refers to the index of the buffer array. This value will be 0,1 or 2, allowing 
+	* 	this script to parse the unit, timestamp and reading value depending on the value of array_offset.
 	* 	a[i] = channel reading
-	* 	a[i+1] = channel timestamp
+    *   a[i+1] = channel unit
 	* 	a[i+2] = channel 
 	*/
 	
 	double *a;
-	// We have 3 values per channel - reading, timestamp and channel
-	const int channel_values_count = 3;
+	// We have 4 values per channel - reading, unit, timestamp and channel
+	const int channel_values_count = 4;
 	unsigned long i = 0;
-	// prec = INPA from keithley2700.db, BUFF:READ - a waveform PV
+	// prec = INPA from keithley2001.db, TRAC:DATA? - a waveform PV
     prec->pact = 1;
 	
     a = (double *)prec->a;	
@@ -50,31 +50,31 @@ static long parse_buffer_readings(aSubRecord *prec, long array_offset) {
 		
 		// Find the channel and add reading value to correct channel PV
 		switch(channel) {
-			case 01:
+			case 1:
 				assign_value_to_pv(prec->vala, prec->ftva, value);
 				break;
-			case 02:
+			case 2:
 				assign_value_to_pv(prec->valb, prec->ftva, value);
 				break;
-			case 03:
+			case 3:
 				assign_value_to_pv(prec->valc, prec->ftva, value);
 				break;
-			case 04:
+			case 4:
 				assign_value_to_pv(prec->vald, prec->ftva, value);
 				break;
-			case 05:
+			case 5:
 				assign_value_to_pv(prec->vale, prec->ftva, value);
 				break;
-			case 06:
+			case 6:
 				assign_value_to_pv(prec->valf, prec->ftva, value);
 				break;
-			case 07:
+			case 7:
 				assign_value_to_pv(prec->valg, prec->ftva, value);
 				break;
-			case 08:
+			case 8:
 				assign_value_to_pv(prec->valh, prec->ftva, value);
 				break;
-			case 09:
+			case 9:
 				assign_value_to_pv(prec->vali, prec->ftva, value);
 				break;
 			case 10:
@@ -83,7 +83,6 @@ static long parse_buffer_readings(aSubRecord *prec, long array_offset) {
 		}		
 		i=i+channel_values_count;
     }
-
     prec->pact = 0;
     return 0;
 }
@@ -92,9 +91,14 @@ static long parse_channel_readings(aSubRecord *prec) {
 	return parse_buffer_readings(prec, 0);
 }
 
-static long parse_channel_timestamps(aSubRecord *prec) {
+static long parse_channel_units(aSubRecord *prec) {
 	return parse_buffer_readings(prec, 1);
 }
 
+static long parse_channel_timestamps(aSubRecord *prec) {
+	return parse_buffer_readings(prec, 2);
+}
+
 epicsRegisterFunction(parse_channel_readings);
+epicsRegisterFunction(parse_channel_units);
 epicsRegisterFunction(parse_channel_timestamps);

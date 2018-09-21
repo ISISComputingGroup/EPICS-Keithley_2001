@@ -1,0 +1,9 @@
+## Protocol file for Keithley 2001
+
+Terminator = LF;
+
+getIDN {
+    out "*IDN?";	
+    #Read no more that 39 chars (EPICS limit)
+    in "KEITHLEY %*{INSTRUMENTS INC.,}%/(.{0,39})/";
+}

@@ -1,5 +1,4 @@
-record(bo, "$(P)SIM")
-{
+record(bo, "$(P)SIM") {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
     field(ZNAM, "NO")
@@ -8,12 +7,35 @@ record(bo, "$(P)SIM")
     field(PINI, "YES")
 }
 
-record(bo, "$(P)DISABLE")
-{
+record(bo, "$(P)DISABLE") {
     field(DESC, "Disable comms")
     field(PINI, "YES")
     field(VAL, "$(DISABLE=0)")
     field(OMSL, "supervisory")
     field(ZNAM, "COMMS ENABLED")
     field(ONAM, "COMMS DISABLED")
+}
+
+record(stringin, "$(P)IDN") {
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@Keithley_2001.proto getIDN $(PORT)")
+    field(PINI, "YES")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:IDN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringout, "$(P)SIM:IDN")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(VAL, "MODEL 2001,4301578,B17  /A02  ")
+}
+
+record(bi, "$(P)SCANNING") {
+    field(DESC, "Indicates whether the device is scanning")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
 }
