@@ -23,3 +23,17 @@ record(stringin, "$(P)ELEMENTS"){
 record(stringout, "$(P)SIM:ELEMENTS") {}
 
 alias("$(P)SIM:ELEMENTS","$(P)SIM:ELEMENTS:SP")
+
+
+record(bo, "$(P)RESET") {
+    field(DESC, "Reset the device")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto reset $(PORT)")
+}
+
+record(bo, "$(P)BUFF:CLEAR") {
+    field(DESC, "Clears the buffer")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto clear_buffer $(PORT)")
+    field(TPRO, "1")
+}

@@ -12,6 +12,9 @@ reset {
     out "*RST";
 }
 
+clear_buffer {
+    out ":DATA:CLE";
+}
 
 setELEMS {
     out ":FORM:ELEM %s";

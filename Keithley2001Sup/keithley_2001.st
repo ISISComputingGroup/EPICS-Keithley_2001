@@ -16,6 +16,9 @@ assign set_read_elements to "{P}ELEMENTS:SP.PROC";
 int reset_device;
 assign reset_device to "{P}RESET.PROC";
 
+int cler_buffer;
+assign cler_buffer to "{P}BUFF:CLEAR.PROC";
+
 char *P;
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
@@ -26,7 +29,7 @@ ss running {
             P = macValueGet("P");
             pvPut(reset_device);
             pvPut(set_read_elements);
-           
+            pvPut(cler_buffer);           
         } state reading
     } 
     state reading {
