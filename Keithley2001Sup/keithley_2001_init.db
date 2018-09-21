@@ -1,0 +1,25 @@
+record(stringout, "$(P)ELEMENTS:SP"){
+    field(DESC, "Sets the elements of a reading.")
+    field(DTYP, "stream")
+    field(VAL, "READ, UNIT")
+    field(OUT, "@keithley_2001.proto setELEMS $(PORT)")
+    field(FLNK, "$(P)ELEMENTS")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ELEMENTS:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)ELEMENTS"){
+    field(DESC, "Elements in a reading from device.")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto getELEMS $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ELEMENTS")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringout, "$(P)SIM:ELEMENTS") {}
+
+alias("$(P)SIM:ELEMENTS","$(P)SIM:ELEMENTS:SP")
