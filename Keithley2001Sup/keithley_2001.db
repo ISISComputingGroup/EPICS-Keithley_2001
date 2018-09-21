@@ -19,7 +19,7 @@ record(bo, "$(P)DISABLE") {
 record(stringin, "$(P)IDN") {
     field(DESC, "SCPI identification string")
     field(DTYP, "stream")
-    field(INP,  "@Keithley_2001.proto getIDN $(PORT)")
+    field(INP,  "@keithley_2001.proto getIDN $(PORT)")
     field(PINI, "YES")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:IDN")
@@ -31,11 +31,4 @@ record(stringout, "$(P)SIM:IDN")
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
     field(VAL, "MODEL 2001,4301578,B17  /A02  ")
-}
-
-record(bi, "$(P)SCANNING") {
-    field(DESC, "Indicates whether the device is scanning")
-    field(DTYP, "Soft Channel")
-    field(ZNAM, "NO")
-    field(ONAM, "YES")
 }

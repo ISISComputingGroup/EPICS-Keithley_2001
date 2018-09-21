@@ -11,9 +11,8 @@ program keithley_2001 ("P, channels")
 %% #include "seqPVmacros.h"
 %% #include <windows.h>
 
-int scanning;
-assign scanning to "{P}SCANNING";
-monitor scanning;
+int read_elements_sp;
+assign read_elements_sp to "{P}ELEMENTS:SP.PROC";
 
 char *P;
 foreign pvname;
@@ -24,13 +23,14 @@ ss running {
         when() {
             /* Initialize the IOC for scanning correctly */
             P = macValueGet("P");
+            
+            /* Initialize elements of a reading */
+            pvPut(read_elements_sp);
         } state reading
     } 
     state reading {
-        when (delay(0.5)) {
-            printf("===P is %s", P);
+        when (delay(1)) {
             printf("====READING====\n");
-            printf("===============\n");
         } state reading
     }
 }
