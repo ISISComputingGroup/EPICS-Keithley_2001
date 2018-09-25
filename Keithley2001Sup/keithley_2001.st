@@ -31,6 +31,9 @@ assign buffer_size to "{P}BUFF:SIZE:SP";
 int buffer_egroup = 0;
 assign buffer_egroup to "{P}BUFF:EGROUP:SP";
 
+int scanning_continuously = 1;
+assign scanning_continuously to "{P}SCAN:CONT_MODE:SP";
+
 char *P;
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
@@ -46,6 +49,7 @@ ss running {
             pvPut(buffer_mode);
             pvPut(buffer_size);
             pvPut(buffer_egroup);
+            pvPut(scanning_continuously);
         } state reading
     } 
     state reading {

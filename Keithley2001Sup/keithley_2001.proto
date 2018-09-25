@@ -60,3 +60,12 @@ get_egroup {
 set_egroup {
     out ":DATA:EGR %{FULL|COMP}";
 }
+
+set_init_cont{
+    out ":INIT:CONT %{OFF|ON}";
+}
+
+get_init_cont{
+    out ":INIT:CONT?";
+    in "%{OFF|ON}";
+}

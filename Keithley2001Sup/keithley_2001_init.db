@@ -101,31 +101,79 @@ record(longout, "$(P)BUFF:SIZE:SP"){
     field(DESC, "Sets the buffer size")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto set_buff_size $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SIZE:SP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(longin, "$(P)BUFF:SIZE"){
     field(DESC, "Gets the buffer size")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_buff_size $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SIZE")
+    field(SDIS, "$(P)DISABLE")
 }
+
+record(longin, "$(P)SIM:BUFF:SIZE") {}
+
+alias("$(P)SIM:BUFF:SIZE","$(P)SIM:BUFF:SIZE:SP")
 
 record(bo, "$(P)BUFF:EGROUP:SP") {
     field(DESC, "Sets the buffer element group")
     field(DTYP, "stream")
     field(ZNAM, "FULL")
     field(ONAM, "COMP")
-    
     field(OUT, "@keithley_2001.proto set_egroup $(PORT)")
-    field(TPRO, "1")
+    
+   field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:EGROUP:SP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bi, "$(P)BUFF:EGROUP") {
     field(DESC, "Gets the buffer element group")
     field(DTYP, "stream")
-    
     field(ZNAM, "FULL")
-    field(ONAM, "COMP")
-    
+    field(ONAM, "COMP")    
     field(INP, "@keithley_2001.proto get_egroup $(PORT)")
-    field(TPRO, "1")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:EGROUP")
+    field(SDIS, "$(P)DISABLE")
 }
+
+record(bi, "$(P)SIM:BUFF:EGROUP") {}
+
+alias("$(P)SIM:BUFF:EGROUP","$(P)SIM:BUFF:EGROUP:SP")
+
+
+record(bo, "$(P)SCAN:CONT_MODE:SP") {
+    field(DESC, "Sets continuous scanning mode on or off")
+    field(DTYP, "stream")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    
+    field(OUT, "@keithley_2001.proto set_init_cont $(PORT)")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:CONT_MODE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "$(P)SCAN:CONT_MODE") {
+    field(DESC, "Gets continuous scanning mode")
+    field(DTYP, "stream")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    
+    field(INP, "@keithley_2001.proto get_init_cont $(PORT)")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:CONT_MODE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "$(P)SIM:SCAN:CONT_MODE") {}
+
+alias("$(P)SIM:SCAN:CONT_MODE","$(P)SIM:SCAN:CONT_MODE:SP")
