@@ -2,7 +2,7 @@
 
 Terminator = LF;
 
-getIDN {
+get_IDN {
     out "*IDN?";	
     #Read no more that 39 chars (EPICS limit)
     in "KEITHLEY %*{INSTRUMENTS INC.,}%/(.{0,39})/";
@@ -16,11 +16,20 @@ clear_buffer {
     out ":DATA:CLE";
 }
 
-setELEMS {
+set_elements {
     out ":FORM:ELEM %s";
 }
 
-getELEMS {
+get_elements {
     out ":FORM:ELEM?";
     in "%39c";
+}
+
+get_source {
+    out ":DATA:FEED?";
+    in "%{NONE|SENS1|CALC1}";
+}
+
+set_source {
+    out ":DATA:FEED %{NONE|SENS1|CALC1}";
 }

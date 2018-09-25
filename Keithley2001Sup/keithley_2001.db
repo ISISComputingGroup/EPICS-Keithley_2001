@@ -19,7 +19,7 @@ record(bo, "$(P)DISABLE") {
 record(stringin, "$(P)IDN") {
     field(DESC, "SCPI identification string")
     field(DTYP, "stream")
-    field(INP,  "@keithley_2001.proto getIDN $(PORT)")
+    field(INP,  "@keithley_2001.proto get_IDN $(PORT)")
     field(PINI, "YES")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:IDN")
@@ -32,4 +32,3 @@ record(stringout, "$(P)SIM:IDN")
     field(DTYP, "Soft Channel")
     field(VAL, "MODEL 2001,4301578,B17  /A02  ")
 }
-

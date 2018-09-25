@@ -2,7 +2,7 @@ record(stringout, "$(P)ELEMENTS:SP"){
     field(DESC, "Sets the elements of a reading.")
     field(DTYP, "stream")
     field(VAL, "READ, UNIT")
-    field(OUT, "@keithley_2001.proto setELEMS $(PORT)")
+    field(OUT, "@keithley_2001.proto set_elements $(PORT)")
     field(FLNK, "$(P)ELEMENTS")
     
     field(SIML, "$(P)SIM")
@@ -13,7 +13,7 @@ record(stringout, "$(P)ELEMENTS:SP"){
 record(stringin, "$(P)ELEMENTS"){
     field(DESC, "Elements in a reading from device.")
     field(DTYP, "stream")
-    field(INP, "@keithley_2001.proto getELEMS $(PORT)")
+    field(INP, "@keithley_2001.proto get_elements $(PORT)")
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:ELEMENTS")
@@ -35,5 +35,32 @@ record(bo, "$(P)BUFF:CLEAR") {
     field(DESC, "Clears the buffer")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto clear_buffer $(PORT)")
-    field(TPRO, "1")
+}
+
+record(mbbi, "$(P)BUFF:SOURCE") {
+    field(DESC, "Reads buffer readings source")
+    field(DTYP, "stream")
+    
+    field(INP, "@keithley_2001.proto get_source $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NONE")
+    field(ONVL, "1")
+    field(ONST, "SENS1")
+    field(TWVL, "2")
+    field(TWST, "CALC1")
+}
+
+record(mbbo, "$(P)BUFF:SOURCE:SP") {
+    field(DESC, "Sets buffer readings source")
+    field(DTYP, "stream")
+    
+    field(OUT, "@keithley_2001.proto set_source $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NONE")
+    field(ONVL, "1")
+    field(ONST, "SENS1")
+    field(TWVL, "2")
+    field(TWST, "CALC1")
 }
