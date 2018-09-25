@@ -51,3 +51,12 @@ get_buff_size {
     out ":DATA:POIN?"; 
     in "%d";
 }
+
+get_egroup {
+    out ":DATA:EGR?";
+    in "%{FULL|COMP}";
+}
+
+set_egroup {
+    out ":DATA:EGR %{FULL|COMP}";
+}

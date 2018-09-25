@@ -101,12 +101,31 @@ record(longout, "$(P)BUFF:SIZE:SP"){
     field(DESC, "Sets the buffer size")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto set_buff_size $(PORT)")
-    field(TPRO, "1")
 }
 
 record(longin, "$(P)BUFF:SIZE"){
     field(DESC, "Gets the buffer size")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_buff_size $(PORT)")
+}
+
+record(bo, "$(P)BUFF:EGROUP:SP") {
+    field(DESC, "Sets the buffer element group")
+    field(DTYP, "stream")
+    field(ZNAM, "FULL")
+    field(ONAM, "COMP")
+    
+    field(OUT, "@keithley_2001.proto set_egroup $(PORT)")
+    field(TPRO, "1")
+}
+
+record(bi, "$(P)BUFF:EGROUP") {
+    field(DESC, "Gets the buffer element group")
+    field(DTYP, "stream")
+    
+    field(ZNAM, "FULL")
+    field(ONAM, "COMP")
+    
+    field(INP, "@keithley_2001.proto get_egroup $(PORT)")
     field(TPRO, "1")
 }
