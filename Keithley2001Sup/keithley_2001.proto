@@ -42,3 +42,12 @@ get_cntrl_mode {
     out ":DATA:FEED:CONT?";
     in "%{NEV|NEXT|ALW|PRET}";
 }
+
+set_buff_size {
+    out ":DATA:POIN %d";
+}
+
+get_buff_size {
+    out ":DATA:POIN?"; 
+    in "%d";
+}

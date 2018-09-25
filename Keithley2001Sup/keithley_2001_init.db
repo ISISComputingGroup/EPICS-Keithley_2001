@@ -79,7 +79,6 @@ record(mbbi, "$(P)BUFF:MODE") {
     field(TWST, "ALW")    
     field(THVL, "3")
     field(THST, "PRET")
-    field(TPRO, "1")
 }
 
 record(mbbo, "$(P)BUFF:MODE:SP") {
@@ -96,6 +95,18 @@ record(mbbo, "$(P)BUFF:MODE:SP") {
     field(TWST, "ALW")    
     field(THVL, "3")
     field(THST, "PRET")
+}
+
+record(longout, "$(P)BUFF:SIZE:SP"){
+    field(DESC, "Sets the buffer size")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_buff_size $(PORT)")
     field(TPRO, "1")
 }
 
+record(longin, "$(P)BUFF:SIZE"){
+    field(DESC, "Gets the buffer size")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_buff_size $(PORT)")
+    field(TPRO, "1")
+}

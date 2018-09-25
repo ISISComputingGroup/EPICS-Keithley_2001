@@ -25,6 +25,9 @@ assign buffer_source to "{P}BUFF:SOURCE:SP";
 int buffer_mode = 2;
 assign buffer_mode to "{P}BUFF:MODE:SP";
 
+int buffer_size = 250;
+assign buffer_size to "{P}BUFF:SIZE:SP";
+
 char *P;
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
@@ -38,6 +41,7 @@ ss running {
             pvPut(clear_buffer);     
             pvPut(buffer_source);
             pvPut(buffer_mode);
+            pvPut(buffer_size);
         } state reading
     } 
     state reading {
