@@ -64,3 +64,38 @@ record(mbbo, "$(P)BUFF:SOURCE:SP") {
     field(TWVL, "2")
     field(TWST, "CALC1")
 }
+
+record(mbbi, "$(P)BUFF:MODE") {
+    field(DESC, "Reads buffer control mode")
+    field(DTYP, "stream")
+    
+    field(INP, "@keithley_2001.proto get_cntrl_mode $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NEV")
+    field(ONVL, "1")
+    field(ONST, "NEXT")
+    field(TWVL, "2")
+    field(TWST, "ALW")    
+    field(THVL, "3")
+    field(THST, "PRET")
+    field(TPRO, "1")
+}
+
+record(mbbo, "$(P)BUFF:MODE:SP") {
+    field(DESC, "Sets buffer control mode")
+    field(DTYP, "stream")
+    
+    field(OUT, "@keithley_2001.proto set_cntrl_mode $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NEV")
+    field(ONVL, "1")
+    field(ONST, "NEXT")
+    field(TWVL, "2")
+    field(TWST, "ALW")    
+    field(THVL, "3")
+    field(THST, "PRET")
+    field(TPRO, "1")
+}
+

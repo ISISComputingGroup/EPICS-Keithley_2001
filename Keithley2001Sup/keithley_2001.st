@@ -19,8 +19,11 @@ assign reset_device to "{P}RESET.PROC";
 int clear_buffer;
 assign clear_buffer to "{P}BUFF:CLEAR.PROC";
 
-int buffer_source_value = 1;
-assign buffer_source_value to "{P}BUFF:SOURCE:SP";
+int buffer_source = 1;
+assign buffer_source to "{P}BUFF:SOURCE:SP";
+
+int buffer_mode = 2;
+assign buffer_mode to "{P}BUFF:MODE:SP";
 
 char *P;
 foreign pvname;
@@ -33,7 +36,8 @@ ss running {
             pvPut(reset_device);
             pvPut(set_read_elements);
             pvPut(clear_buffer);     
-            pvPut(buffer_source_value);
+            pvPut(buffer_source);
+            pvPut(buffer_mode);
         } state reading
     } 
     state reading {

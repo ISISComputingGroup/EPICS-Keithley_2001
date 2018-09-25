@@ -33,3 +33,12 @@ get_source {
 set_source {
     out ":DATA:FEED %{NONE|SENS1|CALC1}";
 }
+
+set_cntrl_mode {
+    out ":DATA:FEED:CONT %{NEV|NEXT|ALW|PRET}";
+}
+
+get_cntrl_mode {
+    out ":DATA:FEED:CONT?";
+    in "%{NEV|NEXT|ALW|PRET}";
+}
