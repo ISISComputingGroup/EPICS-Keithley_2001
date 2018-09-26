@@ -10,6 +10,11 @@ program keithley_2001 ("P, channels")
 %% #include "dbDefs.h"
 %% #include "seqPVmacros.h"
 %% int array_sum(int array[], int length_of_array);
+%% char* channels_to_read(int arr[], int length_of_arr);
+%% char* channel_to_read(int arr[], int length_of_arr);
+
+/*=================== declarations =========================*/
+
 
 int set_read_elements;
 assign set_read_elements to "{P}ELEMENTS:SP.PROC";
@@ -35,10 +40,6 @@ assign buffer_egroup to "{P}BUFF:EGROUP:SP";
 int scanning_continuously_sp = 1;
 assign scanning_continuously_sp to "{P}SCAN:CONT_MODE:SP";
 
-char *P;
-foreign pvname;
-%%char pvname[PVNAME_STRINGSZ]; 
-
 int active_channels[MAX_INT_CHANNELS];
 assign active_channels to 
         {"{P}CHAN:01:ACTIVE",
@@ -51,10 +52,24 @@ assign active_channels to
         "{P}CHAN:09:ACTIVE"};
 monitor active_channels;
 
-int num_of_active_channels;
-
 int scan_mode;
 assign scan_mode to "{P}READ:MODE";
+
+string read_channels;
+assign read_channels to "{P}READ:CHANNELS";
+
+int num_of_active_channels;
+assign num_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
+moniotr num_of_active_channels;
+
+char *channels_reading;
+
+
+char *P;
+foreign pvname;
+%%char pvname[PVNAME_STRINGSZ]; 
+
+/*=================== State Sets ===========================*/
 
 ss running {
     state init {
@@ -72,7 +87,16 @@ ss running {
     }
     state before_reading {
         when(delay(1)) {
-            num_of_active_channels = array_sum(active_channels, MAX_INT_CHANNELS);
+
+            pvGet(num_of_active_channels);
+            if (num_of_active_channels > 1) {
+            channels_reading = channels_to_read(active_channels, MAX_INT_CHANNELS);
+            }
+            else if(num_of_active_channels == 1){
+            channels_reading = channel_to_read(active_channels, MAX_INT_CHANNELS);
+            }
+            sprintf(read_channels, channels_reading);
+            pvPut(read_channels);
         } state select_read_mode
     }
     state select_read_mode {
@@ -105,12 +129,37 @@ ss running {
     }
 }
 
-%% int array_sum(int array[], int length_of_array){
-%%    int total = 0;
-%%
-%%    for (int i = 0; i < length_of_array; i++) {
-%%        total += array[i];
-%%    }
-%%    
-%%    return total;
-%%}
+/*==================== End of state sets =====================*/
+
+%%  char* channels_to_read(int arr[], int length_of_arr, int number_of_active_channels) {
+%%      int number_of_channel_digits = 2;
+%%      char *channels = malloc(sizeof(char)*length_of_arr);
+%%      
+%%      for(int i=0; i < length_of_arr; i++) {
+%%          if (arr[i] == 1) {
+%%              char *channel = malloc(sizeof(char)*(number_of_channel_digits+2));
+%%              if (i == length_of_arr - 1) {
+%%                  sprintf(channel, "%i", i+1);
+%%              }
+%%              else {
+%%                  sprintf(channel, "%i,", i+1);
+%%              }
+%%          strncat(channels, channel, number_of_channel_digits+2);
+%%          free(channel);
+%%        }
+%%      }
+%%      return channels;
+%%  }
+
+%%  char* channel_to_read(int arr[], int length_of_arr) {
+%%      int number_of_channel_digits = 2;
+%%      char *channels = malloc(sizeof(char)*number_of_channel_digits);
+%%      
+%%      for(int i=0; i < length_of_arr; i++) {
+%%          if (arr[i] == 1) {
+%%              sprintf(channels, "%i", i+1);
+%%          }
+%%        }
+%%      return channels;
+%%  }
+
