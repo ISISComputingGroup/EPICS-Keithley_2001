@@ -21,6 +21,7 @@ record(bi, "$(P)$(CHANNEL):ACTIVE") {
 	field(DESC, "Latest channel reading value")
 	field(VAL, "$$(ACTIVATE_CHAN_MACRO)")
     
+    field(FLNK, "$(P)READ:_NUM_OF_CHANS")
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
     field(SIML, "$(P)SIM")
 }

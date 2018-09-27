@@ -4,18 +4,19 @@ program keithley_2001 ("P, channels")
  * 
  */ 
  
+/* ==================== Options =============================*/
+ 
+option +r;
+ 
+
 #define MAX_INT_CHANNELS 8
 %% #include "stdlib.h"
 %% #include "string.h"
 %% #include "dbDefs.h"
 %% #include "seqPVmacros.h"
-%% int array_sum(int array[], int length_of_array);
-%% char* channels_to_read(int arr[], int length_of_arr);
-%% char* channel_to_read(int arr[], int length_of_arr);
-
-/*=================== declarations =========================*/
 
 
+/*=================== Variable declarations =========================*/
 int set_read_elements;
 assign set_read_elements to "{P}ELEMENTS:SP.PROC";
 
@@ -56,14 +57,11 @@ int scan_mode;
 assign scan_mode to "{P}READ:MODE";
 
 string read_channels;
-assign read_channels to "{P}READ:CHANNELS";
+assign read_channels to "{P}READ:_CHANNELS";
 
 int num_of_active_channels;
 assign num_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
-moniotr num_of_active_channels;
-
-char *channels_reading;
-
+monitor num_of_active_channels;
 
 char *P;
 foreign pvname;
@@ -83,33 +81,21 @@ ss running {
             pvPut(buffer_size);
             pvPut(buffer_egroup);
             pvPut(scanning_continuously_sp);
-        } state before_reading
-    }
-    state before_reading {
-        when(delay(1)) {
-
-            pvGet(num_of_active_channels);
-            if (num_of_active_channels > 1) {
-            channels_reading = channels_to_read(active_channels, MAX_INT_CHANNELS);
-            }
-            else if(num_of_active_channels == 1){
-            channels_reading = channel_to_read(active_channels, MAX_INT_CHANNELS);
-            }
-            sprintf(read_channels, channels_reading);
-            pvPut(read_channels);
         } state select_read_mode
     }
     state select_read_mode {
+        
         when(num_of_active_channels == 0) {
             scan_mode = 0;
             pvPut(scan_mode);
-            puts("====Going into IDLE MODE====");
-        } state before_reading
+        } state select_read_mode
+        
         when(num_of_active_channels == 1) {
             scan_mode = 1;
             pvPut(scan_mode);
             puts("====Going into SINGLE READ MODE====");
         } state single_read        
+        
         when(num_of_active_channels > 1) {
             scan_mode = 2;
             pvPut(scan_mode);
@@ -120,46 +106,15 @@ ss running {
     state single_read{
         when(delay(1)){
             puts("====SINGLE_READING====");
-        } state before_reading
+        } state select_read_mode
     } 
     state multi_read {
         when(delay(1)){
             puts("====MULTI_READING====");
-        } state before_reading
+        } state select_read_mode
     }
 }
 
 /*==================== End of state sets =====================*/
 
-%%  char* channels_to_read(int arr[], int length_of_arr, int number_of_active_channels) {
-%%      int number_of_channel_digits = 2;
-%%      char *channels = malloc(sizeof(char)*length_of_arr);
-%%      
-%%      for(int i=0; i < length_of_arr; i++) {
-%%          if (arr[i] == 1) {
-%%              char *channel = malloc(sizeof(char)*(number_of_channel_digits+2));
-%%              if (i == length_of_arr - 1) {
-%%                  sprintf(channel, "%i", i+1);
-%%              }
-%%              else {
-%%                  sprintf(channel, "%i,", i+1);
-%%              }
-%%          strncat(channels, channel, number_of_channel_digits+2);
-%%          free(channel);
-%%        }
-%%      }
-%%      return channels;
-%%  }
-
-%%  char* channel_to_read(int arr[], int length_of_arr) {
-%%      int number_of_channel_digits = 2;
-%%      char *channels = malloc(sizeof(char)*number_of_channel_digits);
-%%      
-%%      for(int i=0; i < length_of_arr; i++) {
-%%          if (arr[i] == 1) {
-%%              sprintf(channels, "%i", i+1);
-%%          }
-%%        }
-%%      return channels;
-%%  }
 
