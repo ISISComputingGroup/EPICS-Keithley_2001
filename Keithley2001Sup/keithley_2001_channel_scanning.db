@@ -11,7 +11,7 @@ record(mbbi, "$(P)READ:MODE"){
     field(TWST, "MULTI")
 }
 
-record(stringin, "$(P)READ:CHANNELS:SP") {
+record(stringin, "$(P)READ:CHANNELS") {
     field(DESC, "String of channels to set to scan")
     field(DTYP, "Soft Channel")
     field(SCAN, "Passive")

@@ -65,13 +65,11 @@ int scan_mode;
 assign scan_mode to "{P}READ:MODE";
 
 string read_channels;
-assign read_channels to "{P}READ:CHANNELS:SP.VAL";
+assign read_channels to "{P}READ:CHANNELS.VAL";
 
 int number_of_active_channels;
 assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
 monitor number_of_active_channels;
-
-string channel_scan_string;
 
 char *P;
 foreign SIZE_OF_INT;
@@ -97,20 +95,30 @@ ss running {
             pvPut(buffer_size);
             pvPut(buffer_egroup);
             pvPut(scanning_continuously_sp);
-        } state select_read_mode
+        } state read_mode
     }
-    state select_read_mode {
+    state read_mode {
         
         when(number_of_active_channels == 0) {
             scan_mode = 0;
             pvPut(scan_mode);
-        } state select_read_mode
+        } state read_mode
         
         when(number_of_active_channels == 1) {
             scan_mode = 1;
-            pvPut(scan_mode);
-            puts("====Going into SINGLE READ MODE====");
-        } state single_read        
+            pvPut(scan_mode);            
+            puts("====ENTERING SINGLE_READ MODE====");
+            scanning_channels = malloc(SIZE_OF_INT * number_of_active_channels + 1);
+            
+            find_active_channels(active_channels, number_of_active_channels, scanning_channels);
+            generate_active_channel_string(scanning_channels, number_of_active_channels, read_channels);
+            
+            printf("READING CHANNEL %s", read_channels);
+            pvPut(read_channels);
+            
+            free(scanning_channels);
+            puts("====LEAVING SINGLE_READ MODE====");
+        } state read_mode
         
         when(number_of_active_channels > 1) {
             scan_mode = 2;
@@ -119,26 +127,11 @@ ss running {
         } state multi_read
     }
     
-    state single_read{
-        when(){
-            puts("====ENTERING SINGLE_READ MODE====");
-            scanning_channels = malloc(SIZE_OF_INT * number_of_active_channels + 1);
-            
-            find_active_channels(active_channels, number_of_active_channels, scanning_channels);
-            generate_active_channel_string(scanning_channels, number_of_active_channels, channel_scan_string);
-            
-            sprintf(read_channels, channel_scan_string);
-            printf("READING CHANNEL %s",channel_scan_string);
-            pvPut(read_channels);
-            
-            free(scanning_channels);
-            puts("====LEAVING SINGLE_READ MODE====");
-        } state select_read_mode
-    } 
+
     state multi_read {
         when(delay(1)){
             puts("====MULTI_READING====");
-        } state select_read_mode
+        } state read_mode
     }
 }
 
