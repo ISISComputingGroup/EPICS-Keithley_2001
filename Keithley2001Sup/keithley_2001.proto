@@ -69,3 +69,12 @@ get_init_cont{
     out ":INIT:CONT?";
     in "%{OFF|ON}";
 }
+
+set_single_channel {
+    out ":ROUT:CLOS (@%s)";
+}
+
+read_single_channel {
+    out ":FETC?";
+    in "%s";
+}

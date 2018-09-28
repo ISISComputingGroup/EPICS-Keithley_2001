@@ -11,12 +11,6 @@ record(mbbi, "$(P)READ:MODE"){
     field(TWST, "MULTI")
 }
 
-record(stringin, "$(P)READ:CHANNELS") {
-    field(DESC, "String of channels to set to scan")
-    field(DTYP, "Soft Channel")
-    field(SCAN, "Passive")
-}
-
 record(calc, "$(P)READ:_NUM_OF_CHANS") {
     field(INPA, "$(P)CHAN:01:ACTIVE")
     field(INPB, "$(P)CHAN:02:ACTIVE")
@@ -27,4 +21,19 @@ record(calc, "$(P)READ:_NUM_OF_CHANS") {
     field(INPG, "$(P)CHAN:08:ACTIVE")
     field(INPH, "$(P)CHAN:09:ACTIVE")
     field(CALC, "A+B+C+D+E+F+G+H")
+}
+
+record(stringout, "$(P)READ:SINGLE:SP"){ 
+    field(DESC, "Sends command to set channel to read")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_single_channel $(PORT)")
+    field(VAL, "")
+    field(TPRO, "1")
+}
+
+record(stringin, "$(P)READ:SINGLE"){
+    field(DESC, "Reads value from a single channel.")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto read_single_channel $(PORT)")
+    field(TPRO, "1")
 }

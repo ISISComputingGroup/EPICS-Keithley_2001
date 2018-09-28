@@ -28,12 +28,12 @@ record(bi, "$(P)$(CHANNEL):ACTIVE") {
 
 record(stringin, "$(P)$(CHANNEL):UNIT") {
 	field(DESC, "Latest channel unit")
-    field(VAL, "V")
+    field(VAL, "")
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")
     
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
-    field(SIML, "$(P)SIM")
+    field(SIML, "$(P)SIM")    
 }
 
 record(stringout, "$(P)$(CHANNEL):MEAS:SP") {
