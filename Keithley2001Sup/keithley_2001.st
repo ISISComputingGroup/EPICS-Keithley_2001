@@ -86,7 +86,7 @@ assign channel_units to
 monitor channel_units;
 
 int scan_mode;
-assign scan_mode to "{P}READ:MODE.RVAL";
+assign scan_mode to "{P}READ:MODE.VAL";
 
 int number_of_active_channels;
 assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
@@ -143,8 +143,7 @@ ss running {
             pvPut(buffer_size);
             pvPut(buffer_egroup);
             pvPut(scanning_continuously_sp);
-            pvGet(scan_speed);
-            previous_channel = 0;
+            previous_channel = -1;
             previous_scan_mode = -1;
         } state read_channel
     }
@@ -164,7 +163,7 @@ ss running {
                 scan_mode = 1;
                 pvPut(scan_mode); 
                 previous_scan_mode = scan_mode;
-            }                       
+            }       
             puts("====ENTERING SINGLE_READ MODE====\n");
             scanning_channels = malloc(sizeof(previous_channel) * number_of_active_channels + 1);
             
@@ -188,8 +187,11 @@ ss running {
         } state single_read_response
         
         when(number_of_active_channels > 1) {
-            scan_mode = 2;
-            pvPut(scan_mode);
+         if (previous_scan_mode != 2) {
+                scan_mode = 2;
+                pvPut(scan_mode); 
+                previous_scan_mode = scan_mode;
+            }     
             puts("====Going into MULTI READ MODE====\n");
         } state multi_read
     }
