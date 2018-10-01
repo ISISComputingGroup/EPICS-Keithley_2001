@@ -69,7 +69,7 @@ record(mbbi, "$(P)BUFF:MODE") {
     field(DESC, "Reads buffer control mode")
     field(DTYP, "stream")
     
-    field(INP, "@keithley_2001.proto get_cntrl_mode $(PORT)")
+    field(INP, "@keithley_2001.proto get_control_mode $(PORT)")
     
     field(ZRVL, "0")
     field(ZRST, "NEV")
@@ -85,7 +85,7 @@ record(mbbo, "$(P)BUFF:MODE:SP") {
     field(DESC, "Sets buffer control mode")
     field(DTYP, "stream")
     
-    field(OUT, "@keithley_2001.proto set_cntrl_mode $(PORT)")
+    field(OUT, "@keithley_2001.proto set_control_mode $(PORT)")
     
     field(ZRVL, "0")
     field(ZRST, "NEV")

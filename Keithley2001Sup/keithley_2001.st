@@ -35,19 +35,19 @@ int clear_buffer;
 assign clear_buffer to "{P}BUFF:CLEAR.PROC";
 
 int buffer_source = 1;
-assign buffer_source to "{P}BUFF:SOURCE:SP";
+assign buffer_source to "{P}BUFF:SOURCE:SP.VAL";
 
 int buffer_mode = 2;
-assign buffer_mode to "{P}BUFF:MODE:SP";
+assign buffer_mode to "{P}BUFF:MODE:SP.VAL";
 
 int buffer_size = 250;
-assign buffer_size to "{P}BUFF:SIZE:SP";
+assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
 
 int buffer_egroup = 0;
-assign buffer_egroup to "{P}BUFF:EGROUP:SP";
+assign buffer_egroup to "{P}BUFF:EGROUP:SP.VAL";
 
 int scanning_continuously_sp = 1;
-assign scanning_continuously_sp to "{P}SCAN:CONT_MODE:SP";
+assign scanning_continuously_sp to "{P}SCAN:CONT_MODE:SP.VAL";
 
 int active_channels[MAX_INT_CHANNELS];
 assign active_channels to 
@@ -86,14 +86,14 @@ assign channel_units to
 monitor channel_units;
 
 int scan_mode;
-assign scan_mode to "{P}READ:MODE";
+assign scan_mode to "{P}READ:MODE.RVAL";
 
 int number_of_active_channels;
 assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
 monitor number_of_active_channels;
 
 string set_single_chan;
-assign set_single_chan to "{P}READ:SINGLE:SP";
+assign set_single_chan to "{P}READ:SINGLE:SP.VAL";
 
 int read_single;
 assign read_single to "{P}READ:SINGLE.PROC";
@@ -101,6 +101,13 @@ assign read_single to "{P}READ:SINGLE.PROC";
 string single_channel_response;
 assign single_channel_response to "{P}READ:SINGLE.VAL";
 monitor single_channel_response;
+
+double scan_speed;
+assign scan_speed to "{P}READ:SCAN:SPEED.VAL";
+monitor scan_speed;
+
+
+/* Non PV varaibles */
 
 char *P;
 string single_close_format;
@@ -114,8 +121,12 @@ string read_channels;
 
 int position;
 
+int previous_scan_mode;
+
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
+
+int number_of_reads = 0;
 
 
 /*=================== State Sets ===========================*/
@@ -132,21 +143,31 @@ ss running {
             pvPut(buffer_size);
             pvPut(buffer_egroup);
             pvPut(scanning_continuously_sp);
+            pvGet(scan_speed);
             previous_channel = 0;
-        } state read_mode
+            previous_scan_mode = -1;
+        } state read_channel
     }
-    state read_mode {
+     
+    state read_channel {
         
         when(number_of_active_channels == 0) {
-            scan_mode = 0;
-            pvPut(scan_mode);
-        } state read_mode
+            if (previous_scan_mode != 0) {
+                scan_mode = 0;
+                pvPut(scan_mode); 
+                previous_scan_mode = scan_mode;
+            }
+        } state read_channel
         
         when(number_of_active_channels == 1) {
-            scan_mode = 1;
-            pvPut(scan_mode);            
+            if (previous_scan_mode != 1) {
+                scan_mode = 1;
+                pvPut(scan_mode); 
+                previous_scan_mode = scan_mode;
+            }                       
             puts("====ENTERING SINGLE_READ MODE====\n");
             scanning_channels = malloc(sizeof(previous_channel) * number_of_active_channels + 1);
+            
            
             find_active_channels(active_channels, number_of_active_channels, scanning_channels);            
             single_channel = scanning_channels[0];
@@ -157,12 +178,11 @@ ss running {
                 
                 sprintf(set_single_chan, "%d", single_channel);
                 pvPut(set_single_chan);  
-                
                 previous_channel = single_channel;
                 printf("====CHANGED TO CHANNEL %i ====\n", previous_channel);
             }
             printf("====READING CHANNEL %i\n", single_channel);
-
+            
             pvPut(read_single);
             puts("====LEAVING SINGLE_READ MODE====\n");
         } state single_read_response
@@ -175,21 +195,24 @@ ss running {
     }
     
     state single_read_response{
-        when() {
-            puts("====Entering SINGLE READ RESPONSE====\n");            
+        when(delay(scan_speed)) {
+            puts("====Entering SINGLE READ RESPONSE====\n");
+            
+            number_of_reads += 1;
             position = (single_channel < 5) ? (single_channel - 1) : (single_channel - 2);
             
             sscanf(single_channel_response, "%lf%s", &channels_readings[position], &channel_units[position]);
             pvPut(channels_readings[position]);
             pvPut(channel_units[position]);           
+                       
             puts("====Leaving SINGLE READ RESPONSE====\n");     
-        } state read_mode
+        } state read_channel
     }
     
     state multi_read {
-        when(delay(1)){
+        when(delay(scan_speed)){
             puts("====MULTI_READING====\n");
-        } state read_mode
+        } state read_channel
     }
 }
 

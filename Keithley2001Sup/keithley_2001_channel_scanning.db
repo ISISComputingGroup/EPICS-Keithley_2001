@@ -28,12 +28,17 @@ record(stringout, "$(P)READ:SINGLE:SP"){
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto set_single_channel $(PORT)")
     field(VAL, "")
-    field(TPRO, "1")
 }
 
 record(stringin, "$(P)READ:SINGLE"){
     field(DESC, "Reads value from a single channel.")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto read_single_channel $(PORT)")
-    field(TPRO, "1")
+}
+
+record(ai, "$(P)READ:SCAN:SPEED"){
+    field(DESC, "Scan speed")
+    field(VAL, "$(SCAN_SPEED)")
+    field(LOLO, "0.09")
+    field(LLSV, "MAJOR")
 }

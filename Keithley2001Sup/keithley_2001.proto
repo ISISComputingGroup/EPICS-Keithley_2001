@@ -1,11 +1,12 @@
 # Protocol file for Keithley 2001
 
-Terminator = LF;
+InTerminator  = LF;
+OutTerminiator = "";
 
 get_IDN {
     out "*IDN?";	
     #Read no more that 39 chars (EPICS limit)
-    in "KEITHLEY %*{INSTRUMENTS INC.,}%/(.{0,39})/";
+    in "%*{KEITHLEY INSTRUMENTS INC.,}%/(.{0,39})/";
 }
 
 reset {
@@ -34,11 +35,11 @@ set_source {
     out ":DATA:FEED %{NONE|SENS1|CALC1}";
 }
 
-set_cntrl_mode {
+set_control_mode {
     out ":DATA:FEED:CONT %{NEV|NEXT|ALW|PRET}";
 }
 
-get_cntrl_mode {
+get_control_mode {
     out ":DATA:FEED:CONT?";
     in "%{NEV|NEXT|ALW|PRET}";
 }
@@ -75,6 +76,6 @@ set_single_channel {
 }
 
 read_single_channel {
-    out ":FETC?";
-    in "%s";
+    out ":ABOR;:FETC?";
+    in "%39c";
 }
