@@ -39,7 +39,7 @@ record(bo, "$(P)RESET") {
     field(OUT, "@keithley_2001.proto reset $(PORT)")
 }
 
-record(mbbi, "$(P)SCAN:TRIG") {
+record(mbbi, "$(P)SCAN:TRIG:SOURCE") {
     field(DESC, "Scan trigger mode")
     field(DTYP, "stream")
     field(INP,  "@keithley_2001.proto get_scan_trgiger $(PORT)")
@@ -58,4 +58,16 @@ record(mbbi, "$(P)SCAN:TRIG") {
     field(FVST, "EXT")
     field(SXVL, "6")
     field(SXST, "TIM")
+}
+
+record(longout, "$(P)SCAN:MEAS:COUNT:SP"){
+    field(DESC, "Sets the measurement trigger count.")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_measurement_trigger_count $(PORT)")
+}
+
+record(longin, "$(P)SCAN:MEAS:COUNT"){
+    field(DESC, "Sets the measurement trigger count.")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_measurement_trigger_count $(PORT)")
 }

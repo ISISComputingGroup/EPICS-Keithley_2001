@@ -19,7 +19,7 @@ option +r;
 
 /* ==================== C function declarations =============================*/
 
-%% void find_active_channels(int *arr, int num_of_active_channels, int *result);
+%% void find_active_channels(int *arr, int number_of_active_channels, int *result);
 
 /*=================== Variable declarations =========================*/
 
@@ -123,6 +123,11 @@ double scan_speed;
 assign scan_speed to "{P}READ:SCAN:SPEED.VAL";
 monitor scan_speed;
 
+/* Scan setup PVs */
+
+long measurement_scan_count_setpoint;
+assign measurement_scan_count_setpoint to "{P}SCAN:MEAS:COUNT:SP.VAL";
+
 
 /* Non PV varaibles */
 
@@ -132,18 +137,19 @@ string single_close_format;
 /* Make sure that scanning_channels and previous_channel have the same type */
 foreign scanning_channels;
 %%int *scanning_channels;
-int previous_channel;
+
 int single_channel;
 string read_channels;
 
 int position;
 
+int previous_channel;
 int previous_scan_mode;
+int previous_number_of_channels;
 
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
 
-int number_of_reads = 0;
 
 
 /*=================== State Sets ===========================*/
@@ -167,6 +173,7 @@ ss running {
             
             previous_channel = -1;
             previous_scan_mode = -1;
+            previous_number_of_channels = -1;
         } state read_channel
     }
      
@@ -209,20 +216,32 @@ ss running {
         } state single_read_response
         
         when(number_of_active_channels > 1) {
-         if (previous_scan_mode != 2) {
+            puts("====Going into MULTI READ MODE====\n");
+            if (previous_scan_mode != 2) {
                 scan_mode = 2;
                 pvPut(scan_mode); 
                 previous_scan_mode = scan_mode;
-            }     
-            puts("====Going into MULTI READ MODE====\n");
-        } state multi_read
+            }
+            printf("====Scanning %i channels ====\n", number_of_active_channels);    
+            
+            if (previous_number_of_channels != number_of_active_channels){
+                previous_number_of_channels = number_of_active_channels;
+                
+                buffer_size = previous_number_of_channels;
+                pvPut(buffer_size);
+                
+                measurement_scan_count_setpoint = previous_number_of_channels;
+                pvPut(measurement_scan_count_setpoint);
+            }
+      
+            puts("====LEAVING MULIT READ MODE====\n");
+        } state multi_read_response
     }
     
     state single_read_response{
         when(delay(scan_speed)) {
             puts("====Entering SINGLE READ RESPONSE====\n");
             
-            number_of_reads += 1;
             position = (single_channel < 5) ? (single_channel - 1) : (single_channel - 2);
             
             sscanf(single_channel_response, "%lf%s", &channels_readings[position], &channel_units[position]);
@@ -233,7 +252,7 @@ ss running {
         } state read_channel
     }
     
-    state multi_read {
+    state multi_read_response {
         when(delay(scan_speed)){
             puts("====MULTI_READING====\n");
         } state read_channel
@@ -244,7 +263,7 @@ ss running {
 
 %{
 
-void find_active_channels(int *arr, int num_of_active_channels, int *result) {
+void find_active_channels(int *arr, int number_of_active_channels, int *result) {
     int position = 0;
 
     for (int i = 0; i < MAX_INT_CHANNELS; i++){

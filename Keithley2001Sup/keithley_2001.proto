@@ -115,3 +115,12 @@ get_scan_trgiger {
     out ":ARM:LAY2:SOUR?";
     in "%{IMM|HOLD|MAN|BUS|TLIN|EXT|TIM}";
 }
+
+set_measurement_trigger_count {
+    out ":TRIG:COUN %(VAL)d";
+}
+
+get_measurement_trigger_count {
+    out ":TRIG:COUN?";
+    in "%d";
+}
