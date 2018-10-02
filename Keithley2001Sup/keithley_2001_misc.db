@@ -38,3 +38,24 @@ record(bo, "$(P)RESET") {
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto reset $(PORT)")
 }
+
+record(mbbi, "$(P)SCAN:TRIG") {
+    field(DESC, "Scan trigger mode")
+    field(DTYP, "stream")
+    field(INP,  "@keithley_2001.proto get_scan_trgiger $(PORT)")
+
+    field(ZRVL, "0")
+    field(ZRST, "IMM")
+    field(ONVL, "1")
+    field(ONST, "HOLD")
+    field(TWVL, "2")
+    field(TWST, "MAN")
+    field(THVL, "3")
+    field(THST, "BUS")
+    field(FRVL, "4")
+    field(FRST, "TLIN")
+    field(FVVL, "5")
+    field(FVST, "EXT")
+    field(SXVL, "6")
+    field(SXST, "TIM")
+}

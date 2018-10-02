@@ -110,3 +110,8 @@ get_scan_count {
     out ":ARM:LAY2:COUN?";
     in "%d";
 }
+
+get_scan_trgiger {
+    out ":ARM:LAY2:SOUR?";
+    in "%{IMM|HOLD|MAN|BUS|TLIN|EXT|TIM}";
+}
