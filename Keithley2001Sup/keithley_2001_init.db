@@ -136,6 +136,30 @@ record(bo, "$(P)STAT:RESET"){
     field(SDIS, "$(P)DISABLE")
 }
 
+record(longout, "$(P)SCAN:COUNT:SP") {
+    field(DESC, "Sets the scan count.")
+    field(DTYP, "stream")
+
+    field(OUT, "@keithley_2001.proto set_scan_count $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:COUNT:SP")
+    field(SDIS, "$(P)DISABLE")
+    field(TPRO, "1")
+}
+
+record(longin, "$(P)SCAN:COUNT") {
+    field(DESC, "Gets the scan count.")
+    field(DTYP, "stream")
+
+    field(INP, "@keithley_2001.proto get_scan_count $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)$(P)SIM:SCAN:COUNT")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
 # SIM RECORDS
 
 record(stringout, "$(P)SIM:ELEMENTS") {}
@@ -147,3 +171,9 @@ record(bi, "$(P)SIM:SCAN:CONT_MODE") {}
 alias("$(P)SIM:SCAN:CONT_MODE","$(P)SIM:SCAN:CONT_MODE:SP")
 
 record(bi, "$(P)SIM:BUFF:EGROUP") {}
+
+alias("$(P)SIM:BUFF:EGROUP","$(P)SIM:BUFF:EGROUP:SP")
+
+record(bi, "$(P)SIM:SCAN:COUNT") {}
+
+alias("$(P)SIM:SCAN:COUNT","$(P)SIM:SCAN:COUNT:SP")

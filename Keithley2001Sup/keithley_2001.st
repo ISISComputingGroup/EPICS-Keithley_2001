@@ -46,8 +46,11 @@ assign set_register_status_buffer_full to "{P}STAT:BUFF:FULL:SP.PROC";
 int set_measure_summary_register_bit;
 assign set_measure_summary_register_bit to "{P}STAT:MEAS:SUMM:SP.PROC";
 
+int set_scan_count = 1;
+assign set_scan_count to "{P}SCAN:COUNT:SP.VAL";
 
-/* Buffer PVs */
+
+/* Buffer control PVs */
 
 int clear_buffer;
 assign clear_buffer to "{P}BUFF:CLEAR.PROC";
@@ -159,6 +162,8 @@ ss running {
             
             pvPut(set_register_status_buffer_full);
             pvPut(set_measure_summary_register_bit);
+            
+            pvPut(set_scan_count);
             
             previous_channel = -1;
             previous_scan_mode = -1;

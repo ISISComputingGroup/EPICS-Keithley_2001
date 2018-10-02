@@ -101,3 +101,12 @@ get_service_request_status {
 reset_status_registers {
     out ":STAT:PRES; *CLS";
 }
+
+set_scan_count {
+    out ":ARM:LAY2:COUN %(VAL)d";
+}
+
+get_scan_count {
+    out ":ARM:LAY2:COUN?";
+    in "%d";
+}

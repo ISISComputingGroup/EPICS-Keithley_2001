@@ -1,3 +1,4 @@
+
 record(mbbi, "$(P)READ:MODE"){
     field(DESC, "Sets channels to scan")
     field(DTYP, "Soft Channel")
