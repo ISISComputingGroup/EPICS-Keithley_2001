@@ -35,13 +35,13 @@ set_source {
     out ":DATA:FEED %{NONE|SENS1|CALC1}";
 }
 
-set_control_mode {
+set_buffer_mode {
     out ":DATA:FEED:CONT %{NEV|NEXT|ALW|PRET}";
 }
 
-get_control_mode {
-    in "%{NEV|NEXT|ALW|PRET}";
+get_buffer_mode {
     out ":DATA:FEED:CONT?";
+    in "%{NEV|NEXT|ALW|PRET}";
 }
 
 set_buff_size {

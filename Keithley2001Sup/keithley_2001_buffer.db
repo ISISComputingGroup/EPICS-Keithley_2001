@@ -5,10 +5,10 @@ record(bo, "$(P)BUFF:CLEAR") {
 }
 
 record(mbbi, "$(P)BUFF:MODE") {
-    field(DESC, "Reads buffer control mode")
+    field(DESC, "Reads buffer mode")
     field(DTYP, "stream")
     
-    field(INP, "@keithley_2001.proto get_control_mode $(PORT)")
+    field(INP, "@keithley_2001.proto get_buffer_mode $(PORT)")
     
     field(ZRVL, "0")
     field(ZRST, "NEV")
@@ -24,10 +24,10 @@ record(mbbi, "$(P)BUFF:MODE") {
 }
 
 record(mbbo, "$(P)BUFF:MODE:SP") {
-    field(DESC, "Sets buffer control mode")
+    field(DESC, "Sets buffer mode")
     field(DTYP, "stream")
     
-    field(OUT, "@keithley_2001.proto set_control_mode $(PORT)")
+    field(OUT, "@keithley_2001.proto set_buffer_mode $(PORT)")
     
     field(ZRVL, "0")
     field(ZRST, "NEV")

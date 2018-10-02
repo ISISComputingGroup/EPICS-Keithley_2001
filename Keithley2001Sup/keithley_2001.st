@@ -55,8 +55,8 @@ assign set_scan_count to "{P}SCAN:COUNT:SP.VAL";
 int clear_buffer;
 assign clear_buffer to "{P}BUFF:CLEAR.PROC";
 
-int buffer_mode = 1;
-assign buffer_mode to "{P}BUFF:MODE:SP.VAL";
+int set_buffer_mode;
+assign set_buffer_mode to "{P}BUFF:MODE:SP";
 
 int buffer_size = MAX_INT_CHANNELS;
 assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
@@ -233,6 +233,10 @@ ss running {
                 measurement_scan_count_setpoint = previous_number_of_channels;
                 pvPut(measurement_scan_count_setpoint);
             }
+            
+            set_buffer_mode = 1; /* Buffer mode = NEXT */
+            pvPut(set_buffer_mode);
+            pvPut(clear_buffer);
       
             puts("====LEAVING MULIT READ MODE====\n");
         } state multi_read_response
