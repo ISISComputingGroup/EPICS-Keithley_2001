@@ -1,10 +1,10 @@
-program keithley_2001 ("P, channels")
+program keithley_2001 ("P")
 
-/*  This sequencer program works with Keithley 2001.
+/*  This sequencer program runs the Keithley 2001.
  * 
  */ 
  
-/* ==================== Options =============================*/
+/* ==================== Sequencer compiler options =============================*/
  
 option +r;
  
@@ -20,34 +20,45 @@ option +r;
 /* ==================== C function declarations =============================*/
 
 %% void find_active_channels(int *arr, int num_of_active_channels, int *result);
-%% void generate_active_channel_string(int *arr, int num_of_active_channels, char *result);
-
-
 
 /*=================== Variable declarations =========================*/
+
+/* PVs triggered on startup */
+
 int set_read_elements;
 assign set_read_elements to "{P}ELEMENTS:SP.PROC";
 
 int reset_device;
 assign reset_device to "{P}RESET.PROC";
 
-int clear_buffer;
-assign clear_buffer to "{P}BUFF:CLEAR.PROC";
+int reset_status_registers;
+assign reset_status_registers to "{P}STAT:RESET.PROC";
 
 int buffer_source = 1;
 assign buffer_source to "{P}BUFF:SOURCE:SP.VAL";
 
-int buffer_mode = 2;
-assign buffer_mode to "{P}BUFF:MODE:SP.VAL";
-
-int buffer_size = 250;
-assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
-
 int buffer_egroup = 0;
 assign buffer_egroup to "{P}BUFF:EGROUP:SP.VAL";
 
-int scanning_continuously_sp = 1;
-assign scanning_continuously_sp to "{P}SCAN:CONT_MODE:SP.VAL";
+int set_register_status_buffer_full;
+assign set_register_status_buffer_full to "{P}STAT:BUFF:FULL:SP.PROC";
+
+int set_measure_summary_register_bit;
+assign set_measure_summary_register_bit to "{P}STAT:MEAS:SUMM:SP.PROC";
+
+
+/* Buffer PVs */
+
+int clear_buffer;
+assign clear_buffer to "{P}BUFF:CLEAR.PROC";
+
+int buffer_mode = 1;
+assign buffer_mode to "{P}BUFF:MODE:SP.VAL";
+
+int buffer_size = MAX_INT_CHANNELS;
+assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
+
+/* Channel PVs */
 
 int active_channels[MAX_INT_CHANNELS];
 assign active_channels to 
@@ -84,6 +95,9 @@ assign channel_units to
         "{P}CHAN:08:UNIT",
         "{P}CHAN:09:UNIT"};
 monitor channel_units;
+
+
+/* READING PVS */
 
 int scan_mode;
 assign scan_mode to "{P}READ:MODE.VAL";
@@ -136,13 +150,16 @@ ss running {
         when() {
             P = macValueGet("P");
             pvPut(reset_device);
+            pvPut(reset_status_registers);
+            pvPut(clear_buffer);    
+            
             pvPut(set_read_elements);
-            pvPut(clear_buffer);     
             pvPut(buffer_source);
-            pvPut(buffer_mode);
-            pvPut(buffer_size);
             pvPut(buffer_egroup);
-            pvPut(scanning_continuously_sp);
+            
+            pvPut(set_register_status_buffer_full);
+            pvPut(set_measure_summary_register_bit);
+            
             previous_channel = -1;
             previous_scan_mode = -1;
         } state read_channel
@@ -239,4 +256,3 @@ void find_active_channels(int *arr, int num_of_active_channels, int *result) {
 }
 
 }%
-

@@ -1,0 +1,70 @@
+record(bo, "$(P)BUFF:CLEAR") {
+    field(DESC, "Clears the buffer")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto clear_buffer $(PORT)")
+}
+
+record(mbbi, "$(P)BUFF:MODE") {
+    field(DESC, "Reads buffer control mode")
+    field(DTYP, "stream")
+    
+    field(INP, "@keithley_2001.proto get_control_mode $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NEV")
+    
+    field(ONVL, "1")
+    field(ONST, "NEXT")
+    
+    field(TWVL, "2")
+    field(TWST, "ALW")  
+    
+    field(THVL, "3")
+    field(THST, "PRET")
+}
+
+record(mbbo, "$(P)BUFF:MODE:SP") {
+    field(DESC, "Sets buffer control mode")
+    field(DTYP, "stream")
+    
+    field(OUT, "@keithley_2001.proto set_control_mode $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NEV")
+    
+    field(ONVL, "1")
+    field(ONST, "NEXT")
+    
+    field(TWVL, "2")
+    field(TWST, "ALW")  
+    
+    field(THVL, "3")
+    field(THST, "PRET")
+}
+
+record(longout, "$(P)BUFF:SIZE:SP"){
+    field(DESC, "Sets the buffer size")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_buff_size $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SIZE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(longin, "$(P)BUFF:SIZE"){
+    field(DESC, "Gets the buffer size")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_buff_size $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SIZE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+### SIM RECORDS
+
+record(longin, "$(P)SIM:BUFF:SIZE") {}
+
+alias("$(P)SIM:BUFF:SIZE","$(P)SIM:BUFF:SIZE:SP")

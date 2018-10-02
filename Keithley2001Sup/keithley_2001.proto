@@ -40,8 +40,8 @@ set_control_mode {
 }
 
 get_control_mode {
-    out ":DATA:FEED:CONT?";
     in "%{NEV|NEXT|ALW|PRET}";
+    out ":DATA:FEED:CONT?";
 }
 
 set_buff_size {
@@ -78,4 +78,26 @@ set_single_channel {
 read_single_channel {
     out ":ABOR;:FETC?";
     in "%39c";
+}
+
+get_meas_register_status {
+    out ":STAT:MEAS:ENAB?";
+    in "%d";
+}
+
+set_buff_full_stat{
+    out ":STAT:MEAS:ENAB 512";
+}
+
+set_measure_summary {
+    out "*SRE 1";
+}
+
+get_service_request_status {
+    out "*SRE?";
+    in "%d";
+}
+
+reset_status_registers {
+    out ":STAT:PRES; *CLS";
 }

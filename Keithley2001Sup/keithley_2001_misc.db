@@ -32,3 +32,9 @@ record(stringout, "$(P)SIM:IDN")
     field(DTYP, "Soft Channel")
     field(VAL, "MODEL 2001,4301578,B17  /A02  ")
 }
+
+record(bo, "$(P)RESET") {
+    field(DESC, "Reset the device")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto reset $(PORT)")
+}
