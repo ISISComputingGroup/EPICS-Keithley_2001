@@ -18,12 +18,14 @@ record(ai, "$(P)$(CHANNEL):READ") {
 }
 
 record(bi, "$(P)$(CHANNEL):ACTIVE") {
-	field(DESC, "Latest channel reading value")
-	field(VAL, "$$(ACTIVATE_CHAN_MACRO)")
+	field(DESC, "Activate channel")
+    field(ZNAM, "INACTIVE")
+    field(ONAM, "ACTIVE")
     
     field(FLNK, "$(P)READ:_NUM_OF_CHANS")
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
     field(SIML, "$(P)SIM")
+    field(TPRO, "1")
 }
 
 record(stringin, "$(P)$(CHANNEL):UNIT") {
@@ -37,7 +39,7 @@ record(stringin, "$(P)$(CHANNEL):UNIT") {
 }
 
 record(stringout, "$(P)$(CHANNEL):MEAS:SP") {
-	field(DESC, "Latest channel measurement")
+	field(DESC, "Latest channel measurement setpoint")
     field(VAL, "VOLT:DC")
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")

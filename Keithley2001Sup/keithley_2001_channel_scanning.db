@@ -17,17 +17,19 @@ record(calc, "$(P)READ:_NUM_OF_CHANS") {
     field(INPB, "$(P)CHAN:02:ACTIVE")
     field(INPC, "$(P)CHAN:03:ACTIVE")
     field(INPD, "$(P)CHAN:04:ACTIVE")
-    field(INPE, "$(P)CHAN:06:ACTIVE")
-    field(INPF, "$(P)CHAN:07:ACTIVE")
-    field(INPG, "$(P)CHAN:08:ACTIVE")
-    field(INPH, "$(P)CHAN:09:ACTIVE")
-    field(CALC, "A+B+C+D+E+F+G+H")
+    field(INPE, "$(P)CHAN:05:ACTIVE")
+    field(INPF, "$(P)CHAN:06:ACTIVE")
+    field(INPG, "$(P)CHAN:07:ACTIVE")
+    field(INPH, "$(P)CHAN:08:ACTIVE")
+    field(INPI, "$(P)CHAN:09:ACTIVE")
+    field(INPJ, "$(P)CHAN:09:ACTIVE")
+    field(CALC, "A+B+C+D+E+F+G+H+I+J")
 }
 
-record(stringout, "$(P)READ:SINGLE:SP"){ 
-    field(DESC, "Sends command to set channel to read")
+record(stringout, "$(P)READ:CHAN:SP"){ 
+    field(DESC, "Sends command to set channel(s) to read")
     field(DTYP, "stream")
-    field(OUT, "@keithley_2001.proto set_single_channel $(PORT)")
+    field(OUT, "@keithley_2001.proto set_channels_to_read $(PORT)")
     field(VAL, "")
 }
 

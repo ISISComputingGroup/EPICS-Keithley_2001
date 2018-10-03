@@ -10,7 +10,7 @@ option +r;
  
 /* ==================== MACROS and includes =============================*/
 
-#define MAX_INT_CHANNELS 8
+#define MAX_INT_CHANNELS 10
 %% #include "stdlib.h"
 %% #include "stdio.h"
 %% #include "string.h"
@@ -19,7 +19,8 @@ option +r;
 
 /* ==================== C function declarations =============================*/
 
-%% void find_active_channels(int *arr, int number_of_active_channels, int *result);
+%% void find_active_channels(int channels[], int number_of_active_channels, int *activated_channels);
+%% void generate_scan_channel_string(int *active_channels, int number_of_active_channels, char *scan_channels_string);
 
 /*=================== Variable declarations =========================*/
 
@@ -69,10 +70,12 @@ assign active_channels to
         "{P}CHAN:02:ACTIVE",
         "{P}CHAN:03:ACTIVE",
         "{P}CHAN:04:ACTIVE",
+        "{P}CHAN:05:ACTIVE",
         "{P}CHAN:06:ACTIVE",
         "{P}CHAN:07:ACTIVE",
         "{P}CHAN:08:ACTIVE",
-        "{P}CHAN:09:ACTIVE"};
+        "{P}CHAN:09:ACTIVE",
+        "{P}CHAN:10:ACTIVE"};
 monitor active_channels;
 
 double channels_readings[MAX_INT_CHANNELS];
@@ -81,10 +84,12 @@ assign channels_readings to
         "{P}CHAN:02:READ",
         "{P}CHAN:03:READ",
         "{P}CHAN:04:READ",
+        "{P}CHAN:05:READ",
         "{P}CHAN:06:READ",
         "{P}CHAN:07:READ",
         "{P}CHAN:08:READ",
-        "{P}CHAN:09:READ"};
+        "{P}CHAN:09:READ",
+        "{P}CHAN:10:READ"};
 monitor channels_readings;
 
 string channel_units[MAX_INT_CHANNELS];
@@ -93,10 +98,12 @@ assign channel_units to
         "{P}CHAN:02:UNIT",
         "{P}CHAN:03:UNIT",
         "{P}CHAN:04:UNIT",
+        "{P}CHAN:05:UNIT",
         "{P}CHAN:06:UNIT",
         "{P}CHAN:07:UNIT",
         "{P}CHAN:08:UNIT",
-        "{P}CHAN:09:UNIT"};
+        "{P}CHAN:09:UNIT",
+        "{P}CHAN:10:UNIT"};
 monitor channel_units;
 
 
@@ -109,8 +116,8 @@ int number_of_active_channels;
 assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
 monitor number_of_active_channels;
 
-string set_single_chan;
-assign set_single_chan to "{P}READ:SINGLE:SP.VAL";
+string set_chan_read;
+assign set_chan_read to "{P}READ:CHAN:SP.VAL";
 
 int read_single;
 assign read_single to "{P}READ:SINGLE.PROC";
@@ -132,24 +139,21 @@ assign measurement_scan_count_setpoint to "{P}SCAN:MEAS:COUNT:SP.VAL";
 /* Non PV varaibles */
 
 char *P;
-string single_close_format;
-
-/* Make sure that scanning_channels and previous_channel have the same type */
-foreign scanning_channels;
-%%int *scanning_channels;
-
-int single_channel;
-string read_channels;
-
 int position;
-
 int previous_channel;
 int previous_scan_mode;
 int previous_number_of_channels;
 
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
+char CHAR;
+int INT;
 
+int i;
+
+int *scanning_channels;
+int single_channel;
+char *scan_channels_string;
 
 
 /*=================== State Sets ===========================*/
@@ -194,7 +198,7 @@ ss running {
                 previous_scan_mode = scan_mode;
             }       
             puts("====ENTERING SINGLE_READ MODE====\n");
-            scanning_channels = malloc(sizeof(previous_channel) * number_of_active_channels + 1);
+            scanning_channels = malloc(sizeof(INT) * number_of_active_channels);
             
            
             find_active_channels(active_channels, number_of_active_channels, scanning_channels);            
@@ -204,8 +208,8 @@ ss running {
             if (single_channel != previous_channel){
                 printf("====CHANGING TO CHANNEL %i from %i ====\n", single_channel, previous_channel);
                 
-                sprintf(set_single_chan, "%d", single_channel);
-                pvPut(set_single_chan);  
+                sprintf(set_chan_read, "%d", single_channel);
+                pvPut(set_chan_read);  
                 previous_channel = single_channel;
                 printf("====CHANGED TO CHANNEL %i ====\n", previous_channel);
             }
@@ -237,7 +241,24 @@ ss running {
             set_buffer_mode = 1; /* Buffer mode = NEXT */
             pvPut(set_buffer_mode);
             pvPut(clear_buffer);
-      
+            
+            scanning_channels = malloc((sizeof(INT) * number_of_active_channels) + 1);
+            
+            find_active_channels(active_channels, number_of_active_channels, scanning_channels);
+            
+            for (i = 0; i < number_of_active_channels; i++){
+                printf("============ ACTIVE CHANNEL: %d================\n", scanning_channels[i]);
+            }
+            
+            scan_channels_string = malloc((sizeof(CHAR) * 20) + 1);
+            memset(scan_channels_string, 0, sizeof(scan_channels_string));
+            generate_scan_channel_string(scanning_channels, number_of_active_channels, scan_channels_string);
+            
+            sprintf(set_chan_read, "%s", scan_channels_string);
+            free(scan_channels_string);
+            
+            pvPut(set_chan_read);
+            
             puts("====LEAVING MULIT READ MODE====\n");
         } state multi_read_response
     }
@@ -267,20 +288,33 @@ ss running {
 
 %{
 
-void find_active_channels(int *arr, int number_of_active_channels, int *result) {
-    int position = 0;
+void find_active_channels(int channels[], int number_of_active_channels, int *activated_channels) {
+      int position = 0;      
+      for (int i = 0; i < MAX_INT_CHANNELS; i++){
+        if (channels[i] == 1 && position < number_of_active_channels) {
+            activated_channels[position] = i + 1;
+            position++;
+          }
 
-    for (int i = 0; i < MAX_INT_CHANNELS; i++){
-      if (arr[i] == 1 && position < MAX_INT_CHANNELS) {
-        if (i < 4) {
-          result[position] = i + 1;
-        }
-        else {
-          result[position] = i + 2;
-        }
-        position++;
       }
+}
+
+void generate_scan_channel_string(int *active_channels, int number_of_active_channels, char *scan_channels_string) {
+  for (int i = 0; i < number_of_active_channels; i++){
+    char *temp = malloc(sizeof(char)* 3 + 1);
+    memset(temp, 0, sizeof(temp));
+    if (i == (number_of_active_channels - 1)){
+      sprintf(temp, "%d", active_channels[i]);
+      printf("===========TEMP IS: %s==============\n", temp);
     }
+    else {
+      sprintf(temp, "%d,", active_channels[i]);
+      printf("===========TEMP IS: %s==============\n", temp);
+    }
+    strncat(scan_channels_string, temp, sizeof(temp));
+    printf("===========CHANNEL STRING IS: %s==============\n", scan_channels_string);
+    free(temp);
+  }
 }
 
 }%

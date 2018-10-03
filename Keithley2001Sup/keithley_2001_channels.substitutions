@@ -5,8 +5,10 @@ file keithley_2001_channels.template {
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:02", "(ACTIVATE_CHAN_02=0)" }
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:03", "(ACTIVATE_CHAN_03=0)" }
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:04", "(ACTIVATE_CHAN_04=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:05", "(ACTIVATE_CHAN_05=0)" }
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:06", "(ACTIVATE_CHAN_06=0)" }
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:07", "(ACTIVATE_CHAN_07=0)" }
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:08", "(ACTIVATE_CHAN_08=0)" }
 	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:09", "(ACTIVATE_CHAN_09=0)" }
+	{ "\$(P)", "\$(PORT)", "\$(RECSIM=0)", "\$(DISABLE=0)", "CHAN:10", "(ACTIVATE_CHAN_10=0)" }
 }

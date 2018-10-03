@@ -71,7 +71,7 @@ get_init_cont{
     in "%{OFF|ON}";
 }
 
-set_single_channel {
+set_channels_to_read {
     out ":ROUT:CLOS (@%s)";
 }
 
