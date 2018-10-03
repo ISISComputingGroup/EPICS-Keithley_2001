@@ -243,7 +243,7 @@ ss running {
             pvPut(clear_buffer);
             
             scanning_channels = malloc((sizeof(INT) * number_of_active_channels) + 1);
-            
+            memset(scanning_channels, 0, sizeof(scanning_channels));
             find_active_channels(active_channels, number_of_active_channels, scanning_channels);
             
             for (i = 0; i < number_of_active_channels; i++){
@@ -291,7 +291,7 @@ ss running {
 void find_active_channels(int channels[], int number_of_active_channels, int *activated_channels) {
       int position = 0;      
       for (int i = 0; i < MAX_INT_CHANNELS; i++){
-        if (channels[i] == 1 && position < number_of_active_channels) {
+        if (channels[i] == 1) {
             activated_channels[position] = i + 1;
             position++;
           }
@@ -305,13 +305,11 @@ void generate_scan_channel_string(int *active_channels, int number_of_active_cha
     memset(temp, 0, sizeof(temp));
     if (i == (number_of_active_channels - 1)){
       sprintf(temp, "%d", active_channels[i]);
-      printf("===========TEMP IS: %s==============\n", temp);
     }
     else {
       sprintf(temp, "%d,", active_channels[i]);
-      printf("===========TEMP IS: %s==============\n", temp);
     }
-    strncat(scan_channels_string, temp, sizeof(temp));
+    strncat(scan_channels_string, temp, sizeof(scan_channels_string));
     printf("===========CHANNEL STRING IS: %s==============\n", scan_channels_string);
     free(temp);
   }
