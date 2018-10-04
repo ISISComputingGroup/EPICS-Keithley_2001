@@ -26,7 +26,7 @@ record(mbbi, "$(P)BUFF:MODE") {
 record(mbbo, "$(P)BUFF:MODE:SP") {
     field(DESC, "Sets buffer mode")
     field(DTYP, "stream")
-    
+
     field(OUT, "@keithley_2001.proto set_buffer_mode $(PORT)")
     
     field(ZRVL, "0")
@@ -40,6 +40,8 @@ record(mbbo, "$(P)BUFF:MODE:SP") {
     
     field(THVL, "3")
     field(THST, "PRET")
+    
+    field(FLNK, "$(P)BUFF:MODE.PROC")
 }
 
 record(longout, "$(P)BUFF:SIZE:SP"){

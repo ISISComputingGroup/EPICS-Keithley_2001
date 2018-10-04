@@ -71,12 +71,21 @@ get_init_cont{
     in "%{OFF|ON}";
 }
 
-set_channels_to_read {
-    out ":ROUT:CLOS (@%s)";
+set_channel_to_read {
+    out ":ROUT:CLOS (@%(VAL)d)";
+}
+
+set_channels_to_scan {
+    out ":ROUT:SCAN (@%s)";
+}
+
+get_channels_to_scan {
+    out ":ROUT:SCAN?";
+    in "(@%(VAL)[0-9,]";
 }
 
 read_single_channel {
-    out ":ABOR;:FETC?";
+    out ":READ?";
     in "%39c";
 }
 
@@ -123,4 +132,14 @@ set_measurement_trigger_count {
 get_measurement_trigger_count {
     out ":TRIG:COUN?";
     in "%d";
+}
+
+start_scan {
+    out ":INIT";
+}
+
+read_buffer {
+    separator=",";
+    out ":DATA:DATA?";
+    in  "%[A-Za-z0-9.+-]";
 }

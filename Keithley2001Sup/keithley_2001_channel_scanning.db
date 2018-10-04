@@ -22,15 +22,14 @@ record(calc, "$(P)READ:_NUM_OF_CHANS") {
     field(INPG, "$(P)CHAN:07:ACTIVE")
     field(INPH, "$(P)CHAN:08:ACTIVE")
     field(INPI, "$(P)CHAN:09:ACTIVE")
-    field(INPJ, "$(P)CHAN:09:ACTIVE")
+    field(INPJ, "$(P)CHAN:10:ACTIVE")
     field(CALC, "A+B+C+D+E+F+G+H+I+J")
 }
 
 record(stringout, "$(P)READ:CHAN:SP"){ 
-    field(DESC, "Sends command to set channel(s) to read")
+    field(DESC, "Sends command to set channel to read")
     field(DTYP, "stream")
-    field(OUT, "@keithley_2001.proto set_channels_to_read $(PORT)")
-    field(VAL, "")
+    field(OUT, "@keithley_2001.proto set_channel_to_read $(PORT)")
 }
 
 record(stringin, "$(P)READ:SINGLE"){
@@ -39,9 +38,39 @@ record(stringin, "$(P)READ:SINGLE"){
     field(INP, "@keithley_2001.proto read_single_channel $(PORT)")
 }
 
-record(ai, "$(P)READ:SCAN:SPEED"){
+record(ai, "$(P)SCAN:SPEED"){
     field(DESC, "Scan speed")
     field(VAL, "$(SCAN_SPEED)")
     field(LOLO, "0.09")
     field(LLSV, "MAJOR")
 }
+
+record(waveform, "$(P)SCAN:BUFF"){
+    field(DESC, "Reads value from the buffer")
+    field(DTYP, "stream")
+    field(FTVL, "STRING")
+    field(NELM, "10")
+    field(INP, "@keithley_2001.proto read_buffer $(PORT)")
+    
+    info(ARCHIVE, "VAL")
+    info(INTEREST, "HIGH")
+}
+
+record(bo, "$(P)SCAN:INIT") {
+    field(DESC, "Start the scan")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto start_scan $(PORT)")
+}
+
+record(stringout, "$(P)SCAN:CHAN:SP"){ 
+    field(DESC, "Sends command to set channel to scan")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_channels_to_scan $(PORT)")
+}
+
+record(stringin, "$(P)SCAN:CHAN"){ 
+    field(DESC, "Gets command to set channel to scan")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_channels_to_scan $(PORT)")
+}
+
