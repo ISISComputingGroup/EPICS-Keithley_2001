@@ -12,6 +12,9 @@ option +r;
 
 #define MAX_INT_CHANNELS 10
 #define NEXT 1
+#define SENS1 1
+#define FULL 0
+
 %% #include "stdlib.h"
 %% #include "stdio.h"
 %% #include "string.h"
@@ -25,7 +28,7 @@ option +r;
 
 /*=================== Variable declarations =========================*/
 
-/* PVs triggered on startup */
+/* PVs set on startup */
 
 int set_read_elements;
 assign set_read_elements to "{P}ELEMENTS:SP.PROC";
@@ -36,10 +39,10 @@ assign reset_device to "{P}RESET.PROC";
 int reset_status_registers;
 assign reset_status_registers to "{P}STAT:RESET.PROC";
 
-int buffer_source = 1;
+int buffer_source = SENS1;
 assign buffer_source to "{P}BUFF:SOURCE:SP.VAL";
 
-int buffer_egroup = 0;
+int buffer_egroup = FULL;
 assign buffer_egroup to "{P}BUFF:EGROUP:SP.VAL";
 
 int set_register_status_buffer_full;
@@ -98,7 +101,7 @@ assign channel_units to {
         };
 monitor channel_units;
 
-/* Buffer control PVs */
+/* Buffer PVs */
 
 int clear_buffer;
 assign clear_buffer to "{P}BUFF:CLEAR.PROC";
@@ -110,11 +113,10 @@ int buffer_mode;
 assign buffer_mode to "{P}BUFF:MODE";
 monitor buffer_mode;
 
-int buffer_size = MAX_INT_CHANNELS;
+int buffer_size;
 assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
 
-
-/* READING PVS */
+/* Single read PVS */
 
 string set_single_channel_to_read;
 assign set_single_channel_to_read to "{P}READ:CHAN:SP.VAL";
@@ -140,7 +142,6 @@ assign initialise_read to "{P}SCAN:INIT.PROC";
 int get_data;
 assign get_data to "{P}SCAN:BUFF.PROC";
 
-
 /* Scan and single read PVs */
 
 double scan_speed;
@@ -154,8 +155,7 @@ int number_of_active_channels;
 assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
 monitor number_of_active_channels;
 
-
-/* Non PV varaibles */
+/* Non PV variables */
 
 char *P;
 
