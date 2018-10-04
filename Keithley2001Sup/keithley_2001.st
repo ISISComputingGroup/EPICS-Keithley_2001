@@ -11,6 +11,7 @@ option +r;
 /* ==================== MACROS and includes =============================*/
 
 #define MAX_INT_CHANNELS 10
+#define NEXT 1
 %% #include "stdlib.h"
 %% #include "stdio.h"
 %% #include "string.h"
@@ -49,23 +50,6 @@ assign set_measure_summary_register_bit to "{P}STAT:MEAS:SUMM:SP.PROC";
 
 int set_scan_count = 1;
 assign set_scan_count to "{P}SCAN:COUNT:SP.VAL";
-
-
-/* Buffer control PVs */
-
-int clear_buffer;
-assign clear_buffer to "{P}BUFF:CLEAR.PROC";
-
-int set_buffer_mode;
-assign set_buffer_mode to "{P}BUFF:MODE:SP";
-
-int buffer_mode;
-assign buffer_mode to "{P}BUFF:MODE";
-monitor buffer_mode;
-
-int buffer_size = MAX_INT_CHANNELS;
-assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
-
 
 /* Channel PVs */
 
@@ -114,21 +98,26 @@ assign channel_units to {
         };
 monitor channel_units;
 
+/* Buffer control PVs */
+
+int clear_buffer;
+assign clear_buffer to "{P}BUFF:CLEAR.PROC";
+
+int set_buffer_mode;
+assign set_buffer_mode to "{P}BUFF:MODE:SP";
+
+int buffer_mode;
+assign buffer_mode to "{P}BUFF:MODE";
+monitor buffer_mode;
+
+int buffer_size = MAX_INT_CHANNELS;
+assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
+
 
 /* READING PVS */
 
-int scan_mode;
-assign scan_mode to "{P}READ:MODE.VAL";
-
-int number_of_active_channels;
-assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
-monitor number_of_active_channels;
-
 string set_single_channel_to_read;
 assign set_single_channel_to_read to "{P}READ:CHAN:SP.VAL";
-
-string set_channels_to_scan;
-assign set_channels_to_scan to "{P}SCAN:CHAN:SP";
 
 int read_single;
 assign read_single to "{P}READ:SINGLE.PROC";
@@ -137,9 +126,13 @@ string single_channel_response;
 assign single_channel_response to "{P}READ:SINGLE.VAL";
 monitor single_channel_response;
 
-double scan_speed;
-assign scan_speed to "{P}SCAN:SPEED.VAL";
-monitor scan_speed;
+/* Scan Pvs */
+
+string set_channels_to_scan;
+assign set_channels_to_scan to "{P}SCAN:CHAN:SP";
+
+long measurement_scan_count_setpoint;
+assign measurement_scan_count_setpoint to "{P}SCAN:MEAS:COUNT:SP.VAL";
 
 int initialise_read;
 assign initialise_read to "{P}SCAN:INIT.PROC";
@@ -147,26 +140,35 @@ assign initialise_read to "{P}SCAN:INIT.PROC";
 int get_data;
 assign get_data to "{P}SCAN:BUFF.PROC";
 
-/* Scan setup PVs */
 
-long measurement_scan_count_setpoint;
-assign measurement_scan_count_setpoint to "{P}SCAN:MEAS:COUNT:SP.VAL";
+/* Scan and single read PVs */
+
+double scan_speed;
+assign scan_speed to "{P}SCAN:SPEED.VAL";
+monitor scan_speed;
+
+int scan_mode;
+assign scan_mode to "{P}READ:MODE.VAL";
+
+int number_of_active_channels;
+assign number_of_active_channels to "{P}READ:_NUM_OF_CHANS.VAL";
+monitor number_of_active_channels;
 
 
 /* Non PV varaibles */
 
 char *P;
-int position;
+
 int previous_channel;
 int previous_scan_mode;
 int previous_number_of_channels;
 
 foreign pvname;
 %%char pvname[PVNAME_STRINGSZ]; 
-char CHAR;
-int INT;
-
-int i;
+foreign CHAR;
+%%int CHAR = sizeof(char);
+foreign INT;
+%%int INT = sizeof(int);
 
 int *scanning_channels;
 int single_channel;
@@ -267,19 +269,17 @@ ss running {
     }
     
     state single_read_response{
-        when(delay(scan_speed)) {            
-            position = single_channel - 1;
-            
-            sscanf(single_channel_response, "%lf%s", &channels_readings[position], &channel_units[position]);
-            pvPut(channels_readings[position]);
-            pvPut(channel_units[position]);              
+        when(delay(scan_speed)) {                       
+            sscanf(single_channel_response, "%lf%s", &channels_readings[single_channel - 1], &channel_units[single_channel - 1]);
+            pvPut(channels_readings[single_channel - 1]);
+            pvPut(channel_units[single_channel - 1]);              
         } state read_channel
     }
     
     state multi_read {
         
         when(buffer_mode != 1){
-            set_buffer_mode = 1; /* Buffer mode = NEXT */
+            set_buffer_mode = NEXT;
             pvPut(set_buffer_mode);
         } state multi_read
         
