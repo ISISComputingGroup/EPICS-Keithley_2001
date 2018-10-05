@@ -21,6 +21,8 @@ call g++ -o %CurrentDir%runner -I %CXXTEST% %CurrentDir%runner.cpp
 :: run tests
 call runner.exe
 
+set keithley_2001_tests_failed=%errorlevel%
+
 :: Remove extra files
 del runner.exe runner.cpp
 
@@ -31,3 +33,5 @@ if not exist %CurrentDir%..\..\test-reports (
 )
 
 move "TEST-*.xml" "..\..\test-reports\"
+
+exit /B %keithley_2001_tests_failed%
