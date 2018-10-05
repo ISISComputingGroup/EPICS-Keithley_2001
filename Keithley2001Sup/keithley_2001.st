@@ -237,16 +237,14 @@ ss running {
                 scan_mode = 2;
                 pvPut(scan_mode); 
                 previous_scan_mode = scan_mode;
-            }
-            printf("====Scanning %i channels ====\n", number_of_active_channels);    
-            
+            }          
             if (previous_number_of_channels != number_of_active_channels){
                 previous_number_of_channels = number_of_active_channels;
                 
-                buffer_size = previous_number_of_channels;
+                buffer_size = number_of_active_channels;
                 pvPut(buffer_size);
                 
-                measurement_scan_count_setpoint = previous_number_of_channels;
+                measurement_scan_count_setpoint = number_of_active_channels;
                 pvPut(measurement_scan_count_setpoint);
             }
             
@@ -260,7 +258,7 @@ ss running {
             memset(scan_channels_string, 0, sizeof(scan_channels_string));
             generate_scan_channel_string(scanning_channels, number_of_active_channels, scan_channels_string);
             
-            strncpy(set_channels_to_scan, scan_channels_string, sizeof(set_channels_to_scan));
+            strncpy(set_channels_to_scan, scan_channels_string, sizeof(set_channels_to_scan)-1);
             free(scan_channels_string);
             
             pvPut(set_channels_to_scan);
