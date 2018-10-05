@@ -7,6 +7,9 @@ SET CXXTEST="%EPICS_KIT_ROOT%\libraries\master\cxxtest"
 
 call %EPICS_KIT_ROOT%\config_env.bat
 
+:: Add python dependency
+call python -m pip install ply
+
 cd %CXXTEST%\bin
 :: Generate tests
 call cxxtestgen --xunit-printer -o %CurrentDir%runner.cpp %CurrentDir%MyTestSuite1.h
