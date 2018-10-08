@@ -10,6 +10,7 @@ ASUBFUNCTIONS=$(SUPPORT)/asubFunctions/master
 STREAMDEVICE=$(SUPPORT)/StreamDevice/master
 AUTOSAVE = $(SUPPORT)/autosave/master
 CXXTEST = $(EPICS_ROOT)/libraries/master/cxxtest/master
+KHLY2001=$(SUPPORT)/keithley_2001/master
 # END OF AUTO GENERATED DEPENDENCIES
 
 -include $(TOP)/configure/RELEASE.private
