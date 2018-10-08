@@ -9,6 +9,7 @@ UTILITIES=$(SUPPORT)/utilities/master
 ASUBFUNCTIONS=$(SUPPORT)/asubFunctions/master
 STREAMDEVICE=$(SUPPORT)/StreamDevice/master
 AUTOSAVE = $(SUPPORT)/autosave/master
+CXXTEST = $(EPICS_ROOT)/libraries/master/cxxtest/master
 # END OF AUTO GENERATED DEPENDENCIES
 
 -include $(TOP)/configure/RELEASE.private
