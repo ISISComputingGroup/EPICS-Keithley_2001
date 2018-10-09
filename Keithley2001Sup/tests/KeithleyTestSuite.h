@@ -118,12 +118,10 @@ public:
 
 	void test_that_GIVEN_a_loop_THEN_we_dont_get_a_heap_error(void)	{
 		// Given:
-		std::cout << "\n\ntest_that_GIVEN_a_loop_THEN_we_dont_get_a_heap_error \n";
 		int number_of_active_channels = 2;
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		for (int i = 1; i < 10; i++) {
-			std::cout << "Number of active channels: " << std::to_string(number_of_active_channels) << "\n";
 			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 			memset(activated_channels, 0, sizeof(activated_channels));
 			find_active_channels(channels, number_of_active_channels, activated_channels);
@@ -133,15 +131,15 @@ public:
 
 			// When/Then:
 			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
-			std::cout << "Generate Scan Output: " << scan_channels_string << "\n";
+			if (i == 9) {
+				break;
+			}
 			channels[i + 1] = 1;
 			number_of_active_channels++;
-
 		}
 	}
 
 	void test_that_GIVEN_a_loop_THEN_we_get_the_correct_string(void) {
-		std::cout << "test_that_GIVEN_a_loop_THEN_we_get_the_correct_string \n";
 		// Given:
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int number_of_active_channels = 2;
@@ -160,9 +158,12 @@ public:
 
 			// Then:
 			TS_ASSERT_EQUALS(scan_channels_string, expected);
+
+			// Set up next loop
+			if (i == 9) {
+				break;
+			}
 			channels[i + 1] = 1;
-			std::cout << "Generate Scan Output: " << scan_channels_string << "\n";
-			std::cout << "Expected string " << expected << "\n";
 			number_of_active_channels++;
 			expected += "," + std::to_string(i + 2);
 		}
