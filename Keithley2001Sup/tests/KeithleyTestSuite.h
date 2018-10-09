@@ -49,3 +49,69 @@ public:
 		free(activated_channels);
 	}
 };
+
+class GenerateScanChannelStringTestSuite : public CxxTest::TestSuite
+{
+public:
+	void test_that_GIVEN_two_active_channels_THEN_the_expected_string_is_found(void) {
+		// Given:
+		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int number_of_active_channels = 2;
+
+		int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
+		memset(activated_channels, 0, sizeof(activated_channels));
+		find_active_channels(channels, number_of_active_channels, activated_channels);
+
+		char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
+		memset(scan_channels_string, 0, sizeof(scan_channels_string));
+
+		// When
+		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+		free(activated_channels);
+
+		// Then
+		char* expected_string = "1,2";
+		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
+		free(scan_channels_string);
+	}
+
+	void test_that_GIVEN_all_channels_active_THEN_the_expected_string_is_found(void) {
+	// Given:
+	int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	int number_of_active_channels = 10;
+	int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
+	memset(activated_channels, 0, sizeof(activated_channels));
+	find_active_channels(channels, number_of_active_channels, activated_channels);
+
+	char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
+	memset(scan_channels_string, 0, sizeof(scan_channels_string));
+
+	// When
+	generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+	free(activated_channels);
+
+	// Then
+	char* expected_string = "1,2,3,4,5,6,7,8,9,10";
+	TS_ASSERT_EQUALS(scan_channels_string, expected_string);
+	free(scan_channels_string);
+	}
+
+	void test_that_GIVEN_odd_channels_active_THEN_odd_channels_are_added_to_the_string(void) {
+	// Given:
+	int channels[10] = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+	int number_of_active_channels = 5;
+	int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
+	memset(activated_channels, 0, sizeof(activated_channels));
+	find_active_channels(channels, number_of_active_channels, activated_channels);
+
+	char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
+	memset(scan_channels_string, 0, sizeof(scan_channels_string));
+
+	// When
+	generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+
+	// Then
+	char* expected_string = "1,3,5,7,9";
+	TS_ASSERT_EQUALS(scan_channels_string, expected_string);
+	}
+};
