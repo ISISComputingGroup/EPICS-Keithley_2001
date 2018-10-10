@@ -252,7 +252,6 @@ ss running {
             memset(scanning_channels, 0, sizeof(scanning_channels));
             find_active_channels(active_channels, number_of_active_channels, scanning_channels);
 
-            memset(scan_channels_string, 0, sizeof(scan_channels_string));
             generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
             free(scanning_channels);
            

@@ -14,17 +14,27 @@ include $(TOP)/configure/CONFIG
 # Keithley 2001 Libary
 
 LIBRARY_IOC = Keithley_2001
+
 Keithley_2001_LIBS += seqDev seq pv
 Keithley_2001_LIBS += $(EPICS_BASE_IOC_LIBS)
 Keithley_2001_SRCS += keithley_2001.st
 Keithley_2001_SRCS += KeithleyUtils.cpp
 Keithley_2001_SRCS += GenerateActiveChannelsString.cpp
 
+# aSub record
+Keithley_2001_DBD += asyn.dbd
+Keithley_2001_DBD += asubFunctions.dbd
+
+Keithley_2001_LIBS += asyn utilities
+Keithley_2001_LIBS += asubFunctions
+Keithley_2001_SRCS += asub_buffer_parsing.c
+Keithley_2001_SRCS += buffer_parsing.cpp
+
 # Test Runner
 
 PROD_IOC += runner
 USR_CPPFLAGS += -I$(CXXTEST)
-runner_SRCS += runner.cpp KeithleyUtils.cpp GenerateActiveChannelsString.cpp
+runner_SRCS += runner.cpp KeithleyUtils.cpp GenerateActiveChannelsString.cpp buffer_parsing.cpp
 runner_LIBS += $(EPICS_BASE_IOC_LIBS)
 runner_LIBS += Keithley_2001
 runner_SYS_LIBS_WIN32 += wldap32

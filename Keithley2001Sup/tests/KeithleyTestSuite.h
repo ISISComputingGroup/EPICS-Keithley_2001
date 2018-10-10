@@ -61,8 +61,6 @@ public:
 		memset(activated_channels, 0, sizeof(activated_channels));
 		find_active_channels(channels, number_of_active_channels, activated_channels);
 
-		memset(scan_channels_string, 0, sizeof(scan_channels_string));
-
 		// When
 		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
 		free(activated_channels);
@@ -81,8 +79,6 @@ public:
 		int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 		memset(activated_channels, 0, sizeof(activated_channels));
 		find_active_channels(channels, number_of_active_channels, activated_channels);
-
-		memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 		// When
 		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
@@ -103,8 +99,6 @@ public:
 		memset(activated_channels, 0, sizeof(activated_channels));
 		find_active_channels(channels, number_of_active_channels, activated_channels);
 
-		memset(scan_channels_string, 0, sizeof(scan_channels_string));
-
 		// When
 		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
 
@@ -123,8 +117,6 @@ public:
 			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 			memset(activated_channels, 0, sizeof(activated_channels));
 			find_active_channels(channels, number_of_active_channels, activated_channels);
-
-			memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 			// When/Then:
 			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
@@ -147,8 +139,6 @@ public:
 			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 			memset(activated_channels, 0, sizeof(activated_channels));
 			find_active_channels(channels, number_of_active_channels, activated_channels);
-
-			memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 			// When:
 			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
@@ -179,8 +169,6 @@ public:
 			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 			memset(activated_channels, 0, sizeof(activated_channels));
 			find_active_channels(channels, number_of_active_channels, activated_channels);
-
-			memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 			// When:
 			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));

@@ -7,6 +7,8 @@
 void GenerateActiveChannelsString_impl(int *active_channels, int number_of_active_channels, char set_channels_to_scan[]) {
 	std::string channel_string;
 
+	memset(set_channels_to_scan, 0, sizeof(set_channels_to_scan));
+
 	for (int i = 0; i < number_of_active_channels; i++) {
 		channel_string += std::to_string(active_channels[i]);
 		if (i != (number_of_active_channels - 1)) {

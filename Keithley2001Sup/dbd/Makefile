@@ -6,6 +6,7 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Add dbd file to register VISA register
 DBD += keithley_2001_sm.dbd
+DBD += keithley_2001_asub.dbd
 
 #----------------------------------------------------
 
