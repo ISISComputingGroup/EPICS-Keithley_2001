@@ -17,7 +17,6 @@ void find_active_channels(int channels[], int number_of_active_channels, int* ac
 	}
 }
 
-void generate_scan_channel_string(int *active_channels, int number_of_active_channels, char *scan_channels_string) {
-	GenerateActiveChannelsString_impl(active_channels, number_of_active_channels, scan_channels_string);
-	return;
+void generate_scan_channel_string(int *active_channels, int number_of_active_channels,  char set_channels_to_scan[]) {
+	GenerateActiveChannelsString_impl(active_channels, number_of_active_channels, set_channels_to_scan);
 }

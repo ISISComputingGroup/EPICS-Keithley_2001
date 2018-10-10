@@ -6,7 +6,7 @@ program keithley_2001 ("P")
  
 /* ==================== Sequencer compiler options =============================*/
  
-option +r;
+/*option +r;*/
  
 /* ==================== MACROS and includes =============================*/
 
@@ -171,7 +171,7 @@ foreign INT;
 
 int *scanning_channels;
 int single_channel;
-char *scan_channels_string;
+string scan_channels_string;
 
 
 /*=================== State Sets ===========================*/
@@ -227,7 +227,6 @@ ss running {
                 pvPut(set_single_channel_to_read);  
                 previous_channel = single_channel;
             }
-            
             pvPut(read_single);
         } state single_read_response
         
@@ -252,14 +251,11 @@ ss running {
             scanning_channels = malloc(sizeof(INT) * number_of_active_channels);
             memset(scanning_channels, 0, sizeof(scanning_channels));
             find_active_channels(active_channels, number_of_active_channels, scanning_channels);
-            
-            scan_channels_string = malloc(sizeof(CHAR) * 20);
+
             memset(scan_channels_string, 0, sizeof(scan_channels_string));
-            generate_scan_channel_string(scanning_channels, number_of_active_channels, scan_channels_string);
-            
-            strncpy(set_channels_to_scan, scan_channels_string, sizeof(set_channels_to_scan)-1);
-            free(scan_channels_string);
-            
+            generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
+            free(scanning_channels);
+           
             pvPut(set_channels_to_scan);
 
         } state multi_read

@@ -6,14 +6,11 @@
 
 #include "..\src\KeithleyUtils.h"
 
-using namespace std;
-
 
 class FindActiveChannelsTestSuite : public CxxTest::TestSuite
 {
 public:
-    void test_that_GIVEN_two_active_channels_THEN_they_are_both_found(void)
-    {
+    void test_that_GIVEN_two_active_channels_THEN_they_are_both_found(void) {
         // Given:
 		int channels [10] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 		int number_of_active_channels = 2;
@@ -32,8 +29,7 @@ public:
     }
 
 
-	void test_that_GIVEN_all_active_channels_THEN_they_are_all_found(void)
-	{
+	void test_that_GIVEN_all_active_channels_THEN_they_are_all_found(void)	{
 		// Given:
 		int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		int number_of_active_channels = 10;
@@ -59,12 +55,12 @@ public:
 		// Given:
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int number_of_active_channels = 2;
+		char scan_channels_string[40];
 
 		int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 		memset(activated_channels, 0, sizeof(activated_channels));
 		find_active_channels(channels, number_of_active_channels, activated_channels);
 
-		char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
 		memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 		// When
@@ -74,60 +70,60 @@ public:
 		// Then
 		char* expected_string = "1,2";
 		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
-		free(scan_channels_string);
 	}
 
 	void test_that_GIVEN_all_channels_active_THEN_the_expected_string_is_found(void) {
-	// Given:
-	int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	int number_of_active_channels = 10;
-	int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
-	memset(activated_channels, 0, sizeof(activated_channels));
-	find_active_channels(channels, number_of_active_channels, activated_channels);
+		// Given:
+		int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		int number_of_active_channels = 10;
+		char scan_channels_string[40];
 
-	char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
-	memset(scan_channels_string, 0, sizeof(scan_channels_string));
+		int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
+		memset(activated_channels, 0, sizeof(activated_channels));
+		find_active_channels(channels, number_of_active_channels, activated_channels);
 
-	// When
-	generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
-	free(activated_channels);
+		memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
-	// Then
-	char* expected_string = "1,2,3,4,5,6,7,8,9,10";
-	TS_ASSERT_EQUALS(scan_channels_string, expected_string);
-	free(scan_channels_string);
+		// When
+		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+		free(activated_channels);
+
+		// Then
+		char* expected_string = "1,2,3,4,5,6,7,8,9,10";
+		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
 	}
 
 	void test_that_GIVEN_odd_channels_active_THEN_odd_channels_are_added_to_the_string(void) {
-	// Given:
-	int channels[10] = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
-	int number_of_active_channels = 5;
-	int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
-	memset(activated_channels, 0, sizeof(activated_channels));
-	find_active_channels(channels, number_of_active_channels, activated_channels);
+		// Given:
+		int channels[10] = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+		int number_of_active_channels = 5;
+		char scan_channels_string[40];
 
-	char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
-	memset(scan_channels_string, 0, sizeof(scan_channels_string));
+		int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
+		memset(activated_channels, 0, sizeof(activated_channels));
+		find_active_channels(channels, number_of_active_channels, activated_channels);
 
-	// When
-	generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+		memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
-	// Then
-	char* expected_string = "1,3,5,7,9";
-	TS_ASSERT_EQUALS(scan_channels_string, expected_string);
+		// When
+		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+
+		// Then
+		char* expected_string = "1,3,5,7,9";
+		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
 	}
 
 	void test_that_GIVEN_a_loop_THEN_we_dont_get_a_heap_error(void)	{
 		// Given:
 		int number_of_active_channels = 2;
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+		char scan_channels_string[40];
 
 		for (int i = 1; i < 10; i++) {
 			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 			memset(activated_channels, 0, sizeof(activated_channels));
 			find_active_channels(channels, number_of_active_channels, activated_channels);
 
-			char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
 			memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 			// When/Then:
@@ -144,14 +140,14 @@ public:
 		// Given:
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int number_of_active_channels = 2;
-		string expected = "1,2";
+		std::string expected = "1,2";
+		char scan_channels_string[40];
 		
 		for (int i = 1; i < 10; i++) {
 			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
 			memset(activated_channels, 0, sizeof(activated_channels));
 			find_active_channels(channels, number_of_active_channels, activated_channels);
 
-			char* scan_channels_string = static_cast<char*>(malloc(sizeof(char) * 20));
 			memset(scan_channels_string, 0, sizeof(scan_channels_string));
 
 			// When:
@@ -166,7 +162,46 @@ public:
 			}
 			channels[i + 1] = 1;
 			number_of_active_channels++;
-			expected += "," + to_string(i + 2);
+			expected += "," + std::to_string(i + 2);
+		}
+	}
+
+	void test_that_GIVEN_a_loop_which_switches_between_5_and_7_channels_THEN_we_dont_get_a_heap_error(void) {
+		// Given:
+		int number_of_active_channels = 5;
+		int channels[10] = { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
+		std::string expected_5 = "1,2,3,4,5";
+		std::string expected_7 = "1,2,3,4,5,6,7";
+		bool five_channels = true;
+		char scan_channels_string[40];
+
+		for (int i = 0; i < 10000; i++) {
+			int* activated_channels = static_cast<int*>(malloc(sizeof(int) * number_of_active_channels));
+			memset(activated_channels, 0, sizeof(activated_channels));
+			find_active_channels(channels, number_of_active_channels, activated_channels);
+
+			memset(scan_channels_string, 0, sizeof(scan_channels_string));
+
+			// When:
+			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
+
+			// Then:
+			if (five_channels) {
+				TS_ASSERT_EQUALS(scan_channels_string, expected_5);
+				// Set to scan on severn channels
+				channels[5] = 1;
+				channels[6] = 1;
+				number_of_active_channels = 7;
+				five_channels = false;
+			}
+			else {
+				TS_ASSERT_EQUALS(scan_channels_string, expected_7);
+				// Set to scan on five channels
+				channels[5] = 0;
+				channels[6] = 0;
+				number_of_active_channels = 5;
+				five_channels = true;
+			}
 		}
 	}
 };
