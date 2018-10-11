@@ -22,10 +22,8 @@ record(bi, "$(P)$(CHANNEL):ACTIVE") {
     field(ZNAM, "INACTIVE")
     field(ONAM, "ACTIVE")
     
-    field(FLNK, "$(P)READ:_NUM_OF_CHANS")
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
     field(SIML, "$(P)SIM")
-    field(TPRO, "1")
 }
 
 record(stringin, "$(P)$(CHANNEL):UNIT") {

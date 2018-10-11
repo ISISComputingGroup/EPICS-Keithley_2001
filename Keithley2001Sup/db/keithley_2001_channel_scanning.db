@@ -12,20 +12,6 @@ record(mbbi, "$(P)READ:MODE"){
     field(TWST, "MULTI")
 }
 
-record(calc, "$(P)READ:_NUM_OF_CHANS") {
-    field(INPA, "$(P)CHAN:01:ACTIVE")
-    field(INPB, "$(P)CHAN:02:ACTIVE")
-    field(INPC, "$(P)CHAN:03:ACTIVE")
-    field(INPD, "$(P)CHAN:04:ACTIVE")
-    field(INPE, "$(P)CHAN:05:ACTIVE")
-    field(INPF, "$(P)CHAN:06:ACTIVE")
-    field(INPG, "$(P)CHAN:07:ACTIVE")
-    field(INPH, "$(P)CHAN:08:ACTIVE")
-    field(INPI, "$(P)CHAN:09:ACTIVE")
-    field(INPJ, "$(P)CHAN:10:ACTIVE")
-    field(CALC, "A+B+C+D+E+F+G+H+I+J")
-}
-
 record(stringout, "$(P)READ:CHAN:SP"){ 
     field(DESC, "Sends command to set channel to read")
     field(DTYP, "stream")
