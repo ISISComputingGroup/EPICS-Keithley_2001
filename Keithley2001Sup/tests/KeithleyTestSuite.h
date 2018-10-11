@@ -1,11 +1,12 @@
-// KeithleyTestSuite1.h
+// KeithleyTestSuite.h
+#ifndef KeithleyTestSuite
+#define KeithleyTestSuite
 
 #include <cxxtest/TestSuite.h>
-#include <stdlib.h>
 #include <string>
 
 #include "..\src\KeithleyUtils.h"
-#include "..\src\GenerateActiveChannelsString.h"
+#include "..\src\KeithleyUtilsCpp.h"
 
 
 class FindActiveChannelsTestSuite : public CxxTest::TestSuite
@@ -53,12 +54,10 @@ public:
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int number_of_active_channels = 2;
 		char scan_channels_string[40];
-
-		int activated_channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
-		find_active_channels(channels, activated_channels);
+		int activated_channels[10] = { 1,2,0,0,0,0,0,0,0,0 };
 
 		// When
-		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+		GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,2";
@@ -70,12 +69,10 @@ public:
 		int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		int number_of_active_channels = 10;
 		char scan_channels_string[40];
-
-		int activated_channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
-		find_active_channels(channels, activated_channels);
+		int activated_channels[10] = { 1,2,3,4,5,6,7,8,9,10 };
 
 		// When
-		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+		GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,2,3,4,5,6,7,8,9,10";
@@ -87,37 +84,14 @@ public:
 		int channels[10] = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
 		int number_of_active_channels = 5;
 		char scan_channels_string[40];
-
-		int activated_channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
-		find_active_channels(channels, activated_channels);
+		int activated_channels[10] = { 1,3,5,7,9,0,0,0,0,0 };
 
 		// When
-		generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
+		GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,3,5,7,9";
 		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
-	}
-
-	void test_that_GIVEN_a_loop_THEN_we_dont_get_a_heap_error(void)	{
-		// Given:
-		int number_of_active_channels = 2;
-		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-		char scan_channels_string[40];		
-		int activated_channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
-
-		for (int i = 1; i < 10; i++) {
-			memset(activated_channels, 0, sizeof(activated_channels));
-			find_active_channels(channels, activated_channels);
-
-			// When/Then:
-			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
-			if (i == 9) {
-				break;
-			}
-			channels[i + 1] = 1;
-			number_of_active_channels++;
-		}
 	}
 
 	void test_that_GIVEN_a_loop_THEN_we_get_the_correct_string(void) {
@@ -133,7 +107,7 @@ public:
 			find_active_channels(channels, activated_channels);
 
 			// When:
-			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
+			GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 			// Then:
 			TS_ASSERT_EQUALS(scan_channels_string, expected);
@@ -163,7 +137,7 @@ public:
 			find_active_channels(channels, activated_channels);
 
 			// When:
-			TS_ASSERT_THROWS_NOTHING(generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string));
+			TS_ASSERT_THROWS_NOTHING(GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string));
 
 			// Then:
 			if (five_channels) {
@@ -188,6 +162,19 @@ public:
 
 class GetNumberOfActiveChannelsTests : public CxxTest::TestSuite {
 public:
+
+	void test_that_GIVEN_an_array_with_zeros_THEN_the_number_of_active_channels_is_zero(void) {
+		// Given:
+		int channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
+
+		// When:
+		int result = GetNumberOfActiveChannels(channels);
+
+		// Then:
+		int expected_result = 0;
+		TS_ASSERT_EQUALS(result, expected_result);
+	}
+
 	void test_that_GIVEN_an_array_with_a_single_one_THEN_the_number_of_active_channels_is_one(void) {
 		// Given:
 		int channels[10] = { 1,0,0,0,0,0,0,0,0,0};
@@ -224,3 +211,5 @@ public:
 		TS_ASSERT_EQUALS(result, expected_result);
 	}
 };
+
+#endif //!KeithleyTestSuite.h

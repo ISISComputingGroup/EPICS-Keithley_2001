@@ -3,13 +3,11 @@
 #include <cstring>
 #include <numeric>
 
-#include "GenerateActiveChannelsString.h"
+#include "KeithleyUtilsCpp.h"
 
-void GenerateActiveChannelsString_impl(int active_channels[], int number_of_active_channels, char set_channels_to_scan[]) {
-	if (number_of_active_channels > 10) {
-		throw std::invalid_argument("Number of active channels is greater than 10.");
-	}
-	
+#define MAX_NUMBER_OF_CHANNELS 10
+
+void GenerateActiveChannelsString(int active_channels[], int number_of_active_channels, char set_channels_to_scan[]) {
 	std::string channel_string;
 
 	for (int i = 0; i < number_of_active_channels; i++) {
@@ -22,5 +20,5 @@ void GenerateActiveChannelsString_impl(int active_channels[], int number_of_acti
 }
 
 int GetNumberOfActiveChannels(int channels[]) {
-	return std::accumulate(channels, channels + 10, 0);
+	return std::accumulate(channels, channels + MAX_NUMBER_OF_CHANNELS, 0);
 }

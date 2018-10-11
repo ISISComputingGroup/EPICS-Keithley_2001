@@ -10,10 +10,11 @@ option +r;
  
 /* ==================== MACROS and includes =============================*/
 
-#define MAX_INT_CHANNELS 10
+#define MAX_NUMBER_OF_CHANNELS 10
 #define NEXT 1
 #define SENS1 1
 #define FULL 0
+#define ACTIVE 1
 
 %% #include "stdlib.h"
 %% #include "stdio.h"
@@ -55,7 +56,7 @@ assign set_scan_count to "{P}SCAN:COUNT:SP.VAL";
 
 /* Channel PVs */
 
-int active_channels[MAX_INT_CHANNELS];
+int active_channels[MAX_NUMBER_OF_CHANNELS];
 assign active_channels to {
         "{P}CHAN:01:ACTIVE.VAL",
         "{P}CHAN:02:ACTIVE.VAL",
@@ -69,7 +70,7 @@ assign active_channels to {
         "{P}CHAN:10:ACTIVE.VAL"
         };
 
-double channels_readings[MAX_INT_CHANNELS];
+double channels_readings[MAX_NUMBER_OF_CHANNELS];
 assign channels_readings to {
         "{P}CHAN:01:READ.VAL",
         "{P}CHAN:02:READ.VAL",
@@ -83,7 +84,7 @@ assign channels_readings to {
         "{P}CHAN:10:READ.VAL"
         };
 
-string channel_units[MAX_INT_CHANNELS];
+string channel_units[MAX_NUMBER_OF_CHANNELS];
 assign channel_units to {
         "{P}CHAN:01:UNIT.VAL",
         "{P}CHAN:02:UNIT.VAL",
@@ -161,7 +162,7 @@ foreign INT;
 %%int INT = sizeof(int);
 
 int single_channel;
-int scanning_channels[MAX_INT_CHANNELS] = {0,0,0,0,0,0,0,0,0,0};     
+int scanning_channels[MAX_NUMBER_OF_CHANNELS] = {0,0,0,0,0,0,0,0,0,0};     
 int number_of_active_channels;
 int i = 0;
 
@@ -195,7 +196,7 @@ ss running {
         when() {
             puts("Entering preparing to read\n");
             puts("The active channels are: \n");
-            for (i = 0; i < MAX_INT_CHANNELS; i++){
+            for (i = 0; i < MAX_NUMBER_OF_CHANNELS; i++){
                 pvGet(active_channels[i]);
                 printf("Channel %i: %i \n",i+1, active_channels[i]);
             }
