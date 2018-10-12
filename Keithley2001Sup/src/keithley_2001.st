@@ -70,34 +70,6 @@ assign active_channels to {
         "{P}CHAN:10:ACTIVE.VAL"
         };
 
-double channels_readings[MAX_NUMBER_OF_CHANNELS];
-assign channels_readings to {
-        "{P}CHAN:01:READ.VAL",
-        "{P}CHAN:02:READ.VAL",
-        "{P}CHAN:03:READ.VAL",
-        "{P}CHAN:04:READ.VAL",
-        "{P}CHAN:05:READ.VAL",
-        "{P}CHAN:06:READ.VAL",
-        "{P}CHAN:07:READ.VAL",
-        "{P}CHAN:08:READ.VAL",
-        "{P}CHAN:09:READ.VAL",
-        "{P}CHAN:10:READ.VAL"
-        };
-
-string channel_units[MAX_NUMBER_OF_CHANNELS];
-assign channel_units to {
-        "{P}CHAN:01:UNIT.VAL",
-        "{P}CHAN:02:UNIT.VAL",
-        "{P}CHAN:03:UNIT.VAL",
-        "{P}CHAN:04:UNIT.VAL",
-        "{P}CHAN:05:UNIT.VAL",
-        "{P}CHAN:06:UNIT.VAL",
-        "{P}CHAN:07:UNIT.VAL",
-        "{P}CHAN:08:UNIT.VAL",
-        "{P}CHAN:09:UNIT.VAL",
-        "{P}CHAN:10:UNIT.VAL"
-        };
-
 /* Buffer PVs */
 
 int clear_buffer;
@@ -121,9 +93,12 @@ assign set_single_channel_to_read to "{P}READ:CHAN:SP.VAL";
 int read_single;
 assign read_single to "{P}READ:SINGLE.PROC";
 
-string single_channel_response;
-assign single_channel_response to "{P}READ:SINGLE.VAL";
-monitor single_channel_response;
+int parse_single_read;
+assign parse_single_read to "{P}PARSE:SINGLE:READ.PROC";
+
+int parse_single_unit;
+assign parse_single_unit to "{P}PARSE:SINGLE:UNIT.PROC";
+
 
 /* Scan Pvs */
 
@@ -194,17 +169,11 @@ ss running {
     
     state prepare_to_read {
         when() {
-            puts("Entering preparing to read\n");
-            puts("The active channels are: \n");
             for (i = 0; i < MAX_NUMBER_OF_CHANNELS; i++){
                 pvGet(active_channels[i]);
-                printf("Channel %i: %i \n",i+1, active_channels[i]);
             }
-
             number_of_active_channels = get_number_of_active_channels(active_channels);
-            printf("The number of active channels is: %i\n", number_of_active_channels);
 
-            puts("Leaving preparing to read\n");
         } state read_channel
     }
  
@@ -220,7 +189,6 @@ ss running {
         } state prepare_to_read
         
         when(number_of_active_channels == 1) {
-        puts("ENTERING SINGLE READ MODE\n");
             if (previous_scan_mode != 1) {
                 scan_mode = 1;
                 pvPut(scan_mode); 
@@ -229,19 +197,15 @@ ss running {
             memset(scanning_channels, 0, sizeof(scanning_channels));     
             find_active_channels(active_channels, scanning_channels);
             single_channel = scanning_channels[0];
-            printf("The channel being read is: %i\n", single_channel);
             
             if (single_channel != previous_channel){   
                 sprintf(set_single_channel_to_read, "%d", single_channel);  
                 pvPut(set_single_channel_to_read);
                 previous_channel = single_channel;
             }
-            pvPut(read_single);
-            puts("LEAVING SINGLE READ MODE\n");
-        } state single_read_response
+        } state single_read
         
         when(number_of_active_channels > 1) {
-        puts("ENTERING MULTI READ MODE\n");
             if (previous_scan_mode != 2) {
                 scan_mode = 2;
                 pvPut(scan_mode); 
@@ -266,15 +230,14 @@ ss running {
             generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
            
             pvPut(set_channels_to_scan);
-        puts("LEAVING MULTI READ MODE\n");
         } state multi_read
     }
     
-    state single_read_response{
+    state single_read{
         when(delay(scan_speed)) {                       
-            sscanf(single_channel_response, "%lf%s", &channels_readings[single_channel - 1], &channel_units[single_channel - 1]);
-            pvPut(channels_readings[single_channel - 1]);
-            pvPut(channel_units[single_channel - 1]);    
+            pvPut(read_single);
+            pvPut(parse_single_read);
+            pvPut(parse_single_unit);
         } state prepare_to_read
     }
     

@@ -18,10 +18,15 @@ record(stringout, "$(P)READ:CHAN:SP"){
     field(OUT, "@keithley_2001.proto set_channel_to_read $(PORT)")
 }
 
-record(stringin, "$(P)READ:SINGLE"){
+record(waveform, "$(P)READ:SINGLE"){
     field(DESC, "Reads value from a single channel.")
     field(DTYP, "stream")
+    field(FTVL, "STRING")
+    field(NELM, "2")
     field(INP, "@keithley_2001.proto read_single_channel $(PORT)")
+    
+    info(ARCHIVE, "VAL")
+    info(INTEREST, "HIGH")
 }
 
 record(ai, "$(P)SCAN:SPEED"){
@@ -58,43 +63,4 @@ record(stringin, "$(P)SCAN:CHAN"){
     field(DESC, "Gets command to set channel to scan")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_channels_to_scan $(PORT)")
-}
-
-record(aSub, "$(P)BUFF:PARSE:READING"){
-    field(DESC, "Parses the readings from the buffer")
-    
-    field(SNAM, "parse_buffer_readings")
-
-    field(INPA, "$(P)SCAN:BUFF")
-    field(FTA, "STRING")
-
-    field(OUTA, "$(P)CHAN:01:READ PP")
-    field(FTVA, "DOUBLE")
-    
-    field(OUTB, "$(P)CHAN:02:READ PP")
-    field(FTVB, "DOUBLE")    
-    
-    field(OUTC, "$(P)CHAN:03:READ PP")
-    field(FTVC, "DOUBLE")
-    
-    field(OUTD, "$(P)CHAN:04:READ PP")
-    field(FTVD, "DOUBLE")
-    
-    field(OUTE, "$(P)CHAN:05:READ PP")
-    field(FTVE, "DOUBLE")
-    
-    field(OUTF, "$(P)CHAN:06:READ PP")
-    field(FTVF, "DOUBLE")
-    
-    field(OUTG, "$(P)CHAN:07:READ PP")
-    field(FTVG, "DOUBLE")    
-    
-    field(OUTH, "$(P)CHAN:08:READ PP")
-    field(FTVH, "DOUBLE")
-    
-    field(OUTI, "$(P)CHAN:09:READ PP")
-    field(FTVI, "DOUBLE")
-    
-    field(OUTJ, "$(P)CHAN:10:READ PP")
-    field(FTVJ, "DOUBLE")
 }

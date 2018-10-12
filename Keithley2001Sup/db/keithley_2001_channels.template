@@ -15,6 +15,7 @@ record(ai, "$(P)$(CHANNEL):READ") {
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:$(CHANNEL):READ")
+    field(TPRO, "1")
 }
 
 record(bi, "$(P)$(CHANNEL):ACTIVE") {

@@ -24,7 +24,7 @@ public:
 		// Then
 		int expected_channels[2] = { 1, 2 };
 		for (int i = 0; i < number_of_active_channels; i++) {
-			TS_ASSERT_EQUALS(activated_channels[i], expected_channels[i]);
+		TS_ASSERT_EQUALS(activated_channels[i], expected_channels[i]);
 		}
     }
 
@@ -41,7 +41,7 @@ public:
 		// Then
 		int expected_channels[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		for (int i = 0; i < number_of_active_channels; i++) {
-			TS_ASSERT_EQUALS(activated_channels[i], expected_channels[i]);
+		TS_ASSERT_EQUALS(activated_channels[i], expected_channels[i]);
 		}
 	}
 };

@@ -4,7 +4,7 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
 #----------------------------------------------------
-# Add dbd file to register VISA register
+# Add dbd files
 DBD += keithley_2001_sm.dbd
 DBD += keithley_2001_asub.dbd
 

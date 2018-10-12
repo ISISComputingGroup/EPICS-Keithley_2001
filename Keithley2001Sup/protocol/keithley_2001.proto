@@ -85,8 +85,9 @@ get_channels_to_scan {
 }
 
 read_single_channel {
+    separator=",";
     out ":READ?";
-    in "%39c";
+    in  "%[A-Za-z0-9.+-]";
 }
 
 get_meas_register_status {

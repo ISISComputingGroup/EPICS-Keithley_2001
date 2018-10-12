@@ -1,7 +1,7 @@
 record(stringout, "$(P)ELEMENTS:SP"){
     field(DESC, "Sets the elements of a reading.")
     field(DTYP, "stream")
-    field(VAL, "READ, UNIT")
+    field(VAL, "READ, UNIT, CHAN")
     field(OUT, "@keithley_2001.proto set_elements $(PORT)")
     field(FLNK, "$(P)ELEMENTS")
     

@@ -2,10 +2,10 @@
 @echo off
 echo Run all tests called
 
-SET TOP=".."
+SET TOP="."
 
 :: run tests
-call src\O.windows-x64\runner.exe
+call bin\windows-x64\runner.exe
 
 set keithley_2001_tests_failed=%errorlevel%
 

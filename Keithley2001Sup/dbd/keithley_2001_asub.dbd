@@ -1,1 +1,3 @@
 function(parse_buffer_readings)
+function(parse_single_reading)
+function(parse_single_unit)
