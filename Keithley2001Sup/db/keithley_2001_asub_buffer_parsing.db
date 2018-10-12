@@ -1,45 +1,58 @@
 
-record(aSub, "$(P)BUFF:PARSE:READING"){
-    field(DESC, "Parses the readings from the buffer")
+record(aSub, "$(P)PARSE:BUFF:READ"){
+    field(DESC, "Parses the buffer for the values.")
     
     field(SNAM, "parse_buffer_readings")
 
     field(INPA, "$(P)SCAN:BUFF")
     field(FTA, "STRING")
+    field(NOA, "20")
 
     field(OUTA, "$(P)CHAN:01:READ PP")
     field(FTVA, "DOUBLE")
+    field(NOVA, "1")
     
     field(OUTB, "$(P)CHAN:02:READ PP")
     field(FTVB, "DOUBLE")    
+    field(NOVB, "1")
     
     field(OUTC, "$(P)CHAN:03:READ PP")
     field(FTVC, "DOUBLE")
+    field(NOVC, "1")
     
     field(OUTD, "$(P)CHAN:04:READ PP")
     field(FTVD, "DOUBLE")
+    field(NOVD, "1")
     
     field(OUTE, "$(P)CHAN:05:READ PP")
     field(FTVE, "DOUBLE")
+    field(NOVE, "1")
     
     field(OUTF, "$(P)CHAN:06:READ PP")
     field(FTVF, "DOUBLE")
+    field(NOVF, "1")
     
     field(OUTG, "$(P)CHAN:07:READ PP")
-    field(FTVG, "DOUBLE")    
+    field(FTVG, "DOUBLE")   
+    field(NOVG, "1")    
     
     field(OUTH, "$(P)CHAN:08:READ PP")
     field(FTVH, "DOUBLE")
+    field(NOVH, "1")   
     
     field(OUTI, "$(P)CHAN:09:READ PP")
-    field(FTVI, "DOUBLE")
+    field(FTVI, "DOUBLE")    
+    field(NOVI, "1")   
     
     field(OUTJ, "$(P)CHAN:10:READ PP")
     field(FTVJ, "DOUBLE")
+    field(NOVJ, "1")   
+    
+    field(TPRO, "1")
 }
 
 record(aSub, "$(P)PARSE:SINGLE:READ"){
-    field(DESC, "Parses the readings from the reading")
+    field(DESC, "Parses single reading for the value.")
     
     field(SNAM, "parse_single_reading")
 
@@ -89,7 +102,7 @@ record(aSub, "$(P)PARSE:SINGLE:READ"){
 }
 
 record(aSub, "$(P)PARSE:SINGLE:UNIT"){
-    field(DESC, "Parses the units from the reading")
+    field(DESC, "Parses a single reading for the unit.")
     
     field(SNAM, "parse_single_unit")
 
@@ -136,6 +149,4 @@ record(aSub, "$(P)PARSE:SINGLE:UNIT"){
     field(OUTJ, "$(P)CHAN:10:UNIT PP")
     field(FTVJ, "STRING")
     field(NOVJ, "1")   
-    
-    field(TPRO, "1")
 }

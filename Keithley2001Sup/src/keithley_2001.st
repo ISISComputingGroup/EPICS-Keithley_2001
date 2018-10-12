@@ -99,7 +99,6 @@ assign parse_single_read to "{P}PARSE:SINGLE:READ.PROC";
 int parse_single_unit;
 assign parse_single_unit to "{P}PARSE:SINGLE:UNIT.PROC";
 
-
 /* Scan Pvs */
 
 string set_channels_to_scan;
@@ -113,6 +112,10 @@ assign initialise_read to "{P}SCAN:INIT.PROC";
 
 int get_data;
 assign get_data to "{P}SCAN:BUFF.PROC";
+
+int parse_buffer_readings;
+assign parse_buffer_readings to "{P}PARSE:BUFF:READ.PROC";
+
 
 /* Scan and single read PVs */
 
@@ -256,6 +259,7 @@ ss running {
     state multi_read_response {
         when(scan_speed) {
             pvPut(get_data);
+            pvPut(parse_buffer_readings);
         } state prepare_to_read
     }
 }
