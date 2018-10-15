@@ -45,4 +45,4 @@ include $(TOP)/configure/RULES
 #  ADD RULES AFTER THIS LINE
 
 runner.cpp: 
-	call $(CXXTEST)/bin/cxxtestgen --xunit-printer -w keithley2001 -o runner.cpp ../../tests/*.h
+	call $(CXXTEST)/bin/cxxtestgen --xunit-printer -w keithley2001 -o runner.cpp ../../tests/*tests.h
