@@ -1,3 +1,9 @@
+record(ai, "$(P)SCAN:SPEED"){
+    field(DESC, "Scan speed")
+    field(VAL, "$(SCAN_SPEED)")
+    field(LOLO, "0.09")
+    field(LLSV, "MAJOR")
+}
 
 record(mbbi, "$(P)READ:MODE"){
     field(DESC, "Sets channels to scan")
@@ -18,31 +24,23 @@ record(stringout, "$(P)READ:CHAN:SP"){
     field(OUT, "@keithley_2001.proto set_channel_to_read $(PORT)")
 }
 
-record(waveform, "$(P)READ:SINGLE"){
-    field(DESC, "Reads value from a single channel.")
+record(waveform, "$(P)READINGS:SINGLE"){
+    field(DESC, "Requests single value.")
     field(DTYP, "stream")
-    field(FTVL, "STRING")
-    field(NELM, "2")
-    field(INP, "@keithley_2001.proto read_single_channel $(PORT)")
-    
-    info(ARCHIVE, "VAL")
-    info(INTEREST, "HIGH")
+    field(INP, "@keithley_2001.proto read_single_channel($(P),READINGS) $(PORT)")
 }
 
-record(ai, "$(P)SCAN:SPEED"){
-    field(DESC, "Scan speed")
-    field(VAL, "$(SCAN_SPEED)")
-    field(LOLO, "0.09")
-    field(LLSV, "MAJOR")
+record(waveform, "$(P)READINGS:BUFF"){
+    field(DESC, "Requests values from the buffer.")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto read_buffer($(P),READINGS) $(PORT)")
 }
 
-record(waveform, "$(P)SCAN:BUFF"){
-    field(DESC, "Reads value from the buffer")
-    field(DTYP, "stream")
+record(waveform, "$(P)READINGS"){
+    field(DESC, "Holds readings from device")
+    field(DTYP, "Soft Channel")
     field(FTVL, "STRING")
     field(NELM, "20")
-    field(INP, "@keithley_2001.proto read_buffer $(PORT)")
-    
     info(ARCHIVE, "VAL")
     info(INTEREST, "HIGH")
 }

@@ -91,13 +91,7 @@ string set_single_channel_to_read;
 assign set_single_channel_to_read to "{P}READ:CHAN:SP.VAL";
 
 int read_single;
-assign read_single to "{P}READ:SINGLE.PROC";
-
-int parse_single_read;
-assign parse_single_read to "{P}PARSE:SINGLE:READ.PROC";
-
-int parse_single_unit;
-assign parse_single_unit to "{P}PARSE:SINGLE:UNIT.PROC";
+assign read_single to "{P}READINGS:SINGLE.PROC";
 
 /* Scan Pvs */
 
@@ -111,11 +105,15 @@ int initialise_read;
 assign initialise_read to "{P}SCAN:INIT.PROC";
 
 int get_data;
-assign get_data to "{P}SCAN:BUFF.PROC";
+assign get_data to "{P}READINGS:BUFF.PROC";
 
-int parse_buffer_readings;
-assign parse_buffer_readings to "{P}PARSE:BUFF:READ.PROC";
+/* Parse readings */
 
+int parse_readings_for_value;
+assign parse_readings_for_value to "{P}PARSE:VALUE.PROC";
+
+int parse_readings_for_unit;
+assign parse_readings_for_unit to "{P}PARSE:UNIT.PROC";
 
 /* Scan and single read PVs */
 
@@ -206,7 +204,8 @@ ss running {
                 pvPut(set_single_channel_to_read);
                 previous_channel = single_channel;
             }
-        } state single_read
+            pvPut(read_single);
+        } state parse_readings
         
         when(number_of_active_channels > 1) {
             if (previous_scan_mode != 2) {
@@ -235,15 +234,7 @@ ss running {
             pvPut(set_channels_to_scan);
         } state multi_read
     }
-    
-    state single_read{
-        when(delay(scan_speed)) {                       
-            pvPut(read_single);
-            pvPut(parse_single_read);
-            pvPut(parse_single_unit);
-        } state prepare_to_read
-    }
-    
+     
     state multi_read {
         
         when(buffer_mode != 1){
@@ -253,14 +244,14 @@ ss running {
         
         when(buffer_mode == 1){
             pvPut(initialise_read);
-        } state multi_read_response
+            pvPut(get_data);
+        } state parse_readings
     }
     
-    state multi_read_response {
+    state parse_readings {
         when(scan_speed) {
-            pvPut(get_data);
-            pvPut(parse_buffer_readings);
+            pvPut(parse_readings_for_value);
+            pvPut(parse_readings_for_unit);
         } state prepare_to_read
     }
 }
-

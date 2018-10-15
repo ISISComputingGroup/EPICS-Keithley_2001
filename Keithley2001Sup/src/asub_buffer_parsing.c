@@ -5,18 +5,13 @@
 
 #include "BufferParsing.h"
 
-static long parse_buffer_readings(aSubRecord *prec) {
-	return ParseBufferReadings(prec);
+static long parse_readings_for_value(aSubRecord *prec) {
+	return ParseReadingsForValue(prec);
 }
 
-static long parse_single_reading(aSubRecord *prec) {
-	return ParseSingleReading(prec);
+static long parse_readings_for_unit(aSubRecord *prec) {
+	return ParseReadingsForUnit(prec);
 }
 
-static long parse_single_unit(aSubRecord *prec) {
-	return ParseSingleUnit(prec);
-}
-
-epicsRegisterFunction(parse_buffer_readings); 
-epicsRegisterFunction(parse_single_reading);
-epicsRegisterFunction(parse_single_unit);
+epicsRegisterFunction(parse_readings_for_value);
+epicsRegisterFunction(parse_readings_for_unit);

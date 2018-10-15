@@ -8,12 +8,12 @@
 #include <sstream>
 #include <iomanip>
 
-#include "..\src\BufferParsing.h"
+#include "..\src\BufferParsingUtils.h"
 
-class ParseBufferReadingTestSuite : public CxxTest::TestSuite
-{
+class ParseBufferReadingTestSuite : public CxxTest::TestSuite {
 public:
-	void test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_reading_is_parsed_out(void) {
+	void test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_reading_is_parsed_out() 
+	{
 		double expected_result = 9.2;
 		std::string expected_unit = "VDC";
 		std::stringstream reading_stream;
@@ -27,10 +27,10 @@ public:
 	}
 };
 
-class ParseBufferChannelTestSuite : public CxxTest::TestSuite
-{
+class ParseBufferChannelTestSuite : public CxxTest::TestSuite {
 public:
-	void test_that_GIVEN_the_channel_part_of_a_reading_from_the_keithley_2001_with_chan_and_unit_elements_THEN_the_tenth_channel_is_found(void) {
+	void test_that_GIVEN_the_channel_part_of_a_reading_from_the_keithley_2001_with_chan_and_unit_elements_THEN_the_tenth_channel_is_found() 
+	{
 		int expected_result = 10;
 		std::string expected_unit = "INTCHAN";
 		std::stringstream reading_stream;
@@ -43,7 +43,8 @@ public:
 		TS_ASSERT_EQUALS(result, expected_result);
 	}
 
-	void test_that_GIVEN_the_channel_part_of_a_reading_from_the_keithley_2001_with_chan_and_unit_elements_THEN_the_first_channel_is_found(void) {
+	void test_that_GIVEN_the_channel_part_of_a_reading_from_the_keithley_2001_with_chan_and_unit_elements_THEN_the_first_channel_is_found() 
+	{
 		int expected_result = 1;
 		std::string expected_unit = "INTCHAN";
 		std::stringstream reading_stream;
@@ -58,10 +59,10 @@ public:
 };
 
 
-class ParseBufferUnitTestSuite : public CxxTest::TestSuite
-{
+class ParseBufferUnitTestSuite : public CxxTest::TestSuite {
 public:
-	void test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_unit_is_parsed(void) {
+	void test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_unit_is_parsed() 
+	{
 		double expected_result = 9.2;
 		std::string expected_unit = "VDC";
 		std::stringstream reading_stream;

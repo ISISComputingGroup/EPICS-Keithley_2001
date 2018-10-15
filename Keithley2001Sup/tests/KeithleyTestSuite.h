@@ -9,10 +9,10 @@
 #include "..\src\KeithleyUtilsCpp.h"
 
 
-class FindActiveChannelsTestSuite : public CxxTest::TestSuite
-{
+class FindActiveChannelsTestSuite : public CxxTest::TestSuite {
 public:
-    void test_that_GIVEN_two_active_channels_THEN_they_are_both_found(void) {
+    void test_that_GIVEN_two_active_channels_THEN_they_are_both_found() 
+	{
         // Given:
 		int channels [10] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 		int number_of_active_channels = 2;
@@ -29,7 +29,8 @@ public:
     }
 
 
-	void test_that_GIVEN_all_active_channels_THEN_they_are_all_found(void)	{
+	void test_that_GIVEN_all_active_channels_THEN_they_are_all_found()	
+	{
 		// Given:
 		int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		int number_of_active_channels = 10;
@@ -46,10 +47,10 @@ public:
 	}
 };
 
-class GenerateScanChannelStringTestSuite : public CxxTest::TestSuite
-{
+class GenerateScanChannelStringTestSuite : public CxxTest::TestSuite {
 public:
-	void test_that_GIVEN_two_active_channels_THEN_the_expected_string_is_found(void) {
+	void test_that_GIVEN_two_active_channels_THEN_the_expected_string_is_found() 
+	{
 		// Given:
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int number_of_active_channels = 2;
@@ -64,7 +65,8 @@ public:
 		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
 	}
 
-	void test_that_GIVEN_all_channels_active_THEN_the_expected_string_is_found(void) {
+	void test_that_GIVEN_all_channels_active_THEN_the_expected_string_is_found() 
+	{
 		// Given:
 		int channels[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		int number_of_active_channels = 10;
@@ -79,7 +81,8 @@ public:
 		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
 	}
 
-	void test_that_GIVEN_odd_channels_active_THEN_odd_channels_are_added_to_the_string(void) {
+	void test_that_GIVEN_odd_channels_active_THEN_odd_channels_are_added_to_the_string() 
+	{
 		// Given:
 		int channels[10] = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
 		int number_of_active_channels = 5;
@@ -94,7 +97,8 @@ public:
 		TS_ASSERT_EQUALS(scan_channels_string, expected_string);
 	}
 
-	void test_that_GIVEN_a_loop_THEN_we_get_the_correct_string(void) {
+	void test_that_GIVEN_a_loop_THEN_we_get_the_correct_string() 
+	{
 		// Given:
 		int channels[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int number_of_active_channels = 2;
@@ -122,7 +126,8 @@ public:
 		}
 	}
 
-	void test_that_GIVEN_a_loop_which_switches_between_5_and_7_channels_THEN_we_dont_get_a_heap_error(void) {
+	void test_that_GIVEN_a_loop_which_switches_between_5_and_7_channels_THEN_we_dont_get_a_heap_error() 
+	{
 		// Given:
 		int number_of_active_channels = 5;
 		int channels[10] = { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
@@ -162,8 +167,8 @@ public:
 
 class GetNumberOfActiveChannelsTests : public CxxTest::TestSuite {
 public:
-
-	void test_that_GIVEN_an_array_with_zeros_THEN_the_number_of_active_channels_is_zero(void) {
+	void test_that_GIVEN_an_array_with_zeros_THEN_the_number_of_active_channels_is_zero() 
+	{
 		// Given:
 		int channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
 
@@ -175,7 +180,8 @@ public:
 		TS_ASSERT_EQUALS(result, expected_result);
 	}
 
-	void test_that_GIVEN_an_array_with_a_single_one_THEN_the_number_of_active_channels_is_one(void) {
+	void test_that_GIVEN_an_array_with_a_single_one_THEN_the_number_of_active_channels_is_one() 
+	{
 		// Given:
 		int channels[10] = { 1,0,0,0,0,0,0,0,0,0};
 		
@@ -187,7 +193,8 @@ public:
 		TS_ASSERT_EQUALS(result, expected_result);
 	}
 
-	void test_that_GIVEN_an_array_of_ones_THEN_the_number_of_active_channels_is_ten(void) {
+	void test_that_GIVEN_an_array_of_ones_THEN_the_number_of_active_channels_is_ten() 
+	{
 		// Given:
 		int channels[10] = { 1,1,1,1,1,1,1,1,1,1 };
 

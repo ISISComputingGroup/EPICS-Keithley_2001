@@ -84,12 +84,6 @@ get_channels_to_scan {
     in "(@%(VAL)[0-9,]";
 }
 
-read_single_channel {
-    separator=",";
-    out ":READ?";
-    in  "%[A-Za-z0-9.+-]";
-}
-
 get_meas_register_status {
     out ":STAT:MEAS:ENAB?";
     in "%d";
@@ -139,8 +133,14 @@ start_scan {
     out ":INIT";
 }
 
+read_single_channel {
+    separator=",";
+    out ":READ?";
+    in  "%(\$1\$2)[A-Za-z0-9.+-]";
+}
+
 read_buffer {
     separator=",";
     out ":DATA:DATA?";
-    in  "%[A-Za-z0-9.+-]";
+    in  "%(\$1\$2)[A-Za-z0-9.+-]";
 }
