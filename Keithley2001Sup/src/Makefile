@@ -19,19 +19,19 @@ Keithley_2001_LIBS += seqDev seq pv
 Keithley_2001_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 Keithley_2001_SRCS += keithley_2001.st
-Keithley_2001_SRCS += KeithleyUtils.cpp KeithleyUtilsCpp.cpp
+Keithley_2001_SRCS += sequencer_utils.cpp sequencer_utils_cpp.cpp
 
 # aSub record
 
 Keithley_2001_LIBS += asyn utilities
 Keithley_2001_LIBS += asubFunctions
-Keithley_2001_SRCS += asub_buffer_parsing.c BufferParsing.cpp BufferParsingUtils.cpp
+Keithley_2001_SRCS += buffer_parsing_functions.c buffer_parsing.cpp buffer_parsing_utils.cpp
 
 # Test Runner
 
 PROD_IOC += runner
 USR_CPPFLAGS += -I$(CXXTEST)
-runner_SRCS += runner.cpp KeithleyUtils.cpp KeithleyUtilsCpp.cpp BufferParsing.cpp BufferParsingUtils.cpp
+runner_SRCS += runner.cpp sequencer_utils.cpp sequencer_utils_cpp.cpp buffer_parsing.cpp buffer_parsing_utils.cpp
 runner_LIBS += $(EPICS_BASE_IOC_LIBS)
 runner_LIBS += Keithley_2001
 runner_SYS_LIBS_WIN32 += wldap32

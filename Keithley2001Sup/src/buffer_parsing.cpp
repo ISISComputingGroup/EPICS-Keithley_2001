@@ -11,9 +11,13 @@
 #include <vector>
 #include <iostream>
 
-#include "BufferParsing.h"
-#include "BufferParsingUtils.h"
+#include "buffer_parsing.h"
+#include "buffer_parsing_utils.h"
 
+// Parses the values from readings and sets the 
+// value to the respective channels.
+// 
+// Called from an aSub record.
 long ParseReadingsForValue(aSubRecord *prec) 
 {
 	std::vector<std::string> readings = device_readings(prec);
@@ -21,10 +25,10 @@ long ParseReadingsForValue(aSubRecord *prec)
 	const int reading_values_count = 2;
 	unsigned int i = 0;
 
-	while (ParseChannel(readings[i + 1]) > 0 && i < prec->noa) {
+	while (parse_channel(readings[i + 1]) > 0 && i < prec->noa) {
 
-		double value = ParseReading(readings[i]);
-		int channel = ParseChannel(readings[i + 1]);
+		double value = parse_reading(readings[i]);
+		int channel = parse_channel(readings[i + 1]);
 
 		switch (channel) {
 		case 1:
@@ -66,6 +70,10 @@ long ParseReadingsForValue(aSubRecord *prec)
 	return 0;
 }
 
+// Parses the units from readings and sets the 
+// unit value to the respective channels.
+// 
+// Called from an aSub record.
 long ParseReadingsForUnit(aSubRecord *prec) 
 {
 	std::vector<std::string> readings = device_readings(prec);
@@ -73,10 +81,10 @@ long ParseReadingsForUnit(aSubRecord *prec)
 	const int reading_values_count = 2;
 	unsigned int i = 0;
 
-	while (ParseChannel(readings[i + 1]) > 0 && i < prec->noa) {
+	while (parse_channel(readings[i + 1]) > 0 && i < prec->noa) {
 
-		const char* unit = ParseUnit(readings[i]);
-		int channel = ParseChannel(readings[i + 1]);
+		const char* unit = parse_unit(readings[i]);
+		int channel = parse_channel(readings[i + 1]);
 
 		switch (channel) {
 		case 1:

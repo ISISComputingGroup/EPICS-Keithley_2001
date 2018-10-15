@@ -17,13 +17,9 @@ option +r;
 #define ACTIVE 1
 
 %% #include "stdlib.h"
-%% #include "stdio.h"
-%% #include "string.h"
 %% #include "dbDefs.h"
-%% #include "seqPVmacros.h"
 
-/* Include helper functions */
-%% #include "KeithleyUtils.h"
+%% #include "sequencer_utils.h"
 
 
 /*=================== Variable declarations =========================*/
@@ -173,7 +169,7 @@ ss running {
             for (i = 0; i < MAX_NUMBER_OF_CHANNELS; i++){
                 pvGet(active_channels[i]);
             }
-            number_of_active_channels = get_number_of_active_channels(active_channels);
+            number_of_active_channels = sum_of_active_channels(active_channels);
 
         } state read_channel
     }

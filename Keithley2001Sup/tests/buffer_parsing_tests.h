@@ -1,6 +1,6 @@
-// KeithleyaSubTestSuite.h
-#ifndef KeithleyaSubTestSuite
-#define KeithleyaSubTestSuite
+// buffer_parsing_tests.h
+#ifndef buffer_parsing_tests
+#define buffer_parsing_tests
 
 #include <cxxtest/TestSuite.h>
 #include <ios>
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "..\src\BufferParsingUtils.h"
+#include "..\src\buffer_parsing_utils.h"
 
 class ParseBufferReadingTestSuite : public CxxTest::TestSuite {
 public:
@@ -23,7 +23,7 @@ public:
 		reading_stream.get(buffer_reading, 40);
 
 		// When:
-		double result = ParseReading(buffer_reading);
+		double result = parse_reading(buffer_reading);
 		
 		// Then:
 		TS_ASSERT_EQUALS(result, expected_result);
@@ -43,7 +43,7 @@ public:
 		reading_stream.get(buffer_reading, 40);
 		
 		// When:
-		int result = ParseChannel(buffer_reading);
+		int result = parse_channel(buffer_reading);
 		
 		// Then:
 		TS_ASSERT_EQUALS(result, expected_result);
@@ -61,7 +61,7 @@ public:
 		reading_stream.get(buffer_reading, 40);
 
 		// When:
-		int result = ParseChannel(buffer_reading);
+		int result = parse_channel(buffer_reading);
 		
 		// Then:
 		TS_ASSERT_EQUALS(result, expected_result);
@@ -83,7 +83,7 @@ public:
 		reading_stream.get(buffer_reading, 40);
 
 		// When:
-		const char* result = ParseUnit(buffer_reading);
+		const char* result = parse_unit(buffer_reading);
 		
 		// Then:
 		TS_ASSERT_EQUALS(result, expected_unit);

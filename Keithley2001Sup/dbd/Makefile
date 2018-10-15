@@ -5,8 +5,8 @@ include $(TOP)/configure/CONFIG
 
 #----------------------------------------------------
 # Add dbd files
-DBD += keithley_2001_sm.dbd
-DBD += keithley_2001_asub.dbd
+DBD += keithley_2001_buffer_parsing.dbd
+DBD += keithley_2001_state_machine.dbd
 
 #----------------------------------------------------
 

@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+#include "buffer_parsing_utils.h"
+
+// Gets the readings from the aSub record input.
 std::vector<std::string> device_readings(aSubRecord *prec) 
 {
 	std::vector<std::string> readings;
@@ -15,17 +18,20 @@ std::vector<std::string> device_readings(aSubRecord *prec)
 	return readings;
 }
 
-double ParseReading(std::string reading) 
-{
-	return std::atof(reading.c_str());
-}
-
-int ParseChannel(std::string channel) 
+// Parses the channel number.
+int parse_channel(std::string channel)
 {
 	return std::atoi(channel.c_str());
 }
 
-const char* ParseUnit(std::string reading) 
+// Parses the value.
+double parse_reading(std::string reading) 
+{
+	return std::atof(reading.c_str());
+}
+
+// Parses the unit.
+const char* parse_unit(std::string reading) 
 {
 	return "VDC";
 }

@@ -1,12 +1,12 @@
-// KeithleyTestSuite.h
-#ifndef KeithleyTestSuite
-#define KeithleyTestSuite
+// sequencer_utils_tests.h
+#ifndef sequencer_utils_tests
+#define sequencer_utils_tests
 
 #include <cxxtest/TestSuite.h>
 #include <string>
 
-#include "..\src\KeithleyUtils.h"
-#include "..\src\KeithleyUtilsCpp.h"
+#include "..\src\sequencer_utils.h"
+#include "..\src\sequencer_utils_cpp.h"
 
 
 class FindActiveChannelsTestSuite : public CxxTest::TestSuite {
@@ -80,7 +80,7 @@ public:
 	}
 };
 
-class GenerateScanChannelStringTestSuite : public CxxTest::TestSuite {
+class GenerateScanChannelsStringTestSuite : public CxxTest::TestSuite {
 public:
 	void test_that_GIVEN_two_active_channels_THEN_the_expected_string_is_created() 
 	{
@@ -91,7 +91,7 @@ public:
 		int activated_channels[10] = { 1,2,0,0,0,0,0,0,0,0 };
 
 		// When
-		GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+		GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,2";
@@ -107,7 +107,7 @@ public:
 		int activated_channels[10] = { 1,2,3,4,5,6,7,8,9,10 };
 
 		// When
-		GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+		GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,2,3,4,5,6,7,8,9,10";
@@ -123,7 +123,7 @@ public:
 		int activated_channels[10] = { 1,3,5,7,9,0,0,0,0,0 };
 
 		// When
-		GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+		GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,3,5,7,9";
@@ -144,7 +144,7 @@ public:
 			find_active_channels(channels, activated_channels);
 
 			// When:
-			GenerateActiveChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+			GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
 
 			// Then:
 			TS_ASSERT_EQUALS(scan_channels_string, expected);
@@ -168,7 +168,7 @@ public:
 		int channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
 
 		// When:
-		int result = GetNumberOfActiveChannels(channels);
+		int result = SumOfActiveChannels(channels);
 
 		// Then:
 		int expected_result = 0;
@@ -181,7 +181,7 @@ public:
 		int channels[10] = { 1,1,1,1,1,1,1,1,1,1 };
 
 		// When:
-		int result = GetNumberOfActiveChannels(channels);
+		int result = SumOfActiveChannels(channels);
 
 		// Then:
 		int expected_result = 10;
@@ -193,7 +193,7 @@ public:
 		int channels[10] = { 1,0,1,0,1,0,0,0,0,1 };
 
 		// When:
-		int result = GetNumberOfActiveChannels(channels);
+		int result = SumOfActiveChannels(channels);
 
 		// Then:
 		int expected_result = 4;
