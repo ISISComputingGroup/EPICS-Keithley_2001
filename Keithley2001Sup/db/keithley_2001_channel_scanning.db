@@ -5,19 +5,6 @@ record(ai, "$(P)SCAN:SPEED"){
     field(LLSV, "MAJOR")
 }
 
-record(mbbi, "$(P)READ:MODE"){
-    field(DESC, "Sets channels to scan")
-    field(DTYP, "Soft Channel")
-    field(SCAN, "Passive")
-    
-    field(ZRVL, "0")
-    field(ZRST, "IDLE")
-    field(ONVL, "1")
-    field(ONST, "SINGLE")
-    field(TWVL, "2")
-    field(TWST, "MULTI")
-}
-
 record(stringout, "$(P)READ:CHAN:SP"){ 
     field(DESC, "Sends command to set channel to read")
     field(DTYP, "stream")

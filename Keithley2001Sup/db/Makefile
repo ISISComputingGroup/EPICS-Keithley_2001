@@ -16,7 +16,7 @@ DB += keithley_2001_init.db
 DB += keithley_2001_buffer.db
 DB += keithley_2001_channels.db
 DB += keithley_2001_channel_scanning.db
-DB += keithley_2001_asub_buffer_parsing.db
+DB += keithley_2001_buffer_parsing.db
 
 
 #----------------------------------------------------

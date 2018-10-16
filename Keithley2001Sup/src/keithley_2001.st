@@ -1,7 +1,10 @@
 program keithley_2001 ("P")
 
-/*  This sequencer program runs the Keithley 2001.
- * 
+/*  This sequencer program for an IOC to control the Keithley 2001.
+ *  It is designed to read from both a single channel or scan 
+ *  on more than one channel. 
+ *
+ *  It only takes measurement of DC voltage.
  */ 
  
 /* ==================== Sequencer compiler options =============================*/
@@ -11,16 +14,13 @@ option +r;
 /* ==================== MACROS and includes =============================*/
 
 #define MAX_NUMBER_OF_CHANNELS 10
-#define NEXT 1
-#define SENS1 1
+#define READ_UNTIL_END_OF_BUFFER 1
+#define SENSOR 1
 #define FULL 0
 #define ACTIVE 1
 
 %% #include "stdlib.h"
-%% #include "dbDefs.h"
-
 %% #include "sequencer_utils.h"
-
 
 /*=================== Variable declarations =========================*/
 
@@ -35,11 +35,11 @@ assign reset_device to "{P}RESET.PROC";
 int reset_status_registers;
 assign reset_status_registers to "{P}STAT:RESET.PROC";
 
-int buffer_source = SENS1;
+int buffer_source = SENSOR;
 assign buffer_source to "{P}BUFF:SOURCE:SP.VAL";
 
-int buffer_egroup = FULL;
-assign buffer_egroup to "{P}BUFF:EGROUP:SP.VAL";
+int buffer_read_elements = FULL;
+assign buffer_read_elements to "{P}BUFF:EGROUP:SP.VAL";
 
 int set_register_status_buffer_full;
 assign set_register_status_buffer_full to "{P}STAT:BUFF:FULL:SP.PROC";
@@ -97,11 +97,11 @@ assign set_channels_to_scan to "{P}SCAN:CHAN:SP";
 long measurement_scan_count_setpoint;
 assign measurement_scan_count_setpoint to "{P}SCAN:MEAS:COUNT:SP.VAL";
 
-int initialise_read;
-assign initialise_read to "{P}SCAN:INIT.PROC";
+int start_scan;
+assign start_scan to "{P}SCAN:INIT.PROC";
 
-int get_data;
-assign get_data to "{P}READINGS:BUFF.PROC";
+int get_buffer_data;
+assign get_buffer_data to "{P}READINGS:BUFF.PROC";
 
 /* Parse readings */
 
@@ -117,22 +117,11 @@ double scan_speed;
 assign scan_speed to "{P}SCAN:SPEED.VAL";
 monitor scan_speed;
 
-int scan_mode;
-assign scan_mode to "{P}READ:MODE.VAL";
-
 /* Non PV variables */
 
 char *P;
-
 int previous_channel;
-int previous_scan_mode;
 int previous_number_of_channels;
-
-foreign pvname;
-%%char pvname[PVNAME_STRINGSZ]; 
-foreign INT;
-%%int INT = sizeof(int);
-
 int single_channel;
 int scanning_channels[MAX_NUMBER_OF_CHANNELS] = {0,0,0,0,0,0,0,0,0,0};     
 int number_of_active_channels;
@@ -146,20 +135,18 @@ ss running {
         when() {
             P = macValueGet("P");
             pvPut(reset_device);
+            
             pvPut(reset_status_registers);
-            pvPut(clear_buffer);    
-            
-            pvPut(set_read_elements);
-            pvPut(buffer_source);
-            pvPut(buffer_egroup);
-            
             pvPut(set_register_status_buffer_full);
             pvPut(set_measure_summary_register_bit);
-            
+
+            pvPut(set_read_elements);
+            pvPut(clear_buffer);    
+            pvPut(buffer_source);
+            pvPut(buffer_read_elements);
             pvPut(set_scan_count);
-            
+
             previous_channel = -1;
-            previous_scan_mode = -1;
             previous_number_of_channels = -1;
         } state prepare_to_read
     }
@@ -171,26 +158,15 @@ ss running {
             }
             number_of_active_channels = sum_of_active_channels(active_channels);
 
-        } state read_channel
+        } state reading_setup
     }
  
-    state read_channel {
+    state reading_setup {
         
         when(number_of_active_channels == 0) {
-            if (previous_scan_mode != 0) {
-                scan_mode = 0;
-                pvPut(scan_mode); 
-                previous_scan_mode = scan_mode;
-            }
-
         } state prepare_to_read
         
-        when(number_of_active_channels == 1) {
-            if (previous_scan_mode != 1) {
-                scan_mode = 1;
-                pvPut(scan_mode); 
-                previous_scan_mode = scan_mode;
-            }       
+        when(number_of_active_channels == 1) {   
             memset(scanning_channels, 0, sizeof(scanning_channels));     
             find_active_channels(active_channels, scanning_channels);
             single_channel = scanning_channels[0];
@@ -200,16 +176,9 @@ ss running {
                 pvPut(set_single_channel_to_read);
                 previous_channel = single_channel;
             }
-            pvPut(read_single);
-        } state parse_readings
+        } state single_shot_read
         
-        when(number_of_active_channels > 1) {
-            if (previous_scan_mode != 2) {
-                scan_mode = 2;
-                pvPut(scan_mode); 
-                previous_scan_mode = scan_mode;
-            }
-            
+        when(number_of_active_channels > 1) {            
             if (previous_number_of_channels != number_of_active_channels){
                 previous_number_of_channels = number_of_active_channels;
                 
@@ -224,23 +193,28 @@ ss running {
             
             memset(scanning_channels, 0, sizeof(scanning_channels));       
             find_active_channels(active_channels, scanning_channels);
-
             generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
            
             pvPut(set_channels_to_scan);
-        } state multi_read
+        } state scanning
+    }
+    
+    state single_shot_read {
+        when () {
+            pvPut(read_single);
+        } state parse_readings
     }
      
-    state multi_read {
+    state scanning {
         
         when(buffer_mode != 1){
-            set_buffer_mode = NEXT;
+            set_buffer_mode = READ_UNTIL_END_OF_BUFFER;
             pvPut(set_buffer_mode);
-        } state multi_read
+        } state scanning
         
         when(buffer_mode == 1){
-            pvPut(initialise_read);
-            pvPut(get_data);
+            pvPut(start_scan);
+            pvPut(get_buffer_data);
         } state parse_readings
     }
     
