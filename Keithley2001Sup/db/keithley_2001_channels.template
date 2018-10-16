@@ -13,8 +13,6 @@ record(ai, "$(P)$(CHANNEL):READ") {
 	info(ARCHIVE, "VAL")
     
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:$(CHANNEL):READ")
 }
 
 record(bi, "$(P)$(CHANNEL):ACTIVE") {
@@ -23,7 +21,6 @@ record(bi, "$(P)$(CHANNEL):ACTIVE") {
     field(ONAM, "ACTIVE")
     
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
-    field(SIML, "$(P)SIM")
 }
 
 record(stringin, "$(P)$(CHANNEL):UNIT") {
@@ -33,25 +30,6 @@ record(stringin, "$(P)$(CHANNEL):UNIT") {
 	info(ARCHIVE, "VAL")
     
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
-    field(SIML, "$(P)SIM")    
-}
-
-record(stringout, "$(P)$(CHANNEL):MEAS:SP") {
-	field(DESC, "Latest channel measurement setpoint")
-    field(VAL, "VOLT:DC")
-	info(INTEREST, "HIGH")
-	info(ARCHIVE, "VAL")
-    
-    field(SDIS, "$(P)$(CHANNEL):DISABLE")
-    field(SIML, "$(P)SIM")
-}
-
-record(stringin, "$(P)$(CHANNEL):MEAS") {
-	field(DESC, "Latest channel measurement")
-    field(VAL, "VOLT:DC")
-    
-    field(SDIS, "$(P)$(CHANNEL):DISABLE")
-    field(SIML, "$(P)SIM")
 }
 
 record(bo, "$(P)$(CHANNEL):DISABLE") 
@@ -63,8 +41,3 @@ record(bo, "$(P)$(CHANNEL):DISABLE")
     field(ZNAM, "COMMS ENABLED")
     field(ONAM, "COMMS DISABLED")
 }
-
-### $(CHANNEL) SIMULATION RECORDS ###
-
-record(ai, "$(P)SIM:$(CHANNEL):READ") {}
-

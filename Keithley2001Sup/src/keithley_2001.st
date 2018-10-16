@@ -141,9 +141,9 @@ ss running {
             pvPut(set_measure_summary_register_bit);
 
             pvPut(set_read_elements);
-            pvPut(clear_buffer);    
-            pvPut(buffer_source);
             pvPut(buffer_read_elements);
+            pvPut(clear_buffer);   
+            pvPut(buffer_source);
             pvPut(set_scan_count);
 
             previous_channel = -1;

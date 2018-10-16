@@ -115,7 +115,7 @@ get_scan_count {
     in "%d";
 }
 
-get_scan_trgiger {
+get_scan_trigger {
     out ":ARM:LAY2:SOUR?";
     in "%{IMM|HOLD|MAN|BUS|TLIN|EXT|TIM}";
 }

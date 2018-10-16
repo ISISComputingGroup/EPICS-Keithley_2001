@@ -25,6 +25,10 @@ record(mbbi, "$(P)BUFF:MODE") {
     
     field(THVL, "3")
     field(THST, "PRET")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:MODE")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(mbbo, "$(P)BUFF:MODE:SP") {
@@ -46,6 +50,10 @@ record(mbbo, "$(P)BUFF:MODE:SP") {
     field(THST, "PRET")
     
     field(FLNK, "$(P)BUFF:MODE.PROC")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:MODE:SP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(longout, "$(P)BUFF:SIZE:SP"){
@@ -96,6 +104,10 @@ record(bi, "$(P)SIM:BUFF:CLEAR") {}
 record(longin, "$(P)SIM:BUFF:SIZE") {}
 
 alias("$(P)SIM:BUFF:SIZE","$(P)SIM:BUFF:SIZE:SP")
+
+record(mbbo, "$(P)SIM:BUFF:MODE") {}
+
+alias("$(P)SIM:BUFF:MODE","$(P)SIM:BUFF:MODE:SP")
 
 record(longin, "$(P)SIM:SCAN:MEAS:COUNT") {}
 

@@ -9,12 +9,20 @@ record(stringout, "$(P)READ:CHAN:SP"){
     field(DESC, "Sends command to set channel to read")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto set_channel_to_read $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:READ:CHAN:SP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(waveform, "$(P)READINGS:SINGLE"){
     field(DESC, "Requests single value.")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto read_single_channel($(P),READINGS) $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:READINGS:SINGLE")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(waveform, "$(P)READINGS:BUFF"){
@@ -42,6 +50,10 @@ record(stringout, "$(P)SCAN:CHAN:SP"){
     field(DESC, "Sends command to set channel to scan")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto set_channels_to_scan $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:CHAN:SP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(stringin, "$(P)SCAN:CHAN"){ 
@@ -49,3 +61,9 @@ record(stringin, "$(P)SCAN:CHAN"){
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_channels_to_scan $(PORT)")
 }
+
+## SIM records
+
+record(bo, "$(P)SIM:READINGS:SINGLE") {}
+record(stringout, "$(P)SIM:READ:CHAN:SP") {}
+record(stringout, "$(P)SIM:SCAN:CHAN:SP") {}

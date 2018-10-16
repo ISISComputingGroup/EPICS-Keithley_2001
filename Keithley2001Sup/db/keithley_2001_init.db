@@ -192,7 +192,7 @@ record(longin, "$(P)SCAN:COUNT") {
 record(mbbi, "$(P)SCAN:TRIG:SOURCE") {
     field(DESC, "Scan trigger mode")
     field(DTYP, "stream")
-    field(INP,  "@keithley_2001.proto get_scan_trgiger $(PORT)")
+    field(INP,  "@keithley_2001.proto get_scan_trigger $(PORT)")
 
     field(ZRVL, "0")
     field(ZRST, "IMM")
