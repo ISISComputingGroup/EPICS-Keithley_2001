@@ -1,7 +1,7 @@
 record(stringout, "$(P)ELEMENTS:SP"){
     field(DESC, "Sets the elements of a reading.")
     field(DTYP, "stream")
-    field(VAL, "READ, UNIT, CHAN")
+    field(VAL, "READ, CHAN, UNIT")
     field(OUT, "@keithley_2001.proto set_elements $(PORT)")
     field(FLNK, "$(P)ELEMENTS")
     
@@ -32,6 +32,10 @@ record(mbbi, "$(P)BUFF:SOURCE") {
     field(ONST, "SENS1")
     field(TWVL, "2")
     field(TWST, "CALC1")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SOURCE")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(mbbo, "$(P)BUFF:SOURCE:SP") {
@@ -46,6 +50,10 @@ record(mbbo, "$(P)BUFF:SOURCE:SP") {
     field(ONST, "SENS1")
     field(TWVL, "2")
     field(TWST, "CALC1")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SOURCE:SP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bo, "$(P)BUFF:EGROUP:SP") {
@@ -101,14 +109,19 @@ record(longin, "$(P)STAT:MEAS"){
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_meas_register_status $(PORT)")
     
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:STAT:MEAS")
     field(SDIS, "$(P)DISABLE")
 }
 
-record(bo, "$(P)STAT:BUFF:FULL:SP"){
+record(longout, "$(P)STAT:BUFF:FULL:SP"){
     field(DESC, "Sets status of buffer full status bit on")
     field(DTYP, "stream")
+    field(VAL, "512")
     field(OUT, "@keithley_2001.proto set_buff_full_stat $(PORT)")
-           
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:STAT:BUFF:FULL:SP")
     field(SDIS, "$(P)DISABLE")
 }
 
@@ -117,22 +130,40 @@ record(longin, "$(P)STAT:SERVICE_REQEST"){
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_service_request_status $(PORT)")
 
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:STAT:SERVICE_REQEST")
     field(SDIS, "$(P)DISABLE")
 }
 
-record(bo, "$(P)STAT:MEAS:SUMM:SP"){
+record(longout, "$(P)STAT:MEAS:SUMM:SP"){
     field(DESC, "Sets measure summary register bit")
+    field(VAL, "1")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto set_measure_summary $(PORT)")
 
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:STAT:MEAS:SUMM:SP")
     field(SDIS, "$(P)DISABLE")
 }
+
+record(bo, "$(P)RESET") {
+    field(DESC, "Resets the device.")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto reset $(PORT)")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:RESET")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "$(P)SIM:RESET"){}
 
 record(bo, "$(P)STAT:RESET"){
     field(DESC, "Resets and clears status registers")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto reset_status_registers $(PORT)")
-
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:STAT:RESET")
     field(SDIS, "$(P)DISABLE")
 }
 
@@ -145,7 +176,6 @@ record(longout, "$(P)SCAN:COUNT:SP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:SCAN:COUNT:SP")
     field(SDIS, "$(P)DISABLE")
-    field(TPRO, "1")
 }
 
 record(longin, "$(P)SCAN:COUNT") {
@@ -155,16 +185,60 @@ record(longin, "$(P)SCAN:COUNT") {
     field(INP, "@keithley_2001.proto get_scan_count $(PORT)")
     
     field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)$(P)SIM:SCAN:COUNT")
+    field(SIOL, "$(P)SIM:SCAN:COUNT")
     field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbi, "$(P)SCAN:TRIG:SOURCE") {
+    field(DESC, "Scan trigger mode")
+    field(DTYP, "stream")
+    field(INP,  "@keithley_2001.proto get_scan_trgiger $(PORT)")
+
+    field(ZRVL, "0")
+    field(ZRST, "IMM")
+    field(ONVL, "1")
+    field(ONST, "HOLD")
+    field(TWVL, "2")
+    field(TWST, "MAN")
+    field(THVL, "3")
+    field(THST, "BUS")
+    field(FRVL, "4")
+    field(FRST, "TLIN")
+    field(FVVL, "5")
+    field(FVST, "EXT")
+    field(SXVL, "6")
+    field(SXST, "TIM")
 }
 
 
 # SIM RECORDS
 
+record(bi, "$(P)SIM:STAT:RESET")
+
+record(mbbi, "$(P)SIM:BUFF:SOURCE") {
+    field(ZRVL, "0")
+    field(ZRST, "NONE")
+    field(ONVL, "1")
+    field(ONST, "SENS1")
+    field(TWVL, "2")
+    field(TWST, "CALC1")
+}
+
+alias("$(P)SIM:BUFF:SOURCE","$(P)SSIM:BUFF:SOURCE:SP")
+
 record(stringout, "$(P)SIM:ELEMENTS") {}
 
+
+
 alias("$(P)SIM:ELEMENTS","$(P)SIM:ELEMENTS:SP")
+
+record(longin, "$(P)SIM:STAT:SERVICE_REQEST") {}
+
+alias("$(P)SIM:STAT:SERVICE_REQEST", "$(P)SIM:STAT:MEAS:SUMM:SP")
+
+record(longin, "$(P)SIM:STAT:MEAS") {}
+
+alias("$(P)SIM:STAT:MEAS", "$(P)SIM:STAT:BUFF:FULL:SP")
 
 record(bi, "$(P)SIM:SCAN:CONT_MODE") {}
 
@@ -174,6 +248,6 @@ record(bi, "$(P)SIM:BUFF:EGROUP") {}
 
 alias("$(P)SIM:BUFF:EGROUP","$(P)SIM:BUFF:EGROUP:SP")
 
-record(bi, "$(P)SIM:SCAN:COUNT") {}
+record(longin, "$(P)SIM:SCAN:COUNT") {}
 
 alias("$(P)SIM:SCAN:COUNT","$(P)SIM:SCAN:COUNT:SP")

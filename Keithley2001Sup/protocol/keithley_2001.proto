@@ -90,11 +90,11 @@ get_meas_register_status {
 }
 
 set_buff_full_stat{
-    out ":STAT:MEAS:ENAB 512";
+    out ":STAT:MEAS:ENAB %d";
 }
 
 set_measure_summary {
-    out "*SRE 1";
+    out "*SRE %d";
 }
 
 get_service_request_status {
