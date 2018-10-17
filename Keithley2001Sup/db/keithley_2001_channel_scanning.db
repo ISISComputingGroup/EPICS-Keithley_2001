@@ -15,20 +15,24 @@ record(stringout, "$(P)READ:CHAN:SP"){
     field(SDIS, "$(P)DISABLE")
 }
 
-record(waveform, "$(P)READINGS:SINGLE"){
+record(bo, "$(P)READINGS:SINGLE"){
     field(DESC, "Requests single value.")
     field(DTYP, "stream")
-    field(INP, "@keithley_2001.proto read_single_channel($(P),READINGS) $(PORT)")
+    field(OUT, "@keithley_2001.proto read_single_channel($(P),READINGS) $(PORT)")
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:READINGS:SINGLE")
     field(SDIS, "$(P)DISABLE")
 }
 
-record(waveform, "$(P)READINGS:BUFF"){
+record(bo, "$(P)READINGS:BUFF"){
     field(DESC, "Requests values from the buffer.")
     field(DTYP, "stream")
-    field(INP, "@keithley_2001.proto read_buffer($(P),READINGS) $(PORT)")
+    field(OUT, "@keithley_2001.proto read_buffer($(P),READINGS) $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:READINGS:BUFF")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(waveform, "$(P)READINGS"){
@@ -40,7 +44,7 @@ record(waveform, "$(P)READINGS"){
     info(INTEREST, "HIGH")
 }
 
-record(bo, "$(P)SCAN:INIT") {
+record(bo, "$(P)SCAN:START") {
     field(DESC, "Start the scan")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto start_scan $(PORT)")
@@ -57,13 +61,14 @@ record(stringout, "$(P)SCAN:CHAN:SP"){
 }
 
 record(stringin, "$(P)SCAN:CHAN"){ 
-    field(DESC, "Gets command to set channel to scan")
+    field(DESC, "Gets channels we are scanning on")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_channels_to_scan $(PORT)")
 }
 
 ## SIM records
 
-record(bo, "$(P)SIM:READINGS:SINGLE") {}
+record(bi, "$(P)SIM:READINGS:SINGLE") {}
+record(bi, "$(P)SIM:READINGS:BUFF") {}
 record(stringout, "$(P)SIM:READ:CHAN:SP") {}
 record(stringout, "$(P)SIM:SCAN:CHAN:SP") {}

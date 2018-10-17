@@ -1,4 +1,3 @@
-
 record(aSub, "$(P)PARSE:VALUE"){
     field(DESC, "Parses the buffer for the values.")
     
@@ -46,7 +45,6 @@ record(aSub, "$(P)PARSE:VALUE"){
     
     field(OUTJ, "$(P)CHAN:10:READ PP")
     field(FTVJ, "DOUBLE")
-        field(TPRO, "1")
 }
 
 record(aSub, "$(P)PARSE:UNIT"){
@@ -97,5 +95,4 @@ record(aSub, "$(P)PARSE:UNIT"){
     field(OUTJ, "$(P)CHAN:10:UNIT PP")
     field(FTVJ, "STRING")
     field(NOVJ, "1")
-        field(TPRO, "1")
 }

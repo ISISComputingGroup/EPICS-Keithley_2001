@@ -1,5 +1,6 @@
 /* Helper functions*/
 #include <aSubRecord.h>
+#include <iostream>
 
 #include <string>
 #include <vector>
@@ -10,7 +11,7 @@
 std::vector<std::string> device_readings(aSubRecord *prec) 
 {
 	std::vector<std::string> readings;
-	for (unsigned int i = 0; i < prec->noa; i++)
+	for ( int i = 0; i < prec->noa; i++)
 	{
 		std::string reading((static_cast<epicsOldString*>(prec->a))[i], sizeof(epicsOldString));
 		readings.push_back(reading);

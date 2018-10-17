@@ -210,19 +210,11 @@ record(mbbi, "$(P)SCAN:TRIG:SOURCE") {
     field(SXST, "TIM")
 }
 
-
 # SIM RECORDS
 
 record(bi, "$(P)SIM:STAT:RESET")
 
-record(mbbi, "$(P)SIM:BUFF:SOURCE") {
-    field(ZRVL, "0")
-    field(ZRST, "NONE")
-    field(ONVL, "1")
-    field(ONST, "SENS1")
-    field(TWVL, "2")
-    field(TWST, "CALC1")
-}
+record(mbbi, "$(P)SIM:BUFF:SOURCE") {}
 
 alias("$(P)SIM:BUFF:SOURCE","$(P)SSIM:BUFF:SOURCE:SP")
 

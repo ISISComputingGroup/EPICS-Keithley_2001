@@ -15,6 +15,7 @@ option +r;
 
 #define MAX_NUMBER_OF_CHANNELS 10
 #define READ_UNTIL_END_OF_BUFFER 1
+#define NEVER 0
 #define SENSOR 1
 #define FULL 0
 #define ACTIVE 1
@@ -72,11 +73,10 @@ int clear_buffer;
 assign clear_buffer to "{P}BUFF:CLEAR.PROC";
 
 int set_buffer_mode;
-assign set_buffer_mode to "{P}BUFF:MODE:SP";
+assign set_buffer_mode to "{P}BUFF:MODE:SP.VAL";
 
 int buffer_mode;
 assign buffer_mode to "{P}BUFF:MODE";
-monitor buffer_mode;
 
 int buffer_size;
 assign buffer_size to "{P}BUFF:SIZE:SP.VAL";
@@ -98,7 +98,7 @@ long measurement_scan_count_setpoint;
 assign measurement_scan_count_setpoint to "{P}SCAN:MEAS:COUNT:SP.VAL";
 
 int start_scan;
-assign start_scan to "{P}SCAN:INIT.PROC";
+assign start_scan to "{P}SCAN:START.PROC";
 
 int get_buffer_data;
 assign get_buffer_data to "{P}READINGS:BUFF.PROC";
@@ -141,8 +141,7 @@ ss running {
             pvPut(set_measure_summary_register_bit);
 
             pvPut(set_read_elements);
-            pvPut(buffer_read_elements);
-            pvPut(clear_buffer);   
+            pvPut(buffer_read_elements); 
             pvPut(buffer_source);
             pvPut(set_scan_count);
 
@@ -157,7 +156,7 @@ ss running {
                 pvGet(active_channels[i]);
             }
             number_of_active_channels = sum_of_active_channels(active_channels);
-
+            pvGet(buffer_mode);
         } state reading_setup
     }
  
@@ -166,7 +165,7 @@ ss running {
         when(number_of_active_channels == 0) {
         } state prepare_to_read
         
-        when(number_of_active_channels == 1) {   
+        when(number_of_active_channels == 1) {       
             memset(scanning_channels, 0, sizeof(scanning_channels));     
             find_active_channels(active_channels, scanning_channels);
             single_channel = scanning_channels[0];
@@ -176,9 +175,9 @@ ss running {
                 pvPut(set_single_channel_to_read);
                 previous_channel = single_channel;
             }
-        } state single_shot_read
+        } state single_shot
         
-        when(number_of_active_channels > 1) {            
+        when(number_of_active_channels > 1) {          
             if (previous_number_of_channels != number_of_active_channels){
                 previous_number_of_channels = number_of_active_channels;
                 
@@ -195,33 +194,34 @@ ss running {
             find_active_channels(active_channels, scanning_channels);
             generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
            
-            pvPut(set_channels_to_scan);
+            pvPut(set_channels_to_scan);    
+            set_buffer_mode = 1;
+            pvPut(set_buffer_mode);         
         } state scanning
     }
     
-    state single_shot_read {
-        when () {
+    state single_shot {
+        when(delay(scan_speed)) { 
             pvPut(read_single);
         } state parse_readings
-    }
-     
+    }    
+    
     state scanning {
-        
-        when(buffer_mode != 1){
-            set_buffer_mode = READ_UNTIL_END_OF_BUFFER;
-            pvPut(set_buffer_mode);
-        } state scanning
-        
-        when(buffer_mode == 1){
+        when () {
             pvPut(start_scan);
+        } state scanning_response
+    }
+    
+    state scanning_response {
+        when(delay(scan_speed)) {
             pvPut(get_buffer_data);
         } state parse_readings
     }
-    
+
     state parse_readings {
-        when(scan_speed) {
+        when() {
             pvPut(parse_readings_for_value);
-            pvPut(parse_readings_for_unit);
+            pvPut(parse_readings_for_unit); 
         } state prepare_to_read
     }
 }

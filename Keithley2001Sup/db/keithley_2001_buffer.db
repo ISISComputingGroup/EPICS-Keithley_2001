@@ -49,8 +49,6 @@ record(mbbo, "$(P)BUFF:MODE:SP") {
     field(THVL, "3")
     field(THST, "PRET")
     
-    field(FLNK, "$(P)BUFF:MODE.PROC")
-    
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:BUFF:MODE:SP")
     field(SDIS, "$(P)DISABLE")
@@ -95,7 +93,6 @@ record(longin, "$(P)SCAN:MEAS:COUNT"){
     field(SIOL, "$(P)SIM:SCAN:MEAS:COUNT")
     field(SDIS, "$(P)DISABLE")
 }
-
 
 ### SIM RECORDS
 
