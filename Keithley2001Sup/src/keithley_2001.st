@@ -117,6 +117,18 @@ double scan_speed;
 assign scan_speed to "{P}SCAN:SPEED.VAL";
 monitor scan_speed;
 
+/* Error handling Pv */
+
+int error;
+assign error to "{P}ERROR.PROC";
+
+int clear_error_flag;
+assign clear_error_flag to "{P}ERROR:CLEAR:_TRIG";
+
+int clear_error;
+assign clear_error to "{P}ERROR:CLEAR.PROC";
+
+
 /* Non PV variables */
 
 char *P;
@@ -163,7 +175,7 @@ ss running {
     state reading_setup {
         
         when(number_of_active_channels == 0) {
-        } state prepare_to_read
+        } state check_for_errors
         
         when(number_of_active_channels == 1) {       
             memset(scanning_channels, 0, sizeof(scanning_channels));     
@@ -222,6 +234,25 @@ ss running {
         when() {
             pvPut(parse_readings_for_value);
             pvPut(parse_readings_for_unit); 
+        } state check_for_errors
+    }
+       
+    state check_for_errors {
+        when () {
+            pvGet(clear_error_flag);
+            pvPut(error);
+        } state clear_errors
+    }
+    
+    state clear_errors {
+    
+        when(clear_error_flag == 1) {
+            pvPut(clear_error);
+            clear_error_flag = 0;
+            pvPut(clear_error_flag);      
+        } state prepare_to_read
+        
+        when(clear_error_flag == 0) {
         } state prepare_to_read
     }
 }

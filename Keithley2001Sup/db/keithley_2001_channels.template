@@ -6,7 +6,6 @@
 
 record(ai, "$(P)$(CHANNEL):READ") {
 	field(DESC, "Latest channel reading")
-	field(EGU, "")
 	field(PREC, "5")
 	info(alarm, "Keithley_2001")
 	info(INTEREST, "HIGH")
@@ -19,6 +18,7 @@ record(bi, "$(P)$(CHANNEL):ACTIVE") {
 	field(DESC, "Activate channel")
     field(ZNAM, "INACTIVE")
     field(ONAM, "ACTIVE")
+    field(VAL, "$$(ACTIVATE_CHAN_MACRO)")
     
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
 }

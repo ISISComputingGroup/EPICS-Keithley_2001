@@ -144,3 +144,12 @@ read_buffer {
     out ":DATA:DATA?";
     in  "%(\$1\$2)[A-Za-z0-9.+-]";
 }
+
+get_errors {
+    out ":SYST:ERR?";
+    in "%39c";
+}
+
+clear_errors {
+    out ":SYST:CLE";
+}

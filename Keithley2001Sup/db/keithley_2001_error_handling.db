@@ -1,0 +1,34 @@
+record(stringin, "$(P)ERROR"){
+    field(DESC, "Records the error string")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_errors $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ERROR")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)ERROR:CLEAR"){
+    field(DESC, "Records the error string")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto clear_errors $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ERROR:CLEAR")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)ERROR:CLEAR:_TRIG"){
+    field(DESC, "Records the error string")
+    field(OUT, "$(P)ERROR:CLEAR NPP NMS")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ERROR:CLEAR")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)SIM:ERROR") {
+    field(VAL, "0,No errors")
+}
+
+record(bo, "$(P)SIM:ERROR:CLEAR") {}
