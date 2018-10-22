@@ -159,6 +159,25 @@ ss running {
 
             previous_channel = -1;
             previous_number_of_channels = -1;
+        } state check_for_errors
+    }
+    
+    state check_for_errors {
+        when () {
+            pvGet(clear_error_flag);
+            pvPut(error);
+        } state clear_errors
+    }
+    
+    state clear_errors {
+    
+        when(clear_error_flag == 1) {
+            pvPut(clear_error);
+            clear_error_flag = 0;
+            pvPut(clear_error_flag);      
+        } state prepare_to_read
+        
+        when(clear_error_flag == 0) {
         } state prepare_to_read
     }
     
@@ -235,24 +254,5 @@ ss running {
             pvPut(parse_readings_for_value);
             pvPut(parse_readings_for_unit); 
         } state check_for_errors
-    }
-       
-    state check_for_errors {
-        when () {
-            pvGet(clear_error_flag);
-            pvPut(error);
-        } state clear_errors
-    }
-    
-    state clear_errors {
-    
-        when(clear_error_flag == 1) {
-            pvPut(clear_error);
-            clear_error_flag = 0;
-            pvPut(clear_error_flag);      
-        } state prepare_to_read
-        
-        when(clear_error_flag == 0) {
-        } state prepare_to_read
     }
 }
