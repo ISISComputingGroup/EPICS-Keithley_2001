@@ -146,8 +146,9 @@ read_buffer {
 }
 
 get_errors {
+    separator=",";
     out ":SYST:ERR?";
-    in "%39c";
+    in "%[^,]";
 }
 
 clear_errors {

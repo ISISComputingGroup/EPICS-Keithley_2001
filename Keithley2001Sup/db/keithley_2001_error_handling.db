@@ -1,11 +1,23 @@
-record(stringin, "$(P)ERROR"){
-    field(DESC, "Records the error string")
+record(waveform, "$(P)ERROR:RAW"){
+    field(DESC, "Gets the error string")
     field(DTYP, "stream")
     field(INP, "@keithley_2001.proto get_errors $(PORT)")
+    field(NELM, "2")
+    field(FTVL, "STRING")
     
     field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:ERROR")
+    field(SIOL, "$(P)SIM:ERROR:RAW")
     field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)ERROR:MSG"){
+    field(DESC, "Records the error message")
+    field(INP, "$(P)ERROR:RAW.VAL[1] CP")
+}
+
+record(longin, "$(P)ERROR:CODE"){
+    field(DESC, "Records the error code")
+    field(INP, "$(P)ERROR:RAW.VAL[0] CP")
 }
 
 record(bo, "$(P)ERROR:CLEAR"){
@@ -21,14 +33,13 @@ record(bo, "$(P)ERROR:CLEAR"){
 record(bo, "$(P)ERROR:CLEAR:_TRIG"){
     field(DESC, "Records the error string")
     field(OUT, "$(P)ERROR:CLEAR NPP NMS")
-    
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:ERROR:CLEAR")
-    field(SDIS, "$(P)DISABLE")
 }
 
-record(stringin, "$(P)SIM:ERROR") {
-    field(VAL, "0,No errors")
+## SIM Records
+
+record(waveform, "$(P)SIM:ERROR:RAW") {
+    field(NELM, "2")
+    field(FTVL, "STRING")
 }
 
 record(bo, "$(P)SIM:ERROR:CLEAR") {}

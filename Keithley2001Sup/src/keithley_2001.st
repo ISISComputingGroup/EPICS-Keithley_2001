@@ -120,10 +120,10 @@ monitor scan_speed;
 /* Error handling Pv */
 
 int error;
-assign error to "{P}ERROR.PROC";
+assign error to "{P}ERROR:RAW.PROC";
 
 int clear_error_flag;
-assign clear_error_flag to "{P}ERROR:CLEAR:_TRIG";
+assign clear_error_flag to "{P}ERROR:CLEAR:_TRIG.VAL";
 
 int clear_error;
 assign clear_error to "{P}ERROR:CLEAR.PROC";
