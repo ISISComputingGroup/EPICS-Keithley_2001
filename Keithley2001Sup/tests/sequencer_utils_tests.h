@@ -155,49 +155,8 @@ public:
 			}
 			channels[i + 1] = 1;
 			number_of_active_channels++;
-			expected += "," + std::to_string(i + 2);
+			expected += "," + std::to_string(static_cast<long long>(i + 2));
 		}
-	}
-};
-
-class GetNumberOfActiveChannelsTests : public CxxTest::TestSuite {
-public:
-	void test_that_GIVEN_an_array_with_zeros_THEN_the_number_of_active_channels_is_zero() 
-	{
-		// Given:
-		int channels[10] = { 0,0,0,0,0,0,0,0,0,0 };
-
-		// When:
-		int result = SumOfActiveChannels(channels);
-
-		// Then:
-		int expected_result = 0;
-		TS_ASSERT_EQUALS(result, expected_result);
-	}
-
-	void test_that_GIVEN_an_array_of_ones_THEN_the_number_of_active_channels_is_ten() 
-	{
-		// Given:
-		int channels[10] = { 1,1,1,1,1,1,1,1,1,1 };
-
-		// When:
-		int result = SumOfActiveChannels(channels);
-
-		// Then:
-		int expected_result = 10;
-		TS_ASSERT_EQUALS(result, expected_result);
-	}
-
-	void test_that_GIVEN_an_array_of_four_ones_THEN_the_number_of_active_channels_is_four(void) {
-		// Given:
-		int channels[10] = { 1,0,1,0,1,0,0,0,0,1 };
-
-		// When:
-		int result = SumOfActiveChannels(channels);
-
-		// Then:
-		int expected_result = 4;
-		TS_ASSERT_EQUALS(result, expected_result);
 	}
 };
 

@@ -12,7 +12,7 @@ void GenerateScanChannelsString(int active_channels[], int number_of_active_chan
 	std::string channel_string;
 
 	for (int i = 0; i < number_of_active_channels; i++) {
-		channel_string += std::to_string(active_channels[i]);
+		channel_string += std::to_string(static_cast<long long>(active_channels[i]));
 		if (i != (number_of_active_channels - 1)) {
 			channel_string += ",";
 		}
