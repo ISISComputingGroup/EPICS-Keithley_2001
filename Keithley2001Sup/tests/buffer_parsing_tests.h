@@ -15,7 +15,7 @@ public:
 	void test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_reading_is_parsed_out() 
 	{
 		// Given:
-		double expected_result = 9.2;
+		double expected_result = 9.4;
 		std::string expected_unit = "VDC";
 		std::stringstream reading_stream;
 		reading_stream << std::scientific << expected_result << expected_unit;

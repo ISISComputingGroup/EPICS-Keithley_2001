@@ -5,7 +5,7 @@ echo Run all tests called
 SET TOP="."
 
 :: run tests
-call bin\windows-x64\runner.exe
+call Keithley2001Sup\src\O.windows-x64\runner.exe
 
 set keithley_2001_tests_failed=%errorlevel%
 
