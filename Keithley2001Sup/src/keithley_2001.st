@@ -123,7 +123,7 @@ int error;
 assign error to "{P}ERROR:RAW.PROC";
 
 int clear_error_flag;
-assign clear_error_flag to "{P}ERROR:CLEAR:_TRIG.VAL";
+assign clear_error_flag to "{P}ERROR:CLEAR:FLAG.VAL";
 
 int clear_error;
 assign clear_error to "{P}ERROR:CLEAR.PROC";
@@ -172,6 +172,7 @@ ss running {
     state clear_errors {
     
         when(clear_error_flag == 1) {
+            puts("================Clearing errors==============");
             pvPut(clear_error);
             clear_error_flag = 0;
             pvPut(clear_error_flag);      
@@ -238,13 +239,13 @@ ss running {
     }    
     
     state scanning {
-        when () {
+        when(delay(scan_speed)) {
             pvPut(start_scan);
         } state scanning_response
     }
     
     state scanning_response {
-        when(delay(scan_speed)) {
+        when() {
             pvPut(get_buffer_data);
         } state parse_readings
     }

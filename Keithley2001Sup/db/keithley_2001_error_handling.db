@@ -30,9 +30,8 @@ record(bo, "$(P)ERROR:CLEAR"){
     field(SDIS, "$(P)DISABLE")
 }
 
-record(bo, "$(P)ERROR:CLEAR:_TRIG"){
+record(bi, "$(P)ERROR:CLEAR:FLAG"){
     field(DESC, "Records the error string")
-    field(OUT, "$(P)ERROR:CLEAR NPP NMS")
 }
 
 ## SIM Records
