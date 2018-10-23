@@ -9,8 +9,6 @@ include $(TOP)/configure/CONFIG
 
 #----------------------------------------------------
 
-
-
 # Keithley 2001 Libary
 
 LIBRARY_IOC = Keithley_2001

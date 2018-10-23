@@ -1,6 +1,5 @@
 :: Run all tests
 @echo off
-echo Run all tests called
 
 SET TOP="."
 
