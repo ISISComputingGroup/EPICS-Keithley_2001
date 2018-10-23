@@ -136,13 +136,13 @@ start_scan {
 read_single_channel {
     separator=",";
     out ":READ?";
-    in  "%(\$1\$2)[A-Za-z0-9.+-]";
+    in  "%(\$1\$2)[^,]";
 }
-
+    
 read_buffer {
     separator=",";
     out ":DATA:DATA?";
-    in  "%(\$1\$2)[A-Za-z0-9.+-]";
+    in  "%(\$1\$2)[^,]";
 }
 
 get_errors {
