@@ -1,8 +1,13 @@
 record(ai, "$(P)SCAN:SPEED"){
     field(DESC, "Scan speed")
     field(VAL, "$(SCAN_SPEED)")
+    field(PREC, "5")
+    field(EGU, "s")
+    
     field(LOLO, "0.09")
     field(LLSV, "MAJOR")
+    info(INTEREST, "MEDIUM")
+	info(ARCHIVE, "VAL")
 }
 
 record(stringout, "$(P)READ:CHAN:SP"){ 
@@ -41,7 +46,7 @@ record(waveform, "$(P)READINGS"){
     field(FTVL, "STRING")
     field(NELM, "20")
     info(ARCHIVE, "VAL")
-    info(INTEREST, "HIGH")
+    info(INTEREST, "MEDIUM")
 }
 
 record(bo, "$(P)SCAN:START") {

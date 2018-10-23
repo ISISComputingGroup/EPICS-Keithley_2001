@@ -13,11 +13,19 @@ record(waveform, "$(P)ERROR:RAW"){
 record(stringin, "$(P)ERROR:MSG"){
     field(DESC, "Records the error message")
     field(INP, "$(P)ERROR:RAW.VAL[1] CP")
+    field(EGU, "")
+    
+    info(INTEREST, "LOW")
+	info(ARCHIVE, "VAL")
 }
 
 record(longin, "$(P)ERROR:CODE"){
     field(DESC, "Records the error code")
     field(INP, "$(P)ERROR:RAW.VAL[0] CP")
+    field(EGU, "")
+    
+    info(INTEREST, "LOW")
+	info(ARCHIVE, "VAL")
 }
 
 record(bo, "$(P)ERROR:CLEAR"){
@@ -31,12 +39,13 @@ record(bo, "$(P)ERROR:CLEAR"){
 }
 
 record(bi, "$(P)ERROR:CLEAR:FLAG"){
-    field(DESC, "Records the error string")
+    field(DESC, "Set if we need to clear the error")
 }
 
 ## SIM Records
 
 record(waveform, "$(P)SIM:ERROR:RAW") {
+    field(DESC, "Error Raw SIM record")
     field(NELM, "2")
     field(FTVL, "STRING")
 }

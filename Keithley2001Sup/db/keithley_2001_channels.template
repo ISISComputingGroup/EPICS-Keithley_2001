@@ -8,8 +8,10 @@ record(ai, "$(P)$(CHANNEL):READ") {
 	field(DESC, "Latest channel reading")
 	field(PREC, "5")
 	info(alarm, "Keithley_2001")
+    field(EGU, "") 
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")
+    info(alarm, "KHLY2001")
     
     field(SDIS, "$(P)$(CHANNEL):DISABLE")
 }
