@@ -172,7 +172,6 @@ ss running {
     state clear_errors {
     
         when(clear_error_flag == 1) {
-            puts("================Clearing errors==============");
             pvPut(clear_error);
             clear_error_flag = 0;
             pvPut(clear_error_flag);      
