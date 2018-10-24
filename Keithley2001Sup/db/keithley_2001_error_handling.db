@@ -13,7 +13,6 @@ record(waveform, "$(P)ERROR:RAW"){
 record(stringin, "$(P)ERROR:MSG"){
     field(DESC, "Records the error message")
     field(INP, "$(P)ERROR:RAW.VAL[1] CP")
-    field(EGU, "")
     
     info(INTEREST, "LOW")
 	info(ARCHIVE, "VAL")
