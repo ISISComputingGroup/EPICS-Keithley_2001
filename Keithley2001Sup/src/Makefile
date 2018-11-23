@@ -25,12 +25,16 @@ Keithley_2001_LIBS += asyn utilities
 Keithley_2001_LIBS += asubFunctions
 Keithley_2001_SRCS += buffer_parsing_functions.c buffer_parsing.cpp buffer_parsing_utils.cpp
 
-# Test Runner
+# googleTest Runner
+
+SRC_DIRS += $(TOP)/Keithley2001Sup/tests
+
 TESTPROD_HOST += runner
-runner_CPPFLAGS += -I$(CXXTEST)
-runner_SRCS += runner.cpp sequencer_utils.cpp sequencer_utils_cpp.cpp buffer_parsing.cpp buffer_parsing_utils.cpp
-runner_LIBS += Keithley_2001
-runner_SYS_LIBS_WIN32 += wldap32
+USR_CPPFLAGS += -I$(GTEST)/googletest/include 
+runner_SRCS += run_all_tests.cc
+runner_SRCS += buffer_parsing_tests.cc buffer_parsing_utils.cpp 
+runner_SRCS += sequencer_utils_tests.cc sequencer_utils_cpp.cpp sequencer_utils.cpp
+runner_LIBS += gtest
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
@@ -39,6 +43,3 @@ runner_SYS_LIBS_WIN32 += wldap32
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
-
-../runner.cpp:
-	call $(CXXTEST)/bin/cxxtestgen --xunit-printer -w keithley2001 -o runner.cpp ../../tests/*tests.h
