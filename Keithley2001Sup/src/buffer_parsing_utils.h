@@ -3,9 +3,9 @@
 
 #include <aSubRecord.h>
 
-	std::vector<std::string> device_readings(aSubRecord *prec);
-	double parse_reading(std::string reading);
-	int parse_channel(std::string channel);
-	const char* parse_unit(std::string reading);
+    std::vector<std::string> device_readings(aSubRecord *prec);
+    double parse_reading(std::string reading);
+    int parse_channel(std::string channel);
+    const char* parse_unit(std::string reading);
 
 #endif

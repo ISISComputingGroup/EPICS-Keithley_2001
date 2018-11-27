@@ -2,7 +2,6 @@
 #include "gtest/gtest.h"
 
 #include "..\src\sequencer_utils.h"
-#include "..\src\sequencer_utils_cpp.h"
 
 namespace {
     TEST(FindActiveChannels, test_that_GIVEN_three_active_channels_THEN_they_are_both_found) {
@@ -77,7 +76,7 @@ namespace {
 		int activated_channels[10] = { 1,2,0,0,0,0,0,0,0,0 };
 
 		// When
-		GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+        generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,2";
@@ -92,7 +91,7 @@ namespace {
 		int activated_channels[10] = { 1,2,3,4,5,6,7,8,9,10 };
 
 		// When
-		GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+        generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,2,3,4,5,6,7,8,9,10";
@@ -107,7 +106,7 @@ namespace {
 		int activated_channels[10] = { 1,3,5,7,9,0,0,0,0,0 };
 
 		// When
-		GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+        generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
 
 		// Then
 		char* expected_string = "1,3,5,7,9";
@@ -127,7 +126,7 @@ namespace {
 			find_active_channels(channels, activated_channels);
 
 			// When:
-			GenerateScanChannelsString(activated_channels, number_of_active_channels, scan_channels_string);
+            generate_scan_channel_string(activated_channels, number_of_active_channels, scan_channels_string);
 
 			// Then:
 			EXPECT_EQ(scan_channels_string, expected);

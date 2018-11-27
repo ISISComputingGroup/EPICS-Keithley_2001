@@ -17,7 +17,7 @@ Keithley_2001_LIBS += seqDev seq pv
 Keithley_2001_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 Keithley_2001_SRCS += keithley_2001.st
-Keithley_2001_SRCS += sequencer_utils.cpp sequencer_utils_cpp.cpp
+Keithley_2001_SRCS += sequencer_utils.cpp 
 
 # aSub record
 
@@ -33,7 +33,7 @@ TESTPROD_HOST += runner
 USR_CPPFLAGS += -I$(GTEST)/googletest/include 
 runner_SRCS += run_all_tests.cc
 runner_SRCS += buffer_parsing_tests.cc buffer_parsing_utils.cpp 
-runner_SRCS += sequencer_utils_tests.cc sequencer_utils_cpp.cpp sequencer_utils.cpp
+runner_SRCS += sequencer_utils_tests.cc sequencer_utils.cpp
 runner_LIBS += gtest
 
 #----------------------------------------------------

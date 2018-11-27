@@ -1,6 +1,6 @@
 record(ai, "$(P)SCAN:DELAY"){
-    field(DESC, "Scan speed")
-    field(VAL, "$(SCAN_SPEED)")
+    field(DESC, "Scan delay")
+    field(VAL, "$(SCAN_DELAY)")
     field(PREC, "5")
     field(EGU, "s")
     
