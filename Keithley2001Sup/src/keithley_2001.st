@@ -113,9 +113,9 @@ assign parse_readings_for_unit to "{P}PARSE:UNIT.PROC";
 
 /* Scan and single read PVs */
 
-double scan_speed;
-assign scan_speed to "{P}SCAN:SPEED.VAL";
-monitor scan_speed;
+double scan_delay;
+assign scan_delay to "{P}SCAN:DELAY.VAL";
+monitor scan_delay;
 
 /* Error handling Pv */
 
@@ -232,13 +232,13 @@ ss running {
     }
     
     state single_shot {
-        when(delay(scan_speed)) { 
+        when(delay(scan_delay)) { 
             pvPut(read_single);
         } state parse_readings
     }    
     
     state scanning {
-        when(delay(scan_speed)) {
+        when(delay(scan_delay)) {
             pvPut(start_scan);
         } state scanning_response
     }

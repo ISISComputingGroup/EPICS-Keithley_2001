@@ -1,10 +1,10 @@
 ##################################################################
 #
-# $(CHANNEL) Records
+# CHAN $(CHANNEL) Records
 #
 ###################################################################
 
-record(ai, "$(P)$(CHANNEL):READ") {
+record(ai, "$(P)CHAN:$(CHANNEL):READ") {
 	field(DESC, "Latest channel reading")
 	field(PREC, "5")
 	info(alarm, "Keithley_2001")
@@ -13,28 +13,28 @@ record(ai, "$(P)$(CHANNEL):READ") {
 	info(ARCHIVE, "VAL")
     info(alarm, "KHLY2001")
     
-    field(SDIS, "$(P)$(CHANNEL):DISABLE")
+    field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
 }
 
-record(bi, "$(P)$(CHANNEL):ACTIVE") {
+record(bi, "$(P)CHAN:$(CHANNEL):ACTIVE") {
 	field(DESC, "Activate channel")
     field(ZNAM, "INACTIVE")
     field(ONAM, "ACTIVE")
-    field(VAL, "$$(ACTIVATE_CHAN_MACRO)")
+    field(VAL, "$(ACTIVATE_CHAN_$(CHANNEL)= 0)")
     
-    field(SDIS, "$(P)$(CHANNEL):DISABLE")
+    field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
 }
 
-record(stringin, "$(P)$(CHANNEL):UNIT") {
+record(stringin, "$(P)CHAN:$(CHANNEL):UNIT") {
 	field(DESC, "Latest channel unit")
     field(VAL, "")
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")
     
-    field(SDIS, "$(P)$(CHANNEL):DISABLE")
+    field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
 }
 
-record(bo, "$(P)$(CHANNEL):DISABLE") 
+record(bo, "$(P)CHAN:$(CHANNEL):DISABLE") 
 {
     field(DESC, "Disable comms")
     field(PINI, "YES")

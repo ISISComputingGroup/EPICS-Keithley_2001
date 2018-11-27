@@ -1,4 +1,4 @@
-record(ai, "$(P)SCAN:SPEED"){
+record(ai, "$(P)SCAN:DELAY"){
     field(DESC, "Scan speed")
     field(VAL, "$(SCAN_SPEED)")
     field(PREC, "5")
