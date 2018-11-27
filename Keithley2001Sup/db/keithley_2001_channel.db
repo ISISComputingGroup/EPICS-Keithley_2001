@@ -11,7 +11,6 @@ record(ai, "$(P)CHAN:$(CHANNEL):READ") {
     field(EGU, "") 
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")
-    info(alarm, "KHLY2001")
     
     field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
 }

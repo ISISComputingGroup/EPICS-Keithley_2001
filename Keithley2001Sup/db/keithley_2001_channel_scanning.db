@@ -24,6 +24,8 @@ record(bo, "$(P)READINGS:SINGLE"){
     field(DESC, "Requests single value.")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto read_single_channel($(P),READINGS) $(PORT)")
+    field(alarm, "KHLY_2001")
+    
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:READINGS:SINGLE")
@@ -34,6 +36,8 @@ record(bo, "$(P)READINGS:BUFF"){
     field(DESC, "Requests values from the buffer.")
     field(DTYP, "stream")
     field(OUT, "@keithley_2001.proto read_buffer($(P),READINGS) $(PORT)")
+    field(alarm, "KHLY_2001")
+    
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:READINGS:BUFF")
@@ -47,6 +51,7 @@ record(waveform, "$(P)READINGS"){
     field(NELM, "20")
     info(ARCHIVE, "VAL")
     info(INTEREST, "MEDIUM")
+    field(alarm, "KHLY_2001")
 }
 
 record(bo, "$(P)SCAN:START") {
