@@ -192,7 +192,6 @@ ss running {
     }
  
     state reading_setup {
-        
         when(number_of_active_channels == 0) {
         } state check_for_errors
         
