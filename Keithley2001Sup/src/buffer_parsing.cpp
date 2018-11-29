@@ -34,27 +34,61 @@ long ParseReadingsForValue(aSubRecord *prec) {
             errlogSevPrintf(errlogMajor, "Buffer readings contain no channel information.");
             return 2;
         }
-        std::map<int, void*> channel_output = asub_channel_output(prec);
+        std::map<int, aSubOutputParameters> channel_output = asub_channel_output(prec);
 
         // Iterator over the map
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
-            it != channel_readings.end(); 
+            it != channel_readings.end();
             ++it) {
             int channel = set_double_value(it, channel_output);
-            if (channel > -1) {
-                errlogSevPrintf(errlogMajor, "Channel %d is not avalable", channel);
-                return 3;
-            }
         }
     }
-    catch (std::out_of_range) {
-        errlogSevPrintf(errlogMajor, "Caught out of range error");
+    catch (const std::invalid_argument& e) {
+        errlogSevPrintf(errlogMajor, "%s Invalid argument exception: %s", prec->name, e.what());
     }
-    catch (const std::exception& e) {
-        errlogSevPrintf(errlogMajor, "%s exception %s", prec->name, e.what());
+    catch (const std::runtime_error& e) {
+        errlogSevPrintf(errlogMajor, "%s Runtime Exception: %s", prec->name, e.what());
     }
     catch (...) {
-    errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
+        errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
+    }
+    return 0;
+}
+
+// Parses the units from readings and sets the 
+// unit to the respective channels.
+// 
+// Called from an aSub record.
+long ParseReadingsForUnit(aSubRecord *prec) {
+    if (prec->fta != menuFtypeSTRING)
+    {
+        errlogSevPrintf(errlogMajor, "%s incorrect input argument type A", prec->name);
+        return 1;
+    }
+    try {
+        // Create channel lookup maps
+        std::map<int, std::string> channel_readings = parse_input(prec->a, prec->noa);
+        if (channel_readings.empty()) {
+            errlogSevPrintf(errlogMajor, "Buffer readings contain no channel information.");
+            return 2;
+        }
+        std::map<int, aSubOutputParameters> channel_output = asub_channel_output(prec);
+
+        // Iterator over the map
+        for (std::map<int, std::string>::iterator it = channel_readings.begin();
+            it != channel_readings.end();
+            ++it) {
+            int channel = set_unit_value(it, channel_output);
+        }
+    }
+    catch (const std::invalid_argument& e) {
+        errlogSevPrintf(errlogMajor, "%s Invalid argument exception: %s", prec->name, e.what());
+    }
+    catch (const std::runtime_error& e) {
+        errlogSevPrintf(errlogMajor, "%s Runtime Exception: %s", prec->name, e.what());
+    }
+    catch (...) {
+        errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
     }
     return 0;
 }

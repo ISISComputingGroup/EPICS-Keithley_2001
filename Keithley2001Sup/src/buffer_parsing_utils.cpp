@@ -2,7 +2,9 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <sstream>
 #include <vector>
+#include <stdexcept>
 
 #include <registryFunction.h>
 #include <aSubRecord.h>
@@ -57,25 +59,19 @@ std::map<int, std::string> parse_input(void* input, epicsUInt32 input_length) {
 * Returns:
 *    map of channels as keys and aSub record output pointers as values.
 */
-std::map<int, void*> asub_channel_output(aSubRecord *prec) {
-    std::map<int, void*> channel_output;
+std::map<int, aSubOutputParameters> asub_channel_output(aSubRecord *prec) {
+    std::map<int, aSubOutputParameters> channel_output;
     
-    channel_output.insert(std::pair<int, void*>(1, prec->vala));
-    channel_output.insert(std::pair<int, void*>(2, prec->valb));
-    channel_output.insert(std::pair<int, void*>(3, prec->valc));
-    channel_output.insert(std::pair<int, void*>(4, prec->vald));
-    channel_output.insert(std::pair<int, void*>(5, prec->vale));
-    channel_output.insert(std::pair<int, void*>(6, prec->valf));
-    channel_output.insert(std::pair<int, void*>(7, prec->valg));
-    channel_output.insert(std::pair<int, void*>(8, prec->valh));
-    channel_output.insert(std::pair<int, void*>(9, prec->vali));
-    channel_output.insert(std::pair<int, void*>(10, prec->valj));
-    channel_output.insert(std::pair<int, void*>(11, prec->valk));
-    channel_output.insert(std::pair<int, void*>(12, prec->vall));
-    channel_output.insert(std::pair<int, void*>(13, prec->valm));
-    channel_output.insert(std::pair<int, void*>(14, prec->valn));
-    channel_output.insert(std::pair<int, void*>(15, prec->valo));
-    channel_output.insert(std::pair<int, void*>(16, prec->valp));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(1,   aSubOutputParameters(prec->vala, prec->ftva)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(2,   aSubOutputParameters(prec->valb, prec->ftvb)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(3,   aSubOutputParameters(prec->valc, prec->ftvc)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(4,   aSubOutputParameters(prec->vald, prec->ftvd)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(5,   aSubOutputParameters(prec->vale, prec->ftve)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(6,   aSubOutputParameters(prec->valf, prec->ftvf)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(7,   aSubOutputParameters(prec->valg, prec->ftvg)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(8,   aSubOutputParameters(prec->valh, prec->ftvh)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(9,   aSubOutputParameters(prec->vali, prec->ftvi)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(10,  aSubOutputParameters(prec->valj, prec->ftvj)));
 
     return channel_output;
 }
@@ -89,23 +85,88 @@ std::map<int, void*> asub_channel_output(aSubRecord *prec) {
 * Returns:
 *    long: -1 if succesfully sets the value, channel integer otherwise.
 */
-int set_double_value(std::map<int, std::string>::iterator it, std::map<int, void*> asub_outputs) {
+int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
     // Accessing KEY from element pointed by it.
     int channel = it->first;
 
     // Accessing VALUE from element pointed by it.
     double value = parse_reading(it->second);
-
-    // Set the value 
-    double* channel_pt = static_cast<double*>(asub_outputs[channel]);
-    if (channel_pt) {
-        channel_pt[0] = value;
-        return -1;
+    
+    // Try to access the channel's output parameters from the map.
+    try {
+        aSubOutputParameters outputParameters = asub_outputs.at(channel);
+        double* channel_value_pointer = static_cast<double*>(outputParameters.outputPointer);
+        
+        if (channel_value_pointer) {
+            // Check channel output type
+            if (outputParameters.outputType != menuFtypeDOUBLE)
+            {
+                std::stringstream error_string;
+                error_string << "Incorrect output type for channel " << channel << std::endl;
+                throw std::invalid_argument(error_string.str());
+            }
+            channel_value_pointer[0] = value;
+            return 0;
+        }
+        else {
+            std::stringstream error_string;
+            error_string << "Pointer for channel " << channel << " is NULL" << std::endl;
+            throw std::runtime_error(error_string.str());
+        }
     }
-    else {
-        return channel;
+    catch(std::out_of_range) {
+        std::stringstream error_string;
+        error_string << "Channel " << channel << " is not a valid output channel." << std::endl;
+        throw std::invalid_argument(error_string.str());
     }
 }
+
+
+/**
+* Sets double values to output pointers of an aSub record.
+*
+* Args:
+*    it: Iterator over a map of channel readings.
+*    asub_outputs: Map of aSub output pointers.
+* Returns:
+*    long: -1 if succesfully sets the value, channel integer otherwise.
+*/
+int set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
+    // Accessing KEY from element pointed by it.
+    int channel = it->first;
+
+    // Accessing UNIT from element pointed by it.
+    std::string unit = parse_reading_unit(it->second);
+
+    // Try to access the channel's output parameters from the map.
+    try {
+        aSubOutputParameters outputParameters = asub_outputs.at(channel);
+        epicsOldString* channel_value_pointer = static_cast<epicsOldString*>(outputParameters.outputPointer);
+
+        if (channel_value_pointer) {
+            // Check channel output type
+            if (outputParameters.outputType != menuFtypeSTRING)
+            {
+                std::stringstream error_string;
+                error_string << "Incorrect output type for channel " << channel << std::endl;
+                throw std::invalid_argument(error_string.str());
+            }
+            strcpy(*channel_value_pointer, unit.c_str());
+            return 0;
+        }
+        else {
+            std::stringstream error_string;
+            error_string << "Pointer for channel " << channel << " is NULL" << std::endl;
+            throw std::runtime_error(error_string.str());
+        }
+    }
+    catch (std::out_of_range) {
+        std::stringstream error_string;
+        error_string << "Channel " << channel << " is not a valid output channel." << std::endl;
+        throw std::invalid_argument(error_string.str());
+    }
+}
+
 
 // Parses the channel number.
 int parse_channel(std::string channel) {
@@ -118,6 +179,7 @@ double parse_reading(std::string reading) {
 }
 
 // Parses the unit.
-const char* parse_unit(std::string reading) {
-    return "VDC";
+std::string parse_reading_unit(std::string reading) {
+    std::string unit = "VDC";
+    return unit;
 }

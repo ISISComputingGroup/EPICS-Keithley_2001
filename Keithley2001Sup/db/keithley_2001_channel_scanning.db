@@ -51,7 +51,6 @@ record(waveform, "$(P)READINGS"){
     field(NELM, "20")
     info(ARCHIVE, "VAL")
     info(INTEREST, "MEDIUM")
-    info(alarm, "KHLY_2001")
 }
 
 record(bo, "$(P)SCAN:START") {
