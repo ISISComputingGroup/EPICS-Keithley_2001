@@ -8,7 +8,6 @@ extern "C" {
 #endif
 
     long ParseReadingsForValue(aSubRecord *prec);
-    long ParseReadingsForUnit(aSubRecord *prec);
 
 #ifdef __cplusplus
 }
