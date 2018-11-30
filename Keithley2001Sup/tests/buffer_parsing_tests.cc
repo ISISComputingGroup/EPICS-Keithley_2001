@@ -56,7 +56,7 @@ namespace {
 		EXPECT_EQ(result, expected_result);
     }
 
-    TEST(Unit, test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_unit_is_parsed) {
+    TEST(Unit, test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_unit_is_parsed_as_VDC) {
 		// Given:
 		std::string expected_unit = "VDC";
         std::string reading = "9.412350E+00VDC";
@@ -66,5 +66,17 @@ namespace {
 		
 		// Then:
 		EXPECT_EQ(result, expected_unit);
+    }
+
+    TEST(Unit, test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_unit_is_parsed_as_mVDC) {
+        // Given:
+        std::string expected_unit = "mVDC";
+        std::string reading = "9.412350E+00mVDC";
+
+        // When:
+        std::string result = parse_reading_unit(reading);
+
+        // Then:
+        EXPECT_EQ(result, expected_unit);
     }
 } // namespace

@@ -162,19 +162,49 @@ void set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubO
     }
 }
 
-
-// Parses the channel number.
-int parse_channel(std::string channel) {
-    return std::atoi(channel.c_str());
+/**
+* Parses the channel.
+*
+* Args:
+*    reading: String to be parsed. Expected format %iINTCHAN where %i is a zero padded integer
+*             between 1 and 10.
+* Returns:
+*    int: Value of underlying c string as an integer.
+*/
+int parse_channel(std::string reading) {
+    return std::atoi(reading.c_str());
 }
 
-// Parses the value.
+/**
+* Parses the reading out of a reading.
+*
+* Args:
+*    reading: String to be parsed. 
+* Returns:
+*    double: Value of the double reading.
+*/
 double parse_reading(std::string reading) {
-    return std::atof(reading.c_str());
+    std::stringstream stream(reading);
+    double value;
+    stream >> value;
+    return value;
 }
 
-// Parses the unit.
+/**
+* Parses the unit out of a reading.
+*
+* Args:
+*    reading: String to be parsed.
+* Returns:
+*    std::string: Unit of the reading.
+*/
 std::string parse_reading_unit(std::string reading) {
-    std::string unit = "VDC";
+    std::stringstream stream(reading);
+    double value;
+    std::string unit;
+
+    stream >> value;
+    stream >> unit;
+
     return unit;
 }
