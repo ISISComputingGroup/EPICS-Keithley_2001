@@ -85,7 +85,7 @@ std::map<int, aSubOutputParameters> asub_channel_output(aSubRecord *prec) {
 * Returns:
 *    long: -1 if succesfully sets the value, channel integer otherwise.
 */
-int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
+void set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
     // Accessing KEY from element pointed by it.
     int channel = it->first;
 
@@ -105,7 +105,6 @@ int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSub
                 throw std::invalid_argument(error_string.str());
             }
             channel_value_pointer[0] = value;
-            return 0;
         }
         else {
             std::stringstream error_string;
@@ -120,7 +119,6 @@ int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSub
     }
 }
 
-
 /**
 * Sets double values to output pointers of an aSub record.
 *
@@ -130,7 +128,7 @@ int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSub
 * Returns:
 *    int: 0 if succesfully.
 */
-int set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
+void set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
     // Accessing KEY from element pointed by it.
     int channel = it->first;
 
@@ -150,12 +148,11 @@ int set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubOu
                 throw std::invalid_argument(error_string.str());
             }
             strcpy(*channel_value_pointer, unit.c_str());
-            return 0;
         }
         else {
             std::stringstream error_string;
             error_string << "Pointer for channel " << channel << " is NULL" << std::endl;
-            throw std::runtime_error(error_string.str());
+            throw std::logic_error(error_string.str());
         }
     }
     catch (std::out_of_range) {

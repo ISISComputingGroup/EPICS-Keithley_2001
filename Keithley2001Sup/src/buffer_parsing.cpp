@@ -16,54 +16,20 @@
 
 #include "buffer_parsing.h"
 #include "buffer_parsing_utils.h"
+#include <boost/function.hpp>
 
-
-// Parses the values from readings and sets the 
-// value to the respective channels.
-// 
-// Called from an aSub record.
-long ParseReadingsForValue(aSubRecord *prec) {
-    if (prec->fta != menuFtypeSTRING)
-    {
-        errlogSevPrintf(errlogMajor, "%s incorrect input argument type A", prec->name);
-        return 1;
-    }
-    try {
-        // Create channel lookup maps
-        std::map<int, std::string> channel_readings = parse_input(prec->a, prec->noa);
-        if (channel_readings.empty()) {
-            errlogSevPrintf(errlogInfo, "Buffer readings contain no channel information.");
-            return 2;
-        }
-        std::map<int, aSubOutputParameters> channel_output = asub_channel_output(prec);
-
-        // Iterator over the map
-        for (std::map<int, std::string>::iterator it = channel_readings.begin();
-            it != channel_readings.end();
-            ++it) {
-            set_double_value(it, channel_output);
-        }
-    }
-    catch (std::invalid_argument& e) {
-        errlogSevPrintf(errlogMajor, "%s Invalid argument exception: %s", prec->name, e.what());
-        return 3;
-    }
-    catch (std::runtime_error& e) {
-        errlogSevPrintf(errlogMajor, "%s Runtime Exception: %s", prec->name, e.what());
-        return 4;
-    }
-    catch (...) {
-        errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
-        return 5;
-    }
-    return 0;
-}
-
-// Parses the units from readings and sets the 
-// unit to the respective channels.
-// 
-// Called from an aSub record.
-long ParseReadingsForUnit(aSubRecord *prec) {
+/**
+* Base function used to parse readings.
+* Called from an aSub record.
+*
+* Args:
+*    prec: Pointer to an aSub record.
+*    Parser: Parsing function to parse the readings.
+* Returns:
+*    long: 0 if succesfully.
+*/
+static long aSubParser(aSubRecord *prec, 
+    boost::function<void (std::map<int, std::string>::iterator, std::map<int, aSubOutputParameters>)> Parser) {
     if (prec->fta != menuFtypeSTRING)
     {
         errlogSevPrintf(errlogMajor, "%s incorrect input argument type A", prec->name);
@@ -82,7 +48,7 @@ long ParseReadingsForUnit(aSubRecord *prec) {
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            set_unit_value(it, channel_outputs);
+            Parser(it, channel_outputs);
         }
     }
     catch (std::invalid_argument& e) {
@@ -98,4 +64,20 @@ long ParseReadingsForUnit(aSubRecord *prec) {
         return 5;
     }
     return 0;
+}
+
+// Parses the values from readings and sets the 
+// value to the respective channels.
+// 
+// Called from an aSub record.
+long ParseReadingsForValue(aSubRecord *prec) {
+    return aSubParser(prec, set_double_value);
+}
+
+// Parses the units from readings and sets the 
+// unit to the respective channels.
+// 
+// Called from an aSub record.
+long ParseReadingsForUnit(aSubRecord *prec) {
+    return aSubParser(prec, set_unit_value);
 }

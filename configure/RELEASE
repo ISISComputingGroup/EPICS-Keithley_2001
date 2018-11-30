@@ -2,6 +2,7 @@
 
 # START OF AUTO GENERATED DEPENDENCIES
 ASYN=$(SUPPORT)/asyn/master
+BOOST=$(EPICS_ROOT)/libraries/master/boost
 CALC=$(SUPPORT)/calc/master
 ONCRPC=$(SUPPORT)/oncrpc/master
 SNCSEQ=$(SUPPORT)/seq/master

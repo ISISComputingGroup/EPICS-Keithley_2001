@@ -33,8 +33,7 @@ namespace {
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            int channel = set_double_value(it, channel_output);
-            EXPECT_TRUE(channel == 0);
+            set_double_value(it, channel_output);
         }
 
         // Then:
@@ -64,8 +63,7 @@ namespace {
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            int channel = set_double_value(it, channel_output);
-            EXPECT_TRUE(channel == 0);
+            set_double_value(it, channel_output);
         }
 
         // Then:
@@ -134,8 +132,7 @@ namespace {
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            int channel = set_unit_value(it, channel_output);
-            EXPECT_TRUE(channel == 0);
+            set_unit_value(it, channel_output);
         }
 
         // Then:
@@ -165,8 +162,7 @@ namespace {
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            int channel = set_unit_value(it, channel_output);
-            EXPECT_TRUE(channel == 0);
+            set_unit_value(it, channel_output);
         }
 
         // Then:
