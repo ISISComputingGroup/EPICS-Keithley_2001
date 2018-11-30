@@ -59,9 +59,13 @@ static long aSubParser(aSubRecord *prec,
         errlogSevPrintf(errlogMajor, "%s Logic Error Exception: %s", prec->name, e.what());
         return 4;
     }
+    catch (std::exception& e) {
+        errlogSevPrintf(errlogMajor, "%s Exception: %s", prec->name, e.what());
+        return 5;
+    }
     catch (...) {
         errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
-        return 5;
+        return 6;
     }
     return 0;
 }

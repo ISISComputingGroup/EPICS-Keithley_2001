@@ -13,15 +13,11 @@ option +r;
  
 /* ==================== MACROS and includes =============================*/
 
-#define MAX_NUMBER_OF_CHANNELS 10
-#define READ_UNTIL_END_OF_BUFFER 1
-#define NEVER 0
-#define SENSOR 1
-#define FULL 0
-#define ACTIVE 1
 
+#include "definitions.h"
 %% #include "stdlib.h"
 %% #include "sequencer_utils.h"
+%% #include "errlog.h"
 
 /*=================== Variable declarations =========================*/
 
@@ -136,9 +132,10 @@ char *P;
 int previous_channel;
 int previous_number_of_channels;
 int single_channel;
-int scanning_channels[MAX_NUMBER_OF_CHANNELS] = {0,0,0,0,0,0,0,0,0,0};     
+int scanning_channels[MAX_NUMBER_OF_CHANNELS] = {0,0,0,0,0,0,0,0,0,0};  
 int number_of_active_channels;
 int i = 0;
+int active_channels_found;
 
 
 /*=================== State Sets ===========================*/
@@ -196,20 +193,45 @@ ss running {
         when(number_of_active_channels == 0) {
         } state check_for_errors
         
-        when(number_of_active_channels == 1) {       
+        when(number_of_active_channels == 1) {   	
             memset(scanning_channels, 0, sizeof(scanning_channels));     
-            find_active_channels(active_channels, scanning_channels);
-            single_channel = scanning_channels[0];
-            
+            active_channels_found = find_active_channels(active_channels, scanning_channels);            
+        } state check_active_channels_are_found
+        
+        when(number_of_active_channels > 1) {          
+            memset(scanning_channels, 0, sizeof(scanning_channels));       
+            active_channels_found = find_active_channels(active_channels, scanning_channels);    
+        } state check_active_channels_are_found
+    }
+
+	state check_active_channels_are_found {
+		when(active_channels_found != 0) {
+			%% errlogSevPrintf(errlogMajor, "Active channels not found");
+		} state check_for_errors
+
+		when(active_channels_found == 0 && number_of_active_channels == 1){
+		} state single_shot
+
+		when(active_channels_found == 0 && number_of_active_channels > 1){
+		} state scanning
+	}
+    
+    state single_shot {
+        when(delay(scan_delay)) { 
+			single_channel = scanning_channels[0];
+			            
             if (single_channel != previous_channel){   
                 sprintf(set_single_channel_to_read, "%d", single_channel);  
                 pvPut(set_single_channel_to_read);
                 previous_channel = single_channel;
             }
-        } state single_shot
-        
-        when(number_of_active_channels > 1) {          
-            if (previous_number_of_channels != number_of_active_channels){
+            pvPut(read_single);
+        } state parse_readings
+    }    
+    
+    state scanning {
+        when(delay(scan_delay)) {
+			if (previous_number_of_channels != number_of_active_channels){
                 previous_number_of_channels = number_of_active_channels;
                 
                 buffer_size = number_of_active_channels;
@@ -220,25 +242,12 @@ ss running {
             }
             
             pvPut(clear_buffer);
-            
-            memset(scanning_channels, 0, sizeof(scanning_channels));       
-            find_active_channels(active_channels, scanning_channels);
-            generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
-           
+
+			generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
             pvPut(set_channels_to_scan);    
+
             set_buffer_mode = 1;
-            pvPut(set_buffer_mode);         
-        } state scanning
-    }
-    
-    state single_shot {
-        when(delay(scan_delay)) { 
-            pvPut(read_single);
-        } state parse_readings
-    }    
-    
-    state scanning {
-        when(delay(scan_delay)) {
+            pvPut(set_buffer_mode);   
             pvPut(start_scan);
         } state scanning_response
     }

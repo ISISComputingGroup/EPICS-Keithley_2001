@@ -6,19 +6,24 @@
 #include <numeric>
 
 #include "sequencer_utils.h"
+#include "definitions.h"
+#include <errlog.h>
 
-#define MAX_NUMBER_OF_CHANNELS 10
-#define ACTIVE 1
 
 // Find active channels and enters their position into an array.
-void find_active_channels(int channels[],  int activated_channels[]){
+long find_active_channels(int channels[],  int activated_channels[]){
     int position = 0;
+    if (sizeof(activated_channels) / sizeof(int) > MAX_NUMBER_OF_CHANNELS) {
+        return 1;
+    }
+
     for (int i = 0; i < MAX_NUMBER_OF_CHANNELS; i++) {
         if (channels[i] == ACTIVE) {
             activated_channels[position] = i + 1;
             position++;
         }
     }
+    return 0;
 }
 
 // Calls the c++ function that generates the comma sepatated list of active channels.
