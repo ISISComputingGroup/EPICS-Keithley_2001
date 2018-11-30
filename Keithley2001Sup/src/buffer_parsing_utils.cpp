@@ -99,10 +99,9 @@ int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSub
         
         if (channel_value_pointer) {
             // Check channel output type
-            if (outputParameters.outputType != menuFtypeDOUBLE)
-            {
+            if (outputParameters.outputType != menuFtypeDOUBLE) {
                 std::stringstream error_string;
-                error_string << "Incorrect output type for channel " << channel << std::endl;
+                error_string << "Incorrect output type " << outputParameters.outputPointer << " for channel " << channel << std::endl;
                 throw std::invalid_argument(error_string.str());
             }
             channel_value_pointer[0] = value;
@@ -111,7 +110,7 @@ int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSub
         else {
             std::stringstream error_string;
             error_string << "Pointer for channel " << channel << " is NULL" << std::endl;
-            throw std::runtime_error(error_string.str());
+            throw std::logic_error(error_string.str());
         }
     }
     catch(std::out_of_range) {
@@ -129,7 +128,7 @@ int set_double_value(std::map<int, std::string>::iterator it, std::map<int, aSub
 *    it: Iterator over a map of channel readings.
 *    asub_outputs: Map of aSub output pointers.
 * Returns:
-*    long: -1 if succesfully sets the value, channel integer otherwise.
+*    int: 0 if succesfully.
 */
 int set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubOutputParameters> asub_outputs) {
     // Accessing KEY from element pointed by it.
@@ -145,10 +144,9 @@ int set_unit_value(std::map<int, std::string>::iterator it, std::map<int, aSubOu
 
         if (channel_value_pointer) {
             // Check channel output type
-            if (outputParameters.outputType != menuFtypeSTRING)
-            {
+            if (outputParameters.outputType != menuFtypeSTRING) {
                 std::stringstream error_string;
-                error_string << "Incorrect output type for channel " << channel << std::endl;
+                error_string << "Incorrect output type " << outputParameters.outputPointer << " for channel " << channel << std::endl;
                 throw std::invalid_argument(error_string.str());
             }
             strcpy(*channel_value_pointer, unit.c_str());

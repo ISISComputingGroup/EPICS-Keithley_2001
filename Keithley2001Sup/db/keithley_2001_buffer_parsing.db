@@ -50,48 +50,48 @@ record(aSub, "$(P)PARSE:VALUE"){
 record(aSub, "$(P)PARSE:UNIT"){
     field(DESC, "Parses the buffer for the values.")
     
-    field(SNAM, "parse_readings_for_value")
+    field(SNAM, "parse_readings_for_unit")
 
     field(INPA, "$(P)READINGS")
     field(FTA, "STRING")
     field(NOA, "20")
 
-    field(OUTA, "$(P)CHAN:01:UNIT PP")
+    field(OUTA, "$(P)CHAN:01:UNIT PP MS")
     field(FTVA, "STRING")
     field(NOVA, "1")
     
-    field(OUTB, "$(P)CHAN:02:UNIT PP")
+    field(OUTB, "$(P)CHAN:02:UNIT PP MS")
     field(FTVB, "STRING")    
     field(NOVB, "1")
     
-    field(OUTC, "$(P)CHAN:03:UNIT PP")
+    field(OUTC, "$(P)CHAN:03:UNIT PP MS")
     field(FTVC, "STRING")
     field(NOVC, "1")
     
-    field(OUTD, "$(P)CHAN:04:UNIT PP")
+    field(OUTD, "$(P)CHAN:04:UNIT PP MS")
     field(FTVD, "STRING")
     field(NOVD, "1")
     
-    field(OUTE, "$(P)CHAN:05:UNIT PP")
+    field(OUTE, "$(P)CHAN:05:UNIT PP MS")
     field(FTVE, "STRING")
     field(NOVE, "1")
     
-    field(OUTF, "$(P)CHAN:06:UNIT PP")
+    field(OUTF, "$(P)CHAN:06:UNIT PP MS")
     field(FTVF, "STRING")
     field(NOVF, "1")
     
-    field(OUTG, "$(P)CHAN:07:UNIT PP")
+    field(OUTG, "$(P)CHAN:07:UNIT PP MS")
     field(FTVG, "STRING")   
     field(NOVG, "1")    
     
-    field(OUTH, "$(P)CHAN:08:UNIT PP")
+    field(OUTH, "$(P)CHAN:08:UNIT PP MS")
     field(FTVH, "STRING")
     field(NOVH, "1")   
     
-    field(OUTI, "$(P)CHAN:09:UNIT PP")
+    field(OUTI, "$(P)CHAN:09:UNIT PP MS")
     field(FTVI, "STRING")    
     field(NOVI, "1")   
     
-    field(OUTJ, "$(P)CHAN:10:UNIT PP")
+    field(OUTJ, "$(P)CHAN:10:UNIT PP MS")
     field(FTVJ, "STRING")
 }

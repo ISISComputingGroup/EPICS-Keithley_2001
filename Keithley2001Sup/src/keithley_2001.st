@@ -108,10 +108,9 @@ assign get_buffer_data to "{P}READINGS:BUFF.PROC";
 int parse_readings_for_value;
 assign parse_readings_for_value to "{P}PARSE:VALUE.PROC";
 
-/*
 int parse_readings_for_unit;
 assign parse_readings_for_unit to "{P}PARSE:UNIT.PROC";
-*/
+
 
 /* Scan and single read PVs */
 
@@ -253,7 +252,7 @@ ss running {
     state parse_readings {
         when() {
             pvPut(parse_readings_for_value);
-            /*pvPut(parse_readings_for_unit); */
+            pvPut(parse_readings_for_unit);
         } state check_for_errors
     }
 }

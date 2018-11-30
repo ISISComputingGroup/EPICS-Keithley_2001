@@ -6,6 +6,7 @@
 #include <errlog.h>
 #include <epicsString.h>
 #include <epicsExport.h>
+#include "epicsTypes.h"
 
 #include <string>
 #include <iostream>
@@ -31,7 +32,7 @@ long ParseReadingsForValue(aSubRecord *prec) {
         // Create channel lookup maps
         std::map<int, std::string> channel_readings = parse_input(prec->a, prec->noa);
         if (channel_readings.empty()) {
-            errlogSevPrintf(errlogMajor, "Buffer readings contain no channel information.");
+            errlogSevPrintf(errlogInfo, "Buffer readings contain no channel information.");
             return 2;
         }
         std::map<int, aSubOutputParameters> channel_output = asub_channel_output(prec);
@@ -40,17 +41,20 @@ long ParseReadingsForValue(aSubRecord *prec) {
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            int channel = set_double_value(it, channel_output);
+            set_double_value(it, channel_output);
         }
     }
-    catch (const std::invalid_argument& e) {
+    catch (std::invalid_argument& e) {
         errlogSevPrintf(errlogMajor, "%s Invalid argument exception: %s", prec->name, e.what());
+        return 3;
     }
-    catch (const std::runtime_error& e) {
+    catch (std::runtime_error& e) {
         errlogSevPrintf(errlogMajor, "%s Runtime Exception: %s", prec->name, e.what());
+        return 4;
     }
     catch (...) {
         errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
+        return 5;
     }
     return 0;
 }
@@ -69,26 +73,29 @@ long ParseReadingsForUnit(aSubRecord *prec) {
         // Create channel lookup maps
         std::map<int, std::string> channel_readings = parse_input(prec->a, prec->noa);
         if (channel_readings.empty()) {
-            errlogSevPrintf(errlogMajor, "Buffer readings contain no channel information.");
+            errlogSevPrintf(errlogInfo, "Buffer readings contain no channel information.");
             return 2;
         }
-        std::map<int, aSubOutputParameters> channel_output = asub_channel_output(prec);
+        std::map<int, aSubOutputParameters> channel_outputs = asub_channel_output(prec);
 
         // Iterator over the map
         for (std::map<int, std::string>::iterator it = channel_readings.begin();
             it != channel_readings.end();
             ++it) {
-            int channel = set_unit_value(it, channel_output);
+            set_unit_value(it, channel_outputs);
         }
     }
-    catch (const std::invalid_argument& e) {
+    catch (std::invalid_argument& e) {
         errlogSevPrintf(errlogMajor, "%s Invalid argument exception: %s", prec->name, e.what());
+        return 3;
     }
-    catch (const std::runtime_error& e) {
-        errlogSevPrintf(errlogMajor, "%s Runtime Exception: %s", prec->name, e.what());
+    catch (std::logic_error& e) {
+        errlogSevPrintf(errlogMajor, "%s Logic Error Exception: %s", prec->name, e.what());
+        return 4;
     }
     catch (...) {
         errlogSevPrintf(errlogMajor, "%s unknown exception", prec->name);
+        return 5;
     }
     return 0;
 }
