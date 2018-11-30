@@ -15,6 +15,7 @@ option +r;
 
 
 #include "definitions.h"
+#include "seqPVmacros.h"
 %% #include "stdlib.h"
 %% #include "sequencer_utils.h"
 %% #include "errlog.h"
@@ -171,8 +172,7 @@ ss running {
     
         when(clear_error_flag == 1) {
             pvPut(clear_error);
-            clear_error_flag = 0;
-            pvPut(clear_error_flag);      
+			PVPUT(clear_error_flag, 0);    
         } state prepare_to_read
         
         when(clear_error_flag == 0) {
@@ -234,20 +234,15 @@ ss running {
 			if (previous_number_of_channels != number_of_active_channels){
                 previous_number_of_channels = number_of_active_channels;
                 
-                buffer_size = number_of_active_channels;
-                pvPut(buffer_size);
-                
-                measurement_scan_count_setpoint = number_of_active_channels;
-                pvPut(measurement_scan_count_setpoint);
+				PVPUT(buffer_size, number_of_active_channels);
+                PVPUT(measurement_scan_count_setpoint, number_of_active_channels);
             }
-            
             pvPut(clear_buffer);
 
 			generate_scan_channel_string(scanning_channels, number_of_active_channels, set_channels_to_scan);
             pvPut(set_channels_to_scan);    
 
-            set_buffer_mode = 1;
-            pvPut(set_buffer_mode);   
+            PVPUT(set_buffer_mode, NEXT);   
             pvPut(start_scan);
         } state scanning_response
     }

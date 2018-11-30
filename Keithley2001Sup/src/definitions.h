@@ -7,5 +7,6 @@
 #define SENSOR 1
 #define FULL 0
 #define ACTIVE 1
+#define NEXT 1
 
 #endif 
