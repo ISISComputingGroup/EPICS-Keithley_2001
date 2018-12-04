@@ -20,10 +20,10 @@ record(stringin, "$(P)IDN") {
     field(DESC, "SCPI identification string")
     field(DTYP, "stream")
     field(INP,  "@keithley_2001.proto get_IDN $(PORT)")
-    field(PINI, "YES")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:IDN")
     field(SDIS, "$(P)DISABLE")
+    info(alarm, "KHLY2001")
 }
 
 record(stringout, "$(P)SIM:IDN")

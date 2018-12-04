@@ -1,0 +1,14 @@
+file alarm_readings_setter.template {
+    pattern {P, STREAM_PV, PV_NAME}
+
+    {"\$(P)", "ERROR:RAW", "CHAN:01:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:02:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:03:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:04:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:05:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:06:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:07:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:08:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:09:READ"}
+    {"\$(P)", "ERROR:RAW", "CHAN:10:READ"}
+}

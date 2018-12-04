@@ -3,15 +3,16 @@
 
 #include <aSubRecord.h>
 #include "epicsTypes.h"
+#include <menuFtype.h>
 #include <map>
 
     struct aSubOutputParameters{
 
         void* outputPointer;
-        epicsEnum16 outputType;
+        menuFtype outputType;
 
         aSubOutputParameters() {}
-        aSubOutputParameters(void* output_pointer, epicsEnum16 output_type)
+        aSubOutputParameters(void* output_pointer, menuFtype output_type)
         : outputPointer(output_pointer), outputType(output_type) {}
     };
     

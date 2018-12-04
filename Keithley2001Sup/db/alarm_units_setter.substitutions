@@ -1,0 +1,14 @@
+file alarm_unit_setter.template {
+    pattern {P, STREAM_PV, PV_NAME}
+
+    {"\$(P)", "ERROR:RAW", "CHAN:01:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:02:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:03:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:04:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:05:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:06:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:07:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:08:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:09:UNIT"}
+    {"\$(P)", "ERROR:RAW", "CHAN:10:UNIT"}
+}

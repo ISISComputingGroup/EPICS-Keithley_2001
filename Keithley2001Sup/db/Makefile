@@ -19,6 +19,8 @@ DB += keithley_2001_channel_scanning.db
 DB += keithley_2001_buffer_parsing.db
 DB += keithley_2001_error_handling.db
 DB += unit_setter.db
+DB += alarm_readings_setter.db
+DB += alarm_units_setter.db
 
 
 #----------------------------------------------------

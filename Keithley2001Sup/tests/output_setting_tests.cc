@@ -22,7 +22,7 @@ namespace {
         double result = 0;
         void* pt = static_cast<void*>(&result);
         
-        epicsEnum16 output_type = menuFtypeDOUBLE;
+        menuFtype output_type = menuFtypeDOUBLE;
 
         channel_output.insert(std::pair<int, aSubOutputParameters>(1, aSubOutputParameters(pt, output_type)));
         
@@ -44,7 +44,7 @@ namespace {
     TEST(SettingDoubles, test_that_GIVEN_channel_map_with_multiple_values_THEN_the_double_values_are_set) {
         // Given:
         std::map<int, aSubOutputParameters> channel_output;
-        epicsEnum16 output_type = menuFtypeDOUBLE;
+        menuFtype output_type = menuFtypeDOUBLE;
         std::vector<void*> pointers(3);
 
         std::vector<double> results(3);
@@ -78,7 +78,7 @@ namespace {
         std::map<int, aSubOutputParameters> channel_output;
         double result = 0;
         void* pt = static_cast<void*>(&result);
-        epicsEnum16 output_type = menuFtypeDOUBLE;
+        menuFtype output_type = menuFtypeDOUBLE;
 
         channel_output.insert(std::pair<int, aSubOutputParameters>(1, aSubOutputParameters(pt, output_type)));
 
@@ -99,7 +99,7 @@ namespace {
         std::map<int, aSubOutputParameters> channel_output;
         double result = 0;
         void* pt = static_cast<void*>(&result);
-        epicsEnum16 output_type = menuFtypeSTRING;
+        menuFtype output_type = menuFtypeSTRING;
 
         channel_output.insert(std::pair<int, aSubOutputParameters>(1, aSubOutputParameters(pt, output_type)));
 
@@ -121,7 +121,7 @@ namespace {
         epicsOldString result;
         void* pt = static_cast<void*>(&result);
 
-        epicsEnum16 output_type = menuFtypeSTRING;
+        menuFtype output_type = menuFtypeSTRING;
 
         channel_output.insert(std::pair<int, aSubOutputParameters>(1, aSubOutputParameters(pt, output_type)));
 
@@ -143,7 +143,7 @@ namespace {
     TEST(SettingUnits, test_that_GIVEN_channel_map_with_multiple_values_THEN_the_units_are_set) {
         // Given:
         std::map<int, aSubOutputParameters> channel_output;
-        epicsEnum16 output_type = menuFtypeSTRING;
+        menuFtype output_type = menuFtypeSTRING;
         std::vector<void*> pointers(3);
 
         std::vector<epicsOldString> results(3);
@@ -177,7 +177,7 @@ namespace {
         std::map<int, aSubOutputParameters> channel_output;
         epicsOldString result;
         void* pt = static_cast<void*>(&result);
-        epicsEnum16 output_type = menuFtypeSTRING;
+        menuFtype output_type = menuFtypeSTRING;
 
         channel_output.insert(std::pair<int, aSubOutputParameters>(1, aSubOutputParameters(pt, output_type)));
 
@@ -198,7 +198,7 @@ namespace {
         std::map<int, aSubOutputParameters> channel_output;
         epicsOldString result;
         void* pt = static_cast<void*>(&result);
-        epicsEnum16 output_type = menuFtypeDOUBLE;
+        menuFtype output_type = menuFtypeDOUBLE;
 
         channel_output.insert(std::pair<int, aSubOutputParameters>(1, aSubOutputParameters(pt, output_type)));
 

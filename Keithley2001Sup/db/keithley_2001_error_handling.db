@@ -5,6 +5,7 @@ record(waveform, "$(P)ERROR:RAW"){
     field(NELM, "2")
     field(FTVL, "STRING")
     
+    info(alarm, "KHLY_2001")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:ERROR:RAW")
     field(SDIS, "$(P)DISABLE")
@@ -12,7 +13,7 @@ record(waveform, "$(P)ERROR:RAW"){
 
 record(stringin, "$(P)ERROR:MSG"){
     field(DESC, "Records the error message")
-    field(INP, "$(P)ERROR:RAW.VAL[1] CP")
+    field(INP, "$(P)ERROR:RAW.VAL[1] CP MS")
     
     info(INTEREST, "LOW")
 	info(ARCHIVE, "VAL")
@@ -20,8 +21,10 @@ record(stringin, "$(P)ERROR:MSG"){
 
 record(longin, "$(P)ERROR:CODE"){
     field(DESC, "Records the error code")
-    field(INP, "$(P)ERROR:RAW.VAL[0] CP")
+    field(INP, "$(P)ERROR:RAW.VAL[0] CP MS")
     field(EGU, "")
+    field(LOW, "-1")
+    field(LSV, "MAJOR")
     
     info(INTEREST, "LOW")
 	info(ARCHIVE, "VAL")

@@ -16,6 +16,7 @@
 #include <epicsString.h>
 #include <string.h>
 #include <stdlib.h>
+#include "stringinRecord.h"
 
 #include "buffer_parsing_utils.h"
 
@@ -62,16 +63,16 @@ std::map<int, std::string> parse_input(void* input, epicsUInt32 input_length) {
 std::map<int, aSubOutputParameters> asub_channel_output(aSubRecord *prec) {
     std::map<int, aSubOutputParameters> channel_output;
     
-    channel_output.insert(std::pair<int, aSubOutputParameters>(1,   aSubOutputParameters(prec->vala, prec->ftva)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(2,   aSubOutputParameters(prec->valb, prec->ftvb)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(3,   aSubOutputParameters(prec->valc, prec->ftvc)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(4,   aSubOutputParameters(prec->vald, prec->ftvd)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(5,   aSubOutputParameters(prec->vale, prec->ftve)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(6,   aSubOutputParameters(prec->valf, prec->ftvf)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(7,   aSubOutputParameters(prec->valg, prec->ftvg)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(8,   aSubOutputParameters(prec->valh, prec->ftvh)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(9,   aSubOutputParameters(prec->vali, prec->ftvi)));
-    channel_output.insert(std::pair<int, aSubOutputParameters>(10,  aSubOutputParameters(prec->valj, prec->ftvj)));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(1,   aSubOutputParameters(prec->vala, static_cast<menuFtype>(prec->ftva))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(2,   aSubOutputParameters(prec->valb, static_cast<menuFtype>(prec->ftvb))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(3,   aSubOutputParameters(prec->valc, static_cast<menuFtype>(prec->ftvc))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(4,   aSubOutputParameters(prec->vald, static_cast<menuFtype>(prec->ftvd))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(5,   aSubOutputParameters(prec->vale, static_cast<menuFtype>(prec->ftve))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(6,   aSubOutputParameters(prec->valf, static_cast<menuFtype>(prec->ftvf))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(7,   aSubOutputParameters(prec->valg, static_cast<menuFtype>(prec->ftvg))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(8,   aSubOutputParameters(prec->valh, static_cast<menuFtype>(prec->ftvh))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(9,   aSubOutputParameters(prec->vali, static_cast<menuFtype>(prec->ftvi))));
+    channel_output.insert(std::pair<int, aSubOutputParameters>(10,  aSubOutputParameters(prec->valj, static_cast<menuFtype>(prec->ftvj))));
 
     return channel_output;
 }

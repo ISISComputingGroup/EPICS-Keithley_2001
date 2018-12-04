@@ -126,7 +126,6 @@ assign clear_error_flag to "{P}ERROR:CLEAR:FLAG.VAL";
 int clear_error;
 assign clear_error to "{P}ERROR:CLEAR.PROC";
 
-
 /* Non PV variables */
 
 char *P;
