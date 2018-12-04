@@ -19,7 +19,7 @@ record(bi, "$(P)CHAN:$(CHANNEL):ACTIVE") {
 	field(DESC, "Activate channel")
     field(ZNAM, "INACTIVE")
     field(ONAM, "ACTIVE")
-    field(VAL, "$(ACTIVATE_CHAN_$(CHANNEL)= 0)")
+    field(VAL, "$(ACTIVATE_CHANNEL_MACRO)")
     
     field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
 }

@@ -32,3 +32,8 @@ record(stringout, "$(P)SIM:IDN")
     field(DTYP, "Soft Channel")
     field(VAL, "MODEL 2001,4301578,B17  /A02  ")
 }
+
+record(bi, "$(P)RESET:FLAG"){
+    field(DESC, "Set if we need to reset the IOC")
+    field(TPRO, "1")
+}

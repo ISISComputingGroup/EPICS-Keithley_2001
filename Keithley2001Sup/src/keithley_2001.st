@@ -126,6 +126,11 @@ assign clear_error_flag to "{P}ERROR:CLEAR:FLAG.VAL";
 int clear_error;
 assign clear_error to "{P}ERROR:CLEAR.PROC";
 
+/* Reset IOC PV */
+
+int reset_flag;
+assign reset_flag to "{P}RESET:FLAG.VAL";
+
 /* Non PV variables */
 
 char *P;
@@ -141,8 +146,10 @@ int active_channels_found;
 /*=================== State Sets ===========================*/
 
 ss running {
+
     state init {
         when() {
+            puts("Initializing device");
             P = macValueGet("P");
             pvPut(reset_device);
             
@@ -157,13 +164,25 @@ ss running {
 
             previous_channel = -1;
             previous_number_of_channels = -1;
-        } state check_for_errors
+        } state check_for_errors_and_if_to_reset
     }
     
-    state check_for_errors {
+    state check_for_errors_and_if_to_reset {
         when () {
             pvGet(clear_error_flag);
+            pvGet(reset_flag);
             pvPut(error);
+        } state reset_ioc
+    }
+    
+    state reset_ioc {
+    
+        when(reset_flag == 1) {
+            puts("RESETING reset flag");
+			PVPUT(reset_flag, 0);    
+        } state init
+        
+        when(reset_flag == 0) {
         } state clear_errors
     }
     
@@ -176,7 +195,7 @@ ss running {
         
         when(clear_error_flag == 0) {
         } state prepare_to_read
-    }
+    }     
     
     state prepare_to_read {
         when() {
@@ -190,7 +209,7 @@ ss running {
  
     state reading_setup {
         when(number_of_active_channels == 0) {
-        } state check_for_errors
+        } state check_for_errors_and_if_to_reset
         
         when(number_of_active_channels == 1) {   	
             memset(scanning_channels, 0, sizeof(scanning_channels));     
@@ -206,7 +225,7 @@ ss running {
 	state check_active_channels_are_found {
 		when(active_channels_found != 0) {
 			%% errlogSevPrintf(errlogMajor, "Active channels not found");
-		} state check_for_errors
+		} state check_for_errors_and_if_to_reset
 
 		when(active_channels_found == 0 && number_of_active_channels == 1){
 		} state single_shot
@@ -256,6 +275,6 @@ ss running {
         when() {
             pvPut(parse_readings_for_value);
             pvPut(parse_readings_for_unit);
-        } state check_for_errors
+        } state check_for_errors_and_if_to_reset
     }
 }

@@ -4,5 +4,4 @@ record(calcout, "$(P)$(PV_NAME):RAW") {
     field(INPB, "$(P)$(STREAM_PV) MS CP")
     field(CALC, "A")
     field(OUT, "$(P)$(PV_NAME) PP MS")
-    field(TPRO, "1")
 }

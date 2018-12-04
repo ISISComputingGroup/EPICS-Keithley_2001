@@ -23,7 +23,5 @@
     double parse_reading(std::string reading);
     int parse_channel(std::string channel);
     std::string parse_reading_unit(std::string reading);
-
-
-
+    
 #endif
