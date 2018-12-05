@@ -7,7 +7,7 @@
 record(ai, "$(P)CHAN:$(CHANNEL):READ") {
 	field(DESC, "Latest channel reading")
 	field(PREC, "5")
-	info(alarm, "Keithley_2001")
+	info(alarm, "KHLY2001")
     field(EGU, "") 
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")
@@ -27,6 +27,7 @@ record(bi, "$(P)CHAN:$(CHANNEL):ACTIVE") {
 record(stringin, "$(P)CHAN:$(CHANNEL):UNIT") {
 	field(DESC, "Latest channel unit")
     field(VAL, "")
+    info(alarm, "KHLY2001")
 	info(INTEREST, "HIGH")
 	info(ARCHIVE, "VAL")
     

@@ -5,7 +5,7 @@ record(waveform, "$(P)ERROR:RAW"){
     field(NELM, "2")
     field(FTVL, "STRING")
     
-    info(alarm, "KHLY_2001")
+    info(alarm, "KHLY2001")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:ERROR:RAW")
     field(SDIS, "$(P)DISABLE")
@@ -28,6 +28,7 @@ record(longin, "$(P)ERROR:CODE"){
     
     info(INTEREST, "LOW")
 	info(ARCHIVE, "VAL")
+    info(alarm, "KHLY2001")
 }
 
 ## SIM Records

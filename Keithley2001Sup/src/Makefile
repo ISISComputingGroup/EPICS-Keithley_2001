@@ -38,7 +38,6 @@ runner_SRCS +=  buffer_parsing_utils.cpp input_parsing_tests.cc output_setting_t
 runner_SRCS +=  buffer_parsing_tests.cc
 runner_SRCS += sequencer_utils_tests.cc sequencer_utils.cpp
 runner_LIBS += gtest
-
 endif
 endif
 
