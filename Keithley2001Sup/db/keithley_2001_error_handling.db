@@ -30,20 +30,6 @@ record(longin, "$(P)ERROR:CODE"){
 	info(ARCHIVE, "VAL")
 }
 
-record(bo, "$(P)ERROR:CLEAR"){
-    field(DESC, "Records the error string")
-    field(DTYP, "stream")
-    field(OUT, "@keithley_2001.proto clear_errors $(PORT)")
-    
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:ERROR:CLEAR")
-    field(SDIS, "$(P)DISABLE")
-}
-
-record(bi, "$(P)ERROR:CLEAR:FLAG"){
-    field(DESC, "Set if we need to clear the error")
-}
-
 ## SIM Records
 
 record(waveform, "$(P)SIM:ERROR:RAW") {
@@ -51,5 +37,3 @@ record(waveform, "$(P)SIM:ERROR:RAW") {
     field(NELM, "2")
     field(FTVL, "STRING")
 }
-
-record(bo, "$(P)SIM:ERROR:CLEAR") {}
