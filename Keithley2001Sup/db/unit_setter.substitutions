@@ -1,0 +1,13 @@
+file unit_setter.template {
+	pattern { P, PORT, FROM, TO }
+    {"\$(P)", "\$(PORT)", "CHAN:01:UNIT","CHAN:01:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:02:UNIT","CHAN:02:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:03:UNIT","CHAN:03:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:04:UNIT","CHAN:04:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:05:UNIT","CHAN:05:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:06:UNIT","CHAN:06:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:07:UNIT","CHAN:07:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:08:UNIT","CHAN:08:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:09:UNIT","CHAN:09:READ" }
+    {"\$(P)", "\$(PORT)", "CHAN:10:UNIT","CHAN:10:READ" }
+}                                         

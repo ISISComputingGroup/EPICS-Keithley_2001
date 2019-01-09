@@ -1,0 +1,40 @@
+record(waveform, "$(P)ERROR:RAW"){
+    field(DESC, "Gets the error string")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_errors $(PORT)")
+    field(NELM, "2")
+    field(FTVL, "STRING")
+    
+    info(alarm, "KHLY2001")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ERROR:RAW")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)ERROR:MSG"){
+    field(DESC, "Records the error message")
+    field(INP, "$(P)ERROR:RAW.VAL[1] CP MS")
+    
+    info(INTEREST, "LOW")
+	info(ARCHIVE, "VAL")
+}
+
+record(longin, "$(P)ERROR:CODE"){
+    field(DESC, "Records the error code")
+    field(INP, "$(P)ERROR:RAW.VAL[0] CP MS")
+    field(EGU, "")
+    field(LOW, "-1")
+    field(LSV, "MAJOR")
+    
+    info(INTEREST, "LOW")
+	info(ARCHIVE, "VAL")
+    info(alarm, "KHLY2001")
+}
+
+## SIM Records
+
+record(waveform, "$(P)SIM:ERROR:RAW") {
+    field(DESC, "Error Raw SIM record")
+    field(NELM, "2")
+    field(FTVL, "STRING")
+}

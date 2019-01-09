@@ -1,0 +1,39 @@
+record(bo, "$(P)SIM") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)DISABLE") {
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(stringin, "$(P)IDN") {
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@keithley_2001.proto get_IDN $(PORT)")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:IDN")
+    field(SDIS, "$(P)DISABLE")
+    info(alarm, "KHLY2001")
+}
+
+record(stringout, "$(P)SIM:IDN")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(VAL, "MODEL 2001,4301578,B17  /A02  ")
+}
+
+record(bi, "$(P)RESET:FLAG"){
+    field(DESC, "Set if we need to reset the IOC")
+    field(TPRO, "1")
+}

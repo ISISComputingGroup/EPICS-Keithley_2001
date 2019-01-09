@@ -1,0 +1,98 @@
+record(aSub, "$(P)PARSE:VALUE"){
+    field(DESC, "Parses the buffer for the values.")
+    
+    field(SNAM, "parse_readings_for_value")
+
+    field(INPA, "$(P)READINGS")
+    field(FTA, "STRING")
+    field(NOA, "20")
+
+    field(OUTA, "$(P)CHAN:01:READ:RAW.A PP")
+    field(FTVA, "DOUBLE")
+    field(NOVA, "1")
+    
+    field(OUTB, "$(P)CHAN:02:READ:RAW.A PP")
+    field(FTVB, "DOUBLE")    
+    field(NOVB, "1")
+    
+    field(OUTC, "$(P)CHAN:03:READ:RAW.A PP")
+    field(FTVC, "DOUBLE")
+    field(NOVC, "1")
+    
+    field(OUTD, "$(P)CHAN:04:READ:RAW.A PP")
+    field(FTVD, "DOUBLE")
+    field(NOVD, "1")
+    
+    field(OUTE, "$(P)CHAN:05:READ:RAW.A PP")
+    field(FTVE, "DOUBLE")
+    field(NOVE, "1")
+    
+    field(OUTF, "$(P)CHAN:06:READ:RAW.A PP")
+    field(FTVF, "DOUBLE")
+    field(NOVF, "1")
+    
+    field(OUTG, "$(P)CHAN:07:READ:RAW.A PP")
+    field(FTVG, "DOUBLE")   
+    field(NOVG, "1")    
+    
+    field(OUTH, "$(P)CHAN:08:READ:RAW.A PP")
+    field(FTVH, "DOUBLE")
+    field(NOVH, "1")   
+    
+    field(OUTI, "$(P)CHAN:09:READ:RAW.A PP")
+    field(FTVI, "DOUBLE")    
+    field(NOVI, "1")   
+    
+    field(OUTJ, "$(P)CHAN:10:READ:RAW.A PP")
+    field(FTVJ, "DOUBLE")
+    field(NOVJ, "1")  
+}
+
+record(aSub, "$(P)PARSE:UNIT"){
+    field(DESC, "Parses the buffer for the values.")
+    
+    field(SNAM, "parse_readings_for_unit")
+
+    field(INPA, "$(P)READINGS")
+    field(FTA, "STRING")
+    field(NOA, "20")
+
+    field(OUTA, "$(P)CHAN:01:UNIT:RAW.AA PP MS")
+    field(FTVA, "STRING")
+    field(NOVA, "1")
+    
+    field(OUTB, "$(P)CHAN:02:UNIT:RAW.AA PP MS")
+    field(FTVB, "STRING")
+    field(NOVB, "1")
+    
+    field(OUTC, "$(P)CHAN:03:UNIT:RAW.AA PP MS")
+    field(FTVC, "STRING")
+    field(NOVC, "1")
+
+    field(OUTD, "$(P)CHAN:04:UNIT:RAW.AA PP MS")
+    field(FTVD, "STRING")
+    field(NOVD, "1")
+
+    field(OUTE, "$(P)CHAN:05:UNIT:RAW.AA PP MS")
+    field(FTVE, "STRING")
+    field(NOVE, "1")
+
+    field(OUTF, "$(P)CHAN:06:UNIT:RAW.AA PP MS")
+    field(FTVF, "STRING")
+    field(NOVF, "1")
+
+    field(OUTG, "$(P)CHAN:07:UNIT:RAW.AA PP MS")
+    field(FTVG, "STRING")
+    field(NOVG, "1")
+
+    field(OUTH, "$(P)CHAN:08:UNIT:RAW.AA PP MS")
+    field(FTVH, "STRING")
+    field(NOVH, "1")
+
+    field(OUTI, "$(P)CHAN:09:UNIT:RAW.AA PP MS")
+    field(FTVI, "STRING")
+    field(NOVI, "1")
+
+    field(OUTJ, "$(P)CHAN:10:UNIT:RAW.AA PP MS")
+    field(FTVJ, "STRING")
+}

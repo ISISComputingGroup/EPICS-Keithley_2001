@@ -1,0 +1,7 @@
+record(scalcout, "$(P)$(PV_NAME):RAW") {
+    field(DESC, "Transfer error from INP.B to PV_NAME")
+    # AA is set by the aSub record
+    field(INPB, "$(P)$(STREAM_PV) MS CP")
+    field(CALC, "AA")
+    field(OUT, "$(P)$(PV_NAME) PP MS")
+}

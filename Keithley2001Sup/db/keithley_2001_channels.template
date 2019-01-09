@@ -1,0 +1,45 @@
+##################################################################
+#
+# CHAN $(CHANNEL) Records
+#
+###################################################################
+
+record(ai, "$(P)CHAN:$(CHANNEL):READ") {
+	field(DESC, "Latest channel reading")
+	field(PREC, "5")
+	info(alarm, "KHLY2001")
+    field(EGU, "") 
+	info(INTEREST, "HIGH")
+	info(ARCHIVE, "VAL")
+    
+    field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
+}
+
+record(bi, "$(P)CHAN:$(CHANNEL):ACTIVE") {
+	field(DESC, "Activate channel")
+    field(ZNAM, "INACTIVE")
+    field(ONAM, "ACTIVE")
+    field(VAL, "$(ACTIVATE_CHANNEL_MACRO)")
+    
+    field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
+}
+
+record(stringin, "$(P)CHAN:$(CHANNEL):UNIT") {
+	field(DESC, "Latest channel unit")
+    field(VAL, "")
+    info(alarm, "KHLY2001")
+	info(INTEREST, "HIGH")
+	info(ARCHIVE, "VAL")
+    
+    field(SDIS, "$(P)CHAN:$(CHANNEL):DISABLE")
+}
+
+record(bo, "$(P)CHAN:$(CHANNEL):DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}

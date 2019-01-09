@@ -1,0 +1,111 @@
+record(bo, "$(P)BUFF:CLEAR") {
+    field(DESC, "Clears the buffer")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto clear_buffer $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:CLEAR")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbi, "$(P)BUFF:MODE") {
+    field(DESC, "Reads buffer mode")
+    field(DTYP, "stream")
+    
+    field(INP, "@keithley_2001.proto get_buffer_mode $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NEV")
+    
+    field(ONVL, "1")
+    field(ONST, "NEXT")
+    
+    field(TWVL, "2")
+    field(TWST, "ALW")  
+    
+    field(THVL, "3")
+    field(THST, "PRET")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:MODE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbo, "$(P)BUFF:MODE:SP") {
+    field(DESC, "Sets buffer mode")
+    field(DTYP, "stream")
+
+    field(OUT, "@keithley_2001.proto set_buffer_mode $(PORT)")
+    
+    field(ZRVL, "0")
+    field(ZRST, "NEV")
+    
+    field(ONVL, "1")
+    field(ONST, "NEXT")
+    
+    field(TWVL, "2")
+    field(TWST, "ALW")  
+    
+    field(THVL, "3")
+    field(THST, "PRET")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:MODE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(longout, "$(P)BUFF:SIZE:SP"){
+    field(DESC, "Sets the buffer size")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_buff_size $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SIZE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(longin, "$(P)BUFF:SIZE"){
+    field(DESC, "Gets the buffer size")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_buff_size $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:BUFF:SIZE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(longout, "$(P)SCAN:MEAS:COUNT:SP"){
+    field(DESC, "Sets the measurement trigger count.")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_measurement_trigger_count $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:MEAS:COUNT:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(longin, "$(P)SCAN:MEAS:COUNT"){
+    field(DESC, "Sets the measurement trigger count.")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_measurement_trigger_count $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:MEAS:COUNT")
+    field(SDIS, "$(P)DISABLE")
+}
+
+### SIM RECORDS
+
+record(bi, "$(P)SIM:BUFF:CLEAR") {}
+
+record(longin, "$(P)SIM:BUFF:SIZE") {}
+
+alias("$(P)SIM:BUFF:SIZE","$(P)SIM:BUFF:SIZE:SP")
+
+record(mbbo, "$(P)SIM:BUFF:MODE") {}
+
+alias("$(P)SIM:BUFF:MODE","$(P)SIM:BUFF:MODE:SP")
+
+record(longin, "$(P)SIM:SCAN:MEAS:COUNT") {}
+
+alias("$(P)SIM:SCAN:MEAS:COUNT","$(P)SIM:SCAN:MEAS:COUNT:SP")

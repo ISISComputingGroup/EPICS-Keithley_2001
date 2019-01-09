@@ -1,0 +1,156 @@
+# Protocol file for Keithley 2001
+
+InTerminator  = LF;
+OutTerminiator = "";
+
+get_IDN {
+    out "*IDN?";	
+    #Read no more that 39 chars (EPICS limit)
+    in "%*{KEITHLEY INSTRUMENTS INC.,}%/(.{0,39})/";
+}
+
+reset {
+    out "*RST";
+}
+
+clear_buffer {
+    out ":DATA:CLE";
+}
+
+set_elements {
+    out ":FORM:ELEM %s";
+}
+
+get_elements {
+    out ":FORM:ELEM?";
+    in "%39c";
+}
+
+get_source {
+    out ":DATA:FEED?";
+    in "%{NONE|SENS1|CALC1}";
+}
+
+set_source {
+    out ":DATA:FEED %{NONE|SENS1|CALC1}";
+}
+
+set_buffer_mode {
+    out ":DATA:FEED:CONT %{NEV|NEXT|ALW|PRET}";
+}
+
+get_buffer_mode {
+    out ":DATA:FEED:CONT?";
+    in "%{NEV|NEXT|ALW|PRET}";
+}
+
+set_buff_size {
+    out ":DATA:POIN %d";
+}
+
+get_buff_size {
+    out ":DATA:POIN?"; 
+    in "%d";
+}
+
+get_egroup {
+    out ":DATA:EGR?";
+    in "%{FULL|COMP}";
+}
+
+set_egroup {
+    out ":DATA:EGR %{FULL|COMP}";
+}
+
+set_init_cont{
+    out ":INIT:CONT %{OFF|ON}";
+}
+
+get_init_cont{
+    out ":INIT:CONT?";
+    in "%{OFF|ON}";
+}
+
+set_channel_to_read {
+    out ":ROUT:CLOS (@%(VAL)d)";
+}
+
+set_channels_to_scan {
+    out ":ROUT:SCAN (@%s)";
+}
+
+get_channels_to_scan {
+    out ":ROUT:SCAN?";
+    in "(@%(VAL)[0-9,]";
+}
+
+get_meas_register_status {
+    out ":STAT:MEAS:ENAB?";
+    in "%d";
+}
+
+set_buff_full_stat{
+    out ":STAT:MEAS:ENAB %d";
+}
+
+set_measure_summary {
+    out "*SRE %d";
+}
+
+get_service_request_status {
+    out "*SRE?";
+    in "%d";
+}
+
+reset_status_registers {
+    out ":STAT:PRES; *CLS";
+}
+
+set_scan_count {
+    out ":ARM:LAY2:COUN %(VAL)d";
+}
+
+get_scan_count {
+    out ":ARM:LAY2:COUN?";
+    in "%d";
+}
+
+get_scan_trigger {
+    out ":ARM:LAY2:SOUR?";
+    in "%{IMM|HOLD|MAN|BUS|TLIN|EXT|TIM}";
+}
+
+set_measurement_trigger_count {
+    out ":TRIG:COUN %(VAL)d";
+}
+
+get_measurement_trigger_count {
+    out ":TRIG:COUN?";
+    in "%d";
+}
+
+start_scan {
+    out ":INIT";
+}
+
+read_single_channel {
+    separator=",";
+    out ":READ?";
+    in  "%(\$1\$2)[^,]";
+}
+    
+read_buffer {
+    separator=",";
+    out ":DATA:DATA?";
+    in  "%(\$1\$2)[^,]";
+}
+
+get_errors {
+    separator=",";
+    out ":SYST:ERR?";
+    in "%[^,]";
+}
+
+clear_errors {
+    out ":SYST:CLE";
+}

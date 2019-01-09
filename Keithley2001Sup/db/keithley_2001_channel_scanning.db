@@ -1,0 +1,79 @@
+record(ai, "$(P)SCAN:DELAY"){
+    field(DESC, "Scan delay")
+    field(VAL, "$(SCAN_DELAY)")
+    field(PREC, "5")
+    field(EGU, "s")
+    
+    field(LOLO, "0.09")
+    field(LLSV, "MAJOR")
+    info(INTEREST, "MEDIUM")
+	info(ARCHIVE, "VAL")
+}
+
+record(stringout, "$(P)READ:CHAN:SP"){ 
+    field(DESC, "Sends command to set channel to read")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_channel_to_read $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:READ:CHAN:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)READINGS:SINGLE"){
+    field(DESC, "Requests single value.")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto read_single_channel($(P),READINGS) $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:READINGS:SINGLE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)READINGS:BUFF"){
+    field(DESC, "Requests values from the buffer.")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto read_buffer($(P),READINGS) $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:READINGS:BUFF")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(waveform, "$(P)READINGS"){
+    field(DESC, "Holds readings from device")
+    field(DTYP, "Soft Channel")
+    field(FTVL, "STRING")
+    field(NELM, "20")
+    info(ARCHIVE, "VAL")
+    info(INTEREST, "MEDIUM")
+}
+
+record(bo, "$(P)SCAN:START") {
+    field(DESC, "Start the scan")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto start_scan $(PORT)")
+}
+
+record(stringout, "$(P)SCAN:CHAN:SP"){ 
+    field(DESC, "Sends command to set channel to scan")
+    field(DTYP, "stream")
+    field(OUT, "@keithley_2001.proto set_channels_to_scan $(PORT)")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SCAN:CHAN:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)SCAN:CHAN"){ 
+    field(DESC, "Gets channels we are scanning on")
+    field(DTYP, "stream")
+    field(INP, "@keithley_2001.proto get_channels_to_scan $(PORT)")
+}
+
+## SIM records
+
+record(bi, "$(P)SIM:READINGS:SINGLE") {}
+record(bi, "$(P)SIM:READINGS:BUFF") {}
+record(stringout, "$(P)SIM:READ:CHAN:SP") {}
+record(stringout, "$(P)SIM:SCAN:CHAN:SP") {}
