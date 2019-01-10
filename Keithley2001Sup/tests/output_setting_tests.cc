@@ -12,7 +12,7 @@
 #include "epicsTypes.h"
 
 #include "gtest/gtest.h"
-#include "..\src\buffer_parsing_utils.h"
+#include "buffer_parsing_utils.h"
 
 namespace {
 

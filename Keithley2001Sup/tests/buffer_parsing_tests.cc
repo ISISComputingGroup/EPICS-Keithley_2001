@@ -4,7 +4,7 @@
 #include <iomanip>
 #include "gtest/gtest.h"
 
-#include "..\src\buffer_parsing_utils.h"
+#include "buffer_parsing_utils.h"
 
 namespace {
     TEST(Reading, test_that_GIVEN_a_reading_from_the_keithley_2001_with_read_and_unit_elements_THEN_the_reading_is_parsed_out) {

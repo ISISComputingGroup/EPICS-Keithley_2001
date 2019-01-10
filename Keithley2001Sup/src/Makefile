@@ -26,7 +26,6 @@ Keithley_2001_LIBS += asubFunctions
 Keithley_2001_SRCS += buffer_parsing_functions.c buffer_parsing.cpp buffer_parsing_utils.cpp
 
 # googleTest Runner
-ifneq ($(findstring windows,$(EPICS_HOST_ARCH)),)
 ifeq ($(findstring 10.0,$(VCVERSION)),)
 
 SRC_DIRS += $(TOP)/Keithley2001Sup/tests
@@ -38,7 +37,6 @@ runner_SRCS +=  buffer_parsing_utils.cpp input_parsing_tests.cc output_setting_t
 runner_SRCS +=  buffer_parsing_tests.cc
 runner_SRCS += sequencer_utils_tests.cc sequencer_utils.cpp
 runner_LIBS += gtest
-endif
 endif
 
 #----------------------------------------------------

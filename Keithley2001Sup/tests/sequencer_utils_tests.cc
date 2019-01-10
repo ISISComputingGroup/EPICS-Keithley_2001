@@ -1,7 +1,7 @@
 #include <string>
 #include "gtest/gtest.h"
 
-#include "..\src\sequencer_utils.h"
+#include "sequencer_utils.h"
 
 namespace {
     TEST(FindActiveChannels, test_that_GIVEN_three_active_channels_THEN_they_are_both_found) {

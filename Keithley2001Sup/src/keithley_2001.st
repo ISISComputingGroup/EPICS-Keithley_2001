@@ -65,7 +65,7 @@ PV(int, read_single, "{P}READINGS:SINGLE.PROC", NoMon);
 /* Scan Pvs */
 
 PV(string, set_channels_to_scan, "{P}SCAN:CHAN:SP", NoMon);
-PV(long, measurement_scan_count_setpoint, "{P}SCAN:MEAS:COUNT:SP.VAL", NoMon);
+PV(int, measurement_scan_count_setpoint, "{P}SCAN:MEAS:COUNT:SP.VAL", NoMon);
 PV(int, start_scan, "{P}SCAN:START.PROC", NoMon);
 PV(int, get_buffer_data, "{P}READINGS:BUFF.PROC", NoMon);
 

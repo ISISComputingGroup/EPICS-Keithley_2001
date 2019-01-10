@@ -36,4 +36,5 @@ include $(TOP)/configure/RULES_TOP
 
 .PHONY: test
 test:
-	run_tests.bat
+	$(TOP)/Keithley2001Sup/src/O.$(EPICS_HOST_ARCH)/runner --gtest_output=xml:$(TOP)/test-reports/TEST-Keithley2001.xml
+
