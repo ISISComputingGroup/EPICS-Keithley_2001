@@ -145,10 +145,9 @@ namespace {
         std::map<int, aSubOutputParameters> channel_output;
         menuFtype output_type = menuFtypeSTRING;
         std::vector<void*> pointers(3);
+        epicsOldString results[3];
 
-        std::vector<epicsOldString> results(3);
-
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < sizeof(results)/sizeof(epicsOldString); ++i) {
             pointers[i] = static_cast<void*>(&(results[i]));
             channel_output.insert(std::pair<int, aSubOutputParameters>(i + 1, aSubOutputParameters(pointers[i], output_type)));
         }
