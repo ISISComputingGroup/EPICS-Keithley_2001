@@ -13,7 +13,7 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY_IOC = Keithley_2001
 
-Keithley_2001_LIBS += seqDev seq pv
+Keithley_2001_LIBS += seq pv
 Keithley_2001_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 Keithley_2001_SRCS += keithley_2001.st
