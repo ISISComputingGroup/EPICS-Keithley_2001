@@ -32,11 +32,13 @@ iocBoot_DEPEND_DIRS += $(filter %App,$(DIRS))
 
 # Add any additional dependency rules here:
 
+TEST_RUNNER = $(TOP)/Keithley2001Sup/src/O.$(EPICS_HOST_ARCH)/runner
+
 include $(TOP)/configure/RULES_TOP
 
 .PHONY: test
 test:
-ifeq ($(findstring 10.0,$(VCVERSION)),)
-	$(TOP)/Keithley2001Sup/src/O.$(EPICS_HOST_ARCH)/runner --gtest_output=xml:$(TOP)/test-reports/TEST-Keithley2001.xml
+ifneq ($(wildcard $(TEST_RUNNER)*),)
+	$(TEST_RUNNER) --gtest_output=xml:$(TOP)/test-reports/TEST-Keithley2001.xml
 endif
 
