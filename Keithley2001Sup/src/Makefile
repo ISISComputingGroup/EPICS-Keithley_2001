@@ -30,13 +30,11 @@ ifeq ($(findstring 10.0,$(VCVERSION)),)
 
 SRC_DIRS += $(TOP)/Keithley2001Sup/tests
 
-TESTPROD_HOST += runner
-USR_CPPFLAGS += -I$(GTEST)/googletest/include 
-runner_SRCS += run_all_tests.cc
+GTESTPROD_HOST += runner
 runner_SRCS +=  buffer_parsing_utils.cpp input_parsing_tests.cc output_setting_tests.cc
 runner_SRCS +=  buffer_parsing_tests.cc
 runner_SRCS += sequencer_utils_tests.cc sequencer_utils.cpp
-runner_LIBS += gtest
+GTESTS += runner
 endif
 
 #----------------------------------------------------
@@ -46,3 +44,4 @@ endif
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
+include $(GTEST)/cfg/compat.RULES_BUILD
