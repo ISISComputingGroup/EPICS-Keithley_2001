@@ -15,7 +15,7 @@ option +r;
 
 
 #include "definitions.h"
-#include "seqPVmacros.h"
+#include "ibexSeqPVmacros.h"
 %% #include "stdlib.h"
 %% #include "sequencer_utils.h"
 %% #include "errlog.h"
